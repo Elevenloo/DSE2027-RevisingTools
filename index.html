@@ -455,6 +455,48 @@ hr.sp{border:none;border-top:1px solid var(--bd);margin:17px 0}
 /* 文字模式 */
 .mtx{font-family:inherit;font-style:normal}
 
+
+/* 知識點頁的練習入口 */
+.kpq{margin-left:auto;font-size:11.5px !important;padding:2px 9px !important}
+.kgh{display:flex;align-items:center;gap:9px}
+
+/* ══ 練習題 · 知識點分組 ══ */
+.segsm{display:inline-flex;border:1px solid #d7dce5;border-radius:8px;overflow:hidden}
+.segsm button{border:0;background:#fff;padding:5px 12px;font-size:12.5px;cursor:pointer;
+  color:var(--mu);font-weight:600;transition:.13s;white-space:nowrap}
+.segsm button+button{border-left:1px solid #d7dce5}
+.segsm button:hover{background:#f1f5f9}
+.segsm button.on{background:var(--pr);color:#fff}
+
+.focusbar{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  margin:11px 0;padding:9px 13px;background:#fff7ed;border:1px solid #fed7aa;
+  border-radius:9px;font-size:13.5px;color:#9a3412}
+
+.kpgrp{border:1px solid #e5e7eb;border-radius:11px;margin-bottom:11px;overflow:hidden;background:#fff}
+.kpgrp.collapse .kpbody{display:none}
+.kpgrp.collapse .kparr{transform:rotate(-90deg)}
+.kpgh{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:12px 14px;cursor:pointer;background:#fafbfc;transition:.13s;user-select:none}
+.kpgh:hover{background:#f1f5f9}
+.kpgl{display:flex;align-items:center;gap:11px;min-width:0}
+.kpno{width:25px;height:25px;flex:0 0 25px;border-radius:7px;background:var(--pr);color:#fff;
+  display:grid;place-items:center;font-size:12.5px;font-weight:700}
+.kpgt{font-size:14.5px;font-weight:700;color:var(--tx)}
+.kpgm{font-size:12px;color:var(--mu);margin-top:2px}
+.kpgr{display:flex;align-items:center;gap:10px;flex:0 0 auto}
+.kpbar{width:88px;height:7px;background:#e5e7eb;border-radius:4px;overflow:hidden}
+.kpbar i{display:block;height:100%;background:linear-gradient(90deg,#22c55e,#16a34a);
+  border-radius:4px;transition:width .3s}
+.kpnone{font-size:11.5px;color:#9ca3af;background:#f3f4f6;padding:2px 8px;border-radius:5px}
+.kparr{font-size:12px;color:var(--mu);transition:transform .18s}
+.kpbody{padding:13px 14px;border-top:1px solid #eef1f5}
+.kpitems{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:13px}
+.kpi{font-size:12.5px;padding:4px 10px;background:#f8fafc;border:1px solid #e5e7eb;
+  border-radius:14px;color:#475569;cursor:pointer;transition:.13s;line-height:1.5}
+.kpi:hover{border-color:var(--pr);background:#eff6ff;color:var(--pr)}
+.kpi.on{background:#dcfce7;border-color:#86efac;color:#15803d;font-weight:600}
+.empty.sm{padding:14px;font-size:13px}
+
 /* ══ Oral 真題庫 ══ */
 .lv{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:5px;
     vertical-align:middle;letter-spacing:.2px;line-height:1.5}
@@ -1188,317 +1230,317 @@ function tex2html(src){
 const BANK = [
 
 /* ═══ 數學 必修 ═══ */
-{id:'m1',s:'math',g:'S4',p:'卷一',type:'mc',graph:false,
+{id:'m1',k:'恆等式與方程',s:'math',g:'S4',p:'卷一',type:'mc',graph:false,
  q:'若二次方程 $x^{2} + kx + 9 = 0$ 有兩相等實根，且 $k > 0$，則 $k = $',
  opts:['3','6','9','12'],ans:1,
  ex:'有兩相等實根 ⇒ 判別式 Δ = 0。k<sup>2</sup> − 4(1)(9) = 0 ⇒ k<sup>2</sup> = 36 ⇒ k = ±6。因 k > 0，故 k = 6。'},
-{id:'m2',s:'math',g:'S4',p:'卷一',type:'short',graph:false,
+{id:'m2',k:'度量、圖形與空間（一）',s:'math',g:'S4',p:'卷一',type:'short',graph:false,
  q:'已知圓 C 的方程為 $x^{2} + y^{2} − 4x + 6y − 12 = 0$。<br>(a) 求圓心及半徑。<br>(b) 判斷點 P(5, 1) 在圓內、圓上還是圓外。',
  ans:'(a) 配方：(x<sup>2</sup>−4x+4) + (y<sup>2</sup>+6y+9) = 12+4+9 = 25<br>圓心 = (2, −3)，半徑 = 5<br><br>(b) (5−2)<sup>2</sup> + (1+3)<sup>2</sup> = 9 + 16 = 25 = r<sup>2</sup><br>故 P 在圓上。',
  ex:'圓方程配方技巧：x<sup>2</sup> + y<sup>2</sup> + Dx + Ey + F = 0 ⇒ 圓心 (−D/2, −E/2)，r = √((D/2)<sup>2</sup>+(E/2)<sup>2</sup>−F)。點與圓的位置關係用距離平方與 r<sup>2</sup> 比較。'},
-{id:'m3',s:'math',g:'S5',p:'卷一',type:'mc',graph:false,
+{id:'m3',k:'進階學習單位',s:'math',g:'S5',p:'卷一',type:'mc',graph:false,
  q:'設 $f(x) = x^{3} − 3x^{2} − 9x + 5$，則 $f(x)$ 的局部極小值為',
  opts:['−22','−5','0','22'],ans:0,
  ex:"f′(x) = 3x<sup>2</sup> − 6x − 9 = 3(x<sup>2</sup> − 2x − 3) = 3(x−3)(x+1)。駐點 x = −1, 3。f″(x) = 6x − 6：f″(−1) = −12 < 0（極大）；f″(3) = 12 > 0（極小）。f(3) = 27 − 27 − 27 + 5 = −22。"},
-{id:'m4',s:'math',g:'S5',p:'卷二',type:'mc',graph:false,
+{id:'m4',k:'數據處理（二）',s:'math',g:'S5',p:'卷二',type:'mc',graph:false,
  q:'某組數據的平均數為 20，標準差為 4。若每項數據均乘以 3 再減 5，則新數據組的平均數及標準差分別為',
  opts:['55, 12','55, 7','60, 12','60, 7'],ans:0,
  ex:'設變換 y = 3x − 5。平均數 <span class="ov">y</span> = 3(20) − 5 = 55；標準差只受倍數影響（平移不影響離差），故 σ_y = 3(4) = 12。'},
-{id:'m5',s:'math',g:'S5',p:'卷一',type:'short',graph:true,
+{id:'m5',k:'度量、圖形與空間（二）',s:'math',g:'S5',p:'卷一',type:'short',graph:true,
  q:'在圖中，A(0, 6)、B(8, 0)、C(0, 0) 為直角三角形 ABC 的頂點。<br>(a) 求直線 AB 的方程。<br>(b) 求 △ABC 的內切圓半徑。<br><br><span class="muted">（可開啟下方「圖形標註」繪圖輔助）</span>',
  ans:'(a) 斜率 = (0−6)/(8−0) = −3/4，方程：3x + 4y − 24 = 0<br><br>(b) 斜邊 AB = √(8<sup>2</sup>+6<sup>2</sup>) = 10<br>面積 = ½ × 8 × 6 = 24，半周長 s = (6+8+10)/2 = 12<br>內切圓半徑 r = 面積 / s = 24/12 = 2',
  ex:'直角三角形內切圓半徑公式 r = (a + b − c)/2（c 為斜邊）= (6+8−10)/2 = 2，可交叉驗算。點到直線距離法亦可。'},
-{id:'m6',s:'math',g:'S6',p:'卷一',type:'essay',graph:false,
+{id:'m6',k:'高頻考題專練',s:'math',g:'S6',p:'卷一',type:'essay',graph:false,
  q:'某工廠生產兩種產品 P 和 Q。生產一件 P 需 3 小時機器時間及 2 小時人手；生產一件 Q 需 2 小時機器時間及 4 小時人手。每日機器時間最多 120 小時，人手最多 160 小時。P 每件利潤 $500，Q 每件利潤 $400。<br><br>(a) 寫出所有約束條件並繪出可行域。<br>(b) 求最大利潤及對應的生產數量。',
  ans:'(a) 設生產 P 為 x 件，Q 為 y 件。x ≥ 0, y ≥ 0；3x + 2y ≤ 120；2x + 4y ≤ 160（即 x + 2y ≤ 80）<br>頂點：(0,0), (40,0), (20,30), (0,40)<br><br>(b) 利潤 Π = 500x + 400y<br>(0,0)→0；(40,0)→20000；(20,30)→10000+12000=22000；(0,40)→16000<br><b>最大利潤 $22,000，生產 P 20 件、Q 30 件。</b>',
  ex:'線性規劃兩大重點：(1) 約束條件的符號方向（≤ 指向原點）；(2) 最優解必在可行域頂點上，需逐一測試所有頂點。'},
-{id:'m7',s:'math',g:'S6',p:'卷二',type:'mc',graph:false,
+{id:'m7',k:'卷一應試策略',s:'math',g:'S6',p:'卷二',type:'mc',graph:false,
  q:'若 $\\log_{2} x + \\log_{2} (x-2) = 3$，則 $x = $',
  opts:['2','3','4','6'],ans:2,
  ex:'log<sub>2</sub>[x(x−2)] = 3 ⇒ x(x−2) = 8 ⇒ x<sup>2</sup> − 2x − 8 = 0 ⇒ (x−4)(x+2) = 0 ⇒ x = 4 或 −2。定義域要求 x > 0 且 x − 2 > 0，即 x > 2，故 x = 4。'},
-{id:'m8',s:'math',g:'S6',p:'卷一',type:'short',graph:false,
+{id:'m8',k:'高頻考題專練',s:'math',g:'S6',p:'卷一',type:'short',graph:false,
  q:'某等比數列的首項為 3，公比為 2。求：<br>(a) 第 8 項；<br>(b) 首 8 項之和。',
  ans:'(a) T<sub>8</sub> = ar<sup>7</sup> = 3 × 2<sup>7</sup> = 3 × 128 = 384<br><br>(b) S<sub>8</sub> = a(r<sup>8</sup> − 1)/(r − 1) = 3(256 − 1)/1 = 3 × 255 = 765',
  ex:'等比數列：T<sub>n</sub> = ar<sup>n-1</sup>；求和 S<sub>n</sub> = a(r<sup>n</sup> − 1)/(r − 1)（r > 1）。若 r < 1 用 S<sub>n</sub> = a(1 − r<sup>n</sup>)/(1 − r)。'},
 
 /* ═══ 數學 M2 ═══ */
-{id:'e1',s:'m2',g:'S4',p:'卷一',type:'mc',graph:false,
+{id:'e1',k:'函數與極限',s:'m2',g:'S4',p:'卷一',type:'mc',graph:false,
  q:'$\\lim_{x \\to 0} \\dfrac{\\sin 3x}{\\sin 5x} = $',
  opts:['0','3/5','5/3','1'],ans:1,
  ex:'當 x → 0，sin kx ≈ kx。故原式 = 3x / 5x = 3/5。或用標準極限：lim (sin 3x / 3x) · (5x / sin 5x) · (3/5) = 1 · 1 · 3/5。'},
-{id:'e2',s:'m2',g:'S4',p:'卷一',type:'short',graph:false,
+{id:'e2',k:'基礎代數',s:'m2',g:'S4',p:'卷一',type:'short',graph:false,
  q:'利用數學歸納法，證明對所有正整數 n：<br>$$1 + 3 + 5 + \\dots + (2n-1) = n^{2}$$',
  ans:'<b>n = 1：</b>左 = 1，右 = 1<sup>2</sup> = 1。成立。<br><br><b>設 n = k 成立：</b>1 + 3 + … + (2k−1) = k<sup>2</sup><br><br><b>當 n = k + 1：</b><br>左 = [1 + 3 + … + (2k−1)] + (2k+1)<br>= k<sup>2</sup> + 2k + 1 = (k+1)<sup>2</sup> = 右<br><br>由數學歸納法，命題對所有正整數 n 成立。',
  ex:'數學歸納法三步驟：驗證起始值 → 設 n = k 成立 → 證 n = k+1 成立。第三步必須用上歸納假設。'},
-{id:'e3',s:'m2',g:'S5',p:'卷一',type:'short',graph:true,
+{id:'e3',k:'微分的應用',s:'m2',g:'S5',p:'卷一',type:'short',graph:true,
  q:'設 $f(x) = x^{3} − 6x^{2} + 9x + 1$。<br>(a) 求 f′(x) 及 f″(x)。<br>(b) 求 f(x) 的極大值點與極小值點。<br>(c) 求拐點。<br>(d) 描繪 f(x) 的圖像。',
  ans:'(a) f′(x) = 3x<sup>2</sup> − 12x + 9 = 3(x−1)(x−3)；f″(x) = 6x − 12<br><br>(b) 駐點 x = 1, 3。<br>f″(1) = −6 < 0 ⇒ 極大值點 (1, 5)<br>f″(3) = 6 > 0 ⇒ 極小值點 (3, 1)<br><br>(c) f″(x) = 0 ⇒ x = 2，f(2) = 8 − 24 + 18 + 1 = 3<br>拐點 (2, 3)<br><br>(d) 三次函數，x → +∞ 時 f → +∞；x → −∞ 時 f → −∞；y 軸截距 (0, 1)',
  ex:'曲線描繪五要素：截距、對稱性、漸近線、極值（用 f′）、凹凸與拐點（用 f″）。可開啟圖形標註板，或使用「M2 函數繪圖器」輸入 f(x) = x^3-6x^2+9x+1 驗證。'},
-{id:'e4',s:'m2',g:'S5',p:'卷一',type:'mc',graph:false,
+{id:'e4',k:'積分法（一）',s:'m2',g:'S5',p:'卷一',type:'mc',graph:false,
  q:'$\\displaystyle\\int x e^{x^{2}}\\,dx = $',
  opts:['$e^{x^2} + C$','$\\tfrac{1}{2}e^{x^{2}} + C$','$2e^{x^{2}} + C$','$\\tfrac{1}{2}x^{2}e^{x^{2}} + C$'],ans:1,
  ex:'代換 u = x<sup>2</sup>，du = 2x dx ⇒ x dx = du/2。∫ e^u · du/2 = ½ e^u + C = ½ e^(x<sup>2</sup>) + C。微分驗算：d/dx [½ e^(x<sup>2</sup>)] = ½ · e^(x<sup>2</sup>) · 2x = x e^(x<sup>2</sup>)。✓'},
-{id:'e5',s:'m2',g:'S6',p:'卷一',type:'short',graph:true,
+{id:'e5',k:'積分法（二）',s:'m2',g:'S6',p:'卷一',type:'short',graph:true,
  q:'由曲線 $y = x^{2}$、直線 $x = 2$ 及 $x$ 軸圍成的區域，繞 $y$ 軸旋轉一周。<br>求所得立體的體積。',
  ans:'用柱殼法：V = 2π ∫<sub>0</sub><sup>2</sup> x · (x<sup>2</sup>) dx = 2π ∫<sub>0</sub><sup>2</sup> x<sup>3</sup> dx<br>= 2π [x<sup>4</sup>/4]<sub>0</sub><sup>2</sup> = 2π · 4 = <b>8π</b><br><br>（驗算：用圓盤法對 y 積分，y ∈ [0, 4]<br>V = π∫<sub>0</sub><sup>4</sup> (R<sup>2</sup> − r<sup>2</sup>) dy = π∫<sub>0</sub><sup>4</sup> (4 − y) dy = π[4y − y<sup>2</sup>/2]<sub>0</sub><sup>4</sup> = π(16 − 8) = 8π ✓）',
  ex:'繞 y 軸旋轉優先用柱殼法 V = 2π∫ x·f(x) dx；繞 x 軸用圓盤法 V = π∫ [f(x)]<sup>2</sup> dx。選對方法可以大幅簡化計算。'},
-{id:'e6',s:'m2',g:'S6',p:'卷一',type:'mc',graph:false,
+{id:'e6',k:'微分方程初步',s:'m2',g:'S6',p:'卷一',type:'mc',graph:false,
  q:'微分方程 $\\dfrac{dy}{dx} = 2y$，且 $y(0) = 3$，則 $y(1) = $',
  opts:['3e','3e<sup>2</sup>','6e','e<sup>3</sup>'],ans:1,
  ex:'分離變量：dy/y = 2 dx ⇒ ln|y| = 2x + C ⇒ y = Ae^(2x)。y(0) = 3 ⇒ A = 3。y(1) = 3e<sup>2</sup>。'},
-{id:'e7',s:'m2',g:'S6',p:'卷一',type:'short',graph:false,
+{id:'e7',k:'矩陣與線性方程組',s:'m2',g:'S6',p:'卷一',type:'short',graph:false,
  q:'設 $A = \\begin{pmatrix} 2 & 1 \\\\ 5 & 3 \\end{pmatrix}$。<br>(a) 求 det(A) 及 A<sup>-1</sup>。<br>(b) 利用 A<sup>-1</sup> 解線性方程組：2x + y = 7，5x + 3y = 18。',
  ans:'(a) det(A) = 2(3) − 1(5) = 1<br>A<sup>-1</sup> = (1/1)·[[3, −1], [−5, 2]] = [[3, −1], [−5, 2]]<br><br>(b) [[x],[y]] = A<sup>-1</sup>[[7],[18]] = [[3·7 + (−1)·18], [−5·7 + 2·18]]<br>= [[21 − 18], [−35 + 36]] = [[3],[1]]<br><b>x = 3, y = 1</b>',
  ex:'二階逆矩陣公式：若 A = [[a,b],[c,d]]，det = ad − bc，A<sup>-1</sup> = 1/det · [[d, −b], [−c, a]]。det = 0 時 A 為奇異矩陣，不可逆。'},
 
 /* ═══ 物理 ═══ */
-{id:'p1',s:'phy',g:'S4',p:'卷一',type:'mc',graph:false,
+{id:'p1',k:'力和運動',s:'phy',g:'S4',p:'卷一',type:'mc',graph:false,
  q:'一物體從靜止開始，以 2 m s<sup>-2</sup> 的恆定加速度作直線運動，求它在第 4 秒內所走的距離。',
  opts:['4 m','7 m','8 m','16 m'],ans:1,
  ex:'第 4 秒內 = 頭 4 秒位移 − 頭 3 秒位移。s = ½at<sup>2</sup>。<br>s(4) = ½(2)(16) = 16 m；s(3) = ½(2)(9) = 9 m。差 = 7 m。<br>另法：第 n 秒內距離 = ½a(2n−1) = ½(2)(7) = 7 m。'},
-{id:'p2',s:'phy',g:'S4',p:'卷一',type:'short',graph:false,
+{id:'p2',k:'力和運動',s:'phy',g:'S4',p:'卷一',type:'short',graph:false,
  q:'一質量為 2 kg 的木塊靜置於水平地面上，木塊與地面間的最大靜摩擦力為 12 N，動摩擦力為 8 N。現以 10 N 的水平力推木塊。<br><br>(a) 木塊會否移動？<br>(b) 若會，求木塊的加速度。',
  ans:'(a) 推力 10 N < 最大靜摩擦力 12 N ⇒ <b>木塊不會移動</b>，靜摩擦力 = 10 N（與推力平衡）。<br><br>(b) 不會移動，故加速度 = 0。',
  ex:'關鍵：先比較外力與最大靜摩擦力。外力小於最大靜摩擦力時物體不動，此時摩擦力 = 外力（不是最大靜摩擦力）。常見錯誤是直接套用動摩擦力。'},
-{id:'p3',s:'phy',g:'S5',p:'卷一',type:'mc',graph:false,
+{id:'p3',k:'光學',s:'phy',g:'S5',p:'卷一',type:'mc',graph:false,
  q:'一光線由水中射向空氣，水的折射率為 1.33。該光線發生全反射的臨界角約為',
  opts:['30.1°','41.2°','48.8°','62.5°'],ans:2,
  ex:'sin θc = n<sub>2</sub>/n<sub>1</sub> = 1/1.33 = 0.752 ⇒ θc = 48.8°。全反射條件：(1) 光由光密介質射向光疏介質；(2) 入射角 > 臨界角。'},
-{id:'p4',s:'phy',g:'S5',p:'卷一',type:'short',graph:false,
+{id:'p4',k:'磁學與電磁感應',s:'phy',g:'S5',p:'卷一',type:'short',graph:false,
  q:'一理想變壓器的原線圈有 800 匝，接上 220 V 交流電源；副線圈有 200 匝，接上一電阻為 11 Ω 的負載。<br><br>(a) 求副線圈的輸出電壓。<br>(b) 求負載的功率。',
  ans:'(a) Vs/Vp = Ns/Np ⇒ Vs = 220 × 200/800 = <b>55 V</b><br><br>(b) P = Vs<sup>2</sup>/R = 55<sup>2</sup>/11 = 3025/11 = <b>275 W</b><br>（驗算：Is = 55/11 = 5 A，P = 55 × 5 = 275 W ✓）',
  ex:'理想變壓器：Vs/Vp = Ns/Np，且輸出功率 = 輸入功率（Ip Vp = Is Vs）。電流比與匝數比成反比：Is/Ip = Np/Ns。'},
-{id:'p5',s:'phy',g:'S6',p:'卷一',type:'mc',graph:false,
+{id:'p5',k:'原子物理與放射學',s:'phy',g:'S6',p:'卷一',type:'mc',graph:false,
  q:'某放射性同位素的半衰期為 8 天。現有樣本的放射性活度為 480 Bq，24 天後其活度為',
  opts:['40 Bq','60 Bq','80 Bq','120 Bq'],ans:1,
  ex:'24 天 = 3 個半衰期。活度 = 480 × (½)<sup>3</sup> = 480/8 = 60 Bq。半衰期公式：A = A<sub>0</sub>(½)^(t/T½)。'},
-{id:'p6',s:'phy',g:'S6',p:'卷一',type:'short',graph:true,
+{id:'p6',k:'應試策略',s:'phy',g:'S6',p:'卷一',type:'short',graph:true,
  q:'一小球從傾角為 30° 的斜面頂端由靜止滑下，斜面長 5 m，忽略摩擦。<br><br>(a) 求小球到達斜面底部時的速度。<br>(b) 若斜面有摩擦，小球到底部時速度只有 (a) 的 80%，求摩擦力所做的功（小球質量 0.5 kg）。<br><br><span class="muted">（可開啟圖形標註板繪製受力圖）</span>',
  ans:'(a) 高度差 h = 5 sin 30° = 2.5 m<br>能量守恆：mgh = ½mv<sup>2</sup> ⇒ v = √(2gh) = √(2 × 10 × 2.5) = √50 ≈ <b>7.07 m s<sup>-1</sup></b><br><br>(b) v′ = 0.8 × 7.07 = 5.66 m s<sup>-1</sup><br>W_f = ΔE = ½mv′<sup>2</sup> − mgh = ½(0.5)(32) − (0.5)(10)(2.5)<br>= 8 − 12.5 = <b>−4.5 J</b>（摩擦力做負功 4.5 J）',
  ex:'能量法比運動學快。摩擦力做功 = 末動能 − 初始位能（能量虧損）。記得摩擦力做負功，答案要有負號。'},
 
 /* ═══ 化學 ═══ */
-{id:'c1',s:'chem',g:'S4',p:'卷一',type:'mc',graph:false,
+{id:'c1',k:'微觀世界（二）',s:'chem',g:'S4',p:'卷一',type:'mc',graph:false,
  q:'下列哪種物質在固態時的結構屬於「巨型離子結構」？',
  opts:['二氧化碳','氯化鈉','鑽石','碘'],ans:1,
  ex:'氯化鈉 NaCl 由 Na<sup>+</sup> 與 Cl<sup>-</sup> 以離子鍵構成三維巨型離子晶格。二氧化碳是簡單分子（分子間引力）；鑽石是巨型共價結構；碘 I<sub>2</sub> 是簡單分子晶體。'},
-{id:'c2',s:'chem',g:'S4',p:'卷一',type:'short',graph:false,
+{id:'c2',k:'金屬',s:'chem',g:'S4',p:'卷一',type:'short',graph:false,
  q:'稱取 2.40 g 的某金屬 M，與過量稀鹽酸反應，生成 2.24 dm<sup>3</sup> 氫氣（在常溫常壓下，氣體摩爾體積 = 24 dm<sup>3</sup> mol<sup>-1</sup>）。已知反應為：<br>M(s) + 2HCl(aq) → MCl<sub>2</sub>(aq) + H<sub>2</sub>(g)<br><br>求金屬 M 的相對原子質量。',
  ans:'n(H<sub>2</sub>) = 2.24 / 24 = 0.0933 mol<br>摩爾比 M : H<sub>2</sub> = 1 : 1 ⇒ n(M) = 0.0933 mol<br>摩爾質量 = 2.40 / 0.0933 = 25.7 g mol<sup>-1</sup><br><b>相對原子質量 ≈ 25.7</b>（接近鎂 Mg 的 24.3，若取 2.24 dm<sup>3</sup> 為 STP 摩爾體積 22.4 dm<sup>3</sup>，則 n = 0.1 mol，Ar = 24，即鎂）',
  ex:'答題三步驟：① 由氣體體積求摩爾數 ② 由化學方程式摩爾比求目標物摩爾數 ③ 由質量求摩爾質量。題目未指明摩爾體積時，看清是「常溫常壓 24 dm<sup>3</sup>」還是「STP 22.4 dm<sup>3</sup>」。'},
-{id:'c3',s:'chem',g:'S5',p:'卷一',type:'mc',graph:false,
+{id:'c3',k:'化石燃料與碳化合物',s:'chem',g:'S5',p:'卷一',type:'mc',graph:false,
  q:'下列關於酯化反應的叙述，哪項正確？',
  opts:['反應須在強鹼性環境中進行','反應通常用濃硫酸作催化劑','反應生成物只有酯一種','反應不涉及脫水'],ans:1,
  ex:'羧酸 + 醇 ↔ 酯 + 水，條件：濃硫酸催化並作脫水劑、加熱回流。濃硫酸既是催化劑，又吸收生成的水使平衡右移（勒沙特列原理）。酯化反應屬縮合反應，會脫去水。'},
-{id:'c4',s:'chem',g:'S5',p:'卷一',type:'short',graph:false,
+{id:'c4',k:'酸和鹼',s:'chem',g:'S5',p:'卷一',type:'short',graph:false,
  q:'25.0 cm<sup>3</sup> 的 0.100 mol dm<sup>-3</sup> 氫氧化鈉溶液，需用多少體積的 0.0800 mol dm<sup>-3</sup> 硫酸完全中和？<br>反應：2NaOH(aq) + H<sub>2</sub>SO<sub>4</sub>(aq) → Na<sub>2</sub>SO<sub>4</sub>(aq) + 2H<sub>2</sub>O(l)',
  ans:'n(NaOH) = 0.100 × 25.0/1000 = 2.50 × 10<sup>-3</sup> mol<br>摩爾比 NaOH : H<sub>2</sub>SO<sub>4</sub> = 2 : 1<br>n(H<sub>2</sub>SO<sub>4</sub>) = 2.50 × 10<sup>-3</sup> / 2 = 1.25 × 10<sup>-3</sup> mol<br>V = n/c = 1.25 × 10<sup>-3</sup> / 0.0800 = 0.0156 dm<sup>3</sup> = <b>15.6 cm<sup>3</sup></b>',
  ex:'容量分析常見陷阱：忘記摩爾比。硫酸是二元酸，1 mol H<sub>2</sub>SO<sub>4</sub> 中和 2 mol NaOH。務必先寫出平衡化學方程式再算。'},
-{id:'c5',s:'chem',g:'S6',p:'卷一',type:'essay',graph:false,
+{id:'c5',k:'反應速率與化學平衡',s:'chem',g:'S6',p:'卷一',type:'essay',graph:false,
  q:'哈伯法製氨的反應為：N<sub>2</sub>(g) + 3H<sub>2</sub>(g) ↔ 2NH<sub>3</sub>(g)　ΔH = −92 kJ mol<sup>-1</sup><br><br>(a) 指出提高溫度、增大壓強分別對平衡的影響，並解釋。<br>(b) 解釋為何工業上採用約 450°C、200 atm 及鐵粉催化劑，而非單純追求最高產率。',
  ans:'(a) <b>提高溫度：</b>正反應放熱（ΔH < 0），升溫使平衡向吸熱方向（逆反應）移動 ⇒ 氨產率下降。<br><b>增大壓強：</b>左邊 4 mol 氣體 → 右邊 2 mol 氣體，增大壓強使平衡向氣體摩爾數較少的方向（正反應）移動 ⇒ 氨產率上升。<br><br>(b) <b>450°C 是折衷：</b>溫度太低雖然產率高，但反應速率太慢，不切實際。<br><b>200 atm 是折衷：</b>壓強愈高產率愈高，但設備成本與安全風險急劇上升。<br><b>鐵粉催化劑：</b>降低活化能，加快達到平衡的速率；催化劑同等加快正逆反應，<b>不改變平衡位置</b>，但讓生產在較低溫度下仍有可接受速率。',
  ex:'工業化學的答題關鍵是「平衡 vs 速率 vs 成本」三方折衷。必答催化劑不影響平衡位置（這是高頻失分位）。'},
-{id:'c6',s:'chem',g:'S6',p:'卷一',type:'short',graph:false,
+{id:'c6',k:'實驗技巧',s:'chem',g:'S6',p:'卷一',type:'short',graph:false,
  q:'寫出檢驗下列離子的試劑及觀察：<br>(a) 硫酸根離子 SO<sub>4</sub><sup>2-</sup><br>(b) 氯離子 Cl<sup>-</sup><br>(c) 銨離子 NH<sub>4</sub><sup>+</sup><br>(d) 鐵(III) 離子 Fe<sup>3+</sup>',
  ans:'(a) 加稀硝酸酸化，再加硝酸鋇溶液 → <b>白色沉澱</b>（BaSO<sub>4</sub>）<br>(b) 加稀硝酸酸化，再加硝酸銀溶液 → <b>白色沉澱</b>（AgCl，遇光變灰紫）<br>(c) 加氫氧化鈉溶液並加熱 → 放出<b>刺激性氣體</b>，使濕潤紅色石蕊試紙<b>變藍</b>（NH<sub>3</sub>）<br>(d) 加氫氧化鈉溶液 → <b>紅褐色沉澱</b>（Fe(OH)<sub>3</sub>）',
  ex:'離子檢驗是卷一高頻題。記住「先酸化」的原因：排除碳酸根等干擾離子（碳酸鋇、碳酸銀也是白色沉澱，但會溶於稀硝酸）。'},
 
 /* ═══ 生物 ═══ */
-{id:'b1',s:'bio',g:'S4',p:'卷一',type:'mc',graph:false,
+{id:'b1',k:'細胞與生命分子',s:'bio',g:'S4',p:'卷一',type:'mc',graph:false,
  q:'下列哪項是主動運輸與擴散作用的主要分別？',
  opts:['主動運輸需要載體蛋白','主動運輸需要消耗能量','主動運輸只能運輸離子','擴散作用只能在液體中進行'],ans:1,
  ex:'主動運輸逆濃度梯度進行，需要載體蛋白<b>並消耗 ATP</b>。促進擴散也需要載體蛋白，故「需要載體蛋白」不是兩者的分別。擴散可在氣體與液體中進行。'},
-{id:'b2',s:'bio',g:'S4',p:'卷一',type:'short',graph:false,
+{id:'b2',k:'細胞與生命分子',s:'bio',g:'S4',p:'卷一',type:'short',graph:false,
  q:'把一塊質量為 10 g 的植物組織放入 30% 蔗糖溶液中，一小時後質量變為 8.6 g。<br><br>(a) 解釋質量下降的原因。<br>(b) 若改為放入蒸餾水中，預測質量變化並解釋。',
  ans:'(a) 30% 蔗糖溶液的<b>水勢低於</b>細胞液，水分通過<b>滲透作用</b>從細胞流出，細胞發生質壁分離，故組織質量下降。<br><br>(b) 蒸餾水的水勢高於細胞液，水分<b>滲入</b>細胞，細胞變得膨脹，<b>質量上升</b>。但不會無限上升——細胞壁產生壓力勢阻止水分繼續進入。',
  ex:'滲透三要素：① 半透膜 ② 兩側水勢差 ③ 水由高水勢流向低水勢。答題務必用「水勢」而非「濃度」——濃度愈高，水勢愈低。'},
-{id:'b3',s:'bio',g:'S5',p:'卷一',type:'mc',graph:false,
+{id:'b3',k:'遺傳與進化',s:'bio',g:'S5',p:'卷一',type:'mc',graph:false,
  q:'人類 ABO 血型系統中，A 型（基因型 I<sup>A</sup>i）與 B 型（基因型 I<sup>B</sup>i）的父母，子女血型為 O 型的概率為',
  opts:['0','25%','50%','75%'],ans:1,
  ex:'I<sup>A</sup>i × I<sup>B</sup>i → I<sup>A</sup>I<sup>B</sup> (AB型)、I<sup>A</sup>i (A型)、I<sup>B</sup>i (B型)、ii (O型)，各 25%。故 O 型概率 = 25%。'},
-{id:'b4',s:'bio',g:'S5',p:'卷一',type:'short',graph:false,
+{id:'b4',k:'遺傳與進化',s:'bio',g:'S5',p:'卷一',type:'short',graph:false,
  q:'比較有絲分裂與減數分裂，完成下表：<br><br>比較項目：分裂次數 / 子細胞數目 / 子細胞染色體數目 / 是否發生同源染色體聯會 / 主要功能',
  ans:'<b>分裂次數：</b>有絲 1 次；減數 2 次<br><b>子細胞數目：</b>有絲 2 個；減數 4 個<br><b>染色體數目：</b>有絲 維持 2n（不變）；減數 減半為 n<br><b>同源染色體聯會：</b>有絲 無；減數 有（減數第一次分裂前期，並發生交叉互換）<br><b>主要功能：</b>有絲 生長、修補、無性生殖；減數 形成配子（精子／卵子）、增加遺傳變異',
  ex:'比較題務必「項目對項目」並列回答，避免散亂叙述。減數分裂產生遺傳變異的兩個來源：① 同源染色體隨機分配 ② 交叉互換。'},
-{id:'b5',s:'bio',g:'S6',p:'卷一',type:'essay',graph:false,
+{id:'b5',k:'健康與疾病',s:'bio',g:'S6',p:'卷一',type:'essay',graph:false,
  q:'抗生素抗藥性細菌的出現，被視為自然選擇的經典例子。試以自然選擇的原理，解釋抗藥性細菌如何演化形成。',
  ans:'① <b>變異存在：</b>細菌族群中因基因突變，本來就存在少數具抗藥基因的個體。<br>② <b>選擇壓力：</b>使用抗生素時，抗生素構成環境選擇壓力。<br>③ <b>適者生存：</b>不具抗藥性的細菌被殺死；具抗藥性的細菌存活並繁殖。<br>④ <b>遺傳：</b>抗藥基因通過繁殖（包括細菌的接合作用橫向傳遞質粒）傳給後代。<br>⑤ <b>累積：</b>經多代後，抗藥性個體在族群中佔絕大多數，形成抗藥性菌株。<br><br><b>重要澄清：</b>抗生素<b>不會引起</b>抗藥性突變；突變是隨機發生的，抗生素只是<b>篩選</b>出已存在的抗藥變異。',
  ex:'自然選擇答題五步曲：變異 → 選擇壓力 → 適者生存 → 遺傳 → 累積。常見失分：說「細菌為了適應而產生抗藥性」（這是拉馬克式錯誤，屬目的論）。'},
-{id:'b6',s:'bio',g:'S6',p:'卷一',type:'short',graph:false,
+{id:'b6',k:'生物與環境',s:'bio',g:'S6',p:'卷一',type:'short',graph:false,
  q:'在一個生態系統中，能量沿食物鏈流動。<br><br>(a) 解釋為何能量流轉的效率通常只有約 10%。<br>(b) 解釋為何食物鏈的長度通常不超過五級。',
  ans:'(a) 能量損失的原因：① 呼吸作用以熱能散失 ② 未被攝食的部分（根、骨、毛）③ 未被消化的部分隨糞便排出 ④ 排泄物中的尿素含能量。只有小部分能量轉化為生物量供下一級攝食。<br><br>(b) 每級只傳遞約 10% 能量，經四至五級後，剩餘能量已不足以維持一個有足夠個體數的族群，故食物鏈通常不超過五級。',
  ex:'能量流是<b>單向、逐級遞減</b>；物質（碳、氮）則是<b>循環再用</b>。這是高頻比較題。答題時用「呼吸散失、未攝食、未消化、排泄」四個方向，避免只答一點。'},
 
 /* ═══ 中國語文 ═══ */
-{id:'ch1',s:'chi',g:'S4',p:'卷一',type:'short',graph:false,
+{id:'ch1',k:'指定文言經典（一）',s:'chi',g:'S4',p:'卷一',type:'short',graph:false,
  q:'閱讀范仲淹《岳陽樓記》節錄，回答問題：<br><br>「嗟夫！予嘗求古仁人之心，或異二者之為，何哉？不以物喜，不以己悲；居廟堂之高則憂其民，處江湖之遠則憂其君。是進亦憂，退亦憂。然則何時而樂耶？其必曰『先天下之憂而憂，後天下之樂而樂』乎！」<br><br>(a) 解釋「不以物喜，不以己悲」。<br>(b) 「進」與「退」分別指什麼？<br>(c) 這段文字表現了作者怎樣的抱負？',
  ans:'(a) 不因外在環境的好壞和個人得失而或喜或悲。（物：外物、外在環境；己：個人遭遇）表現古仁人超然物外、不為私利所動的胸襟。<br><br>(b) <b>進：</b>在朝為官（居廟堂之高）；<b>退：</b>貶謫在外／退隱江湖（處江湖之遠）。<br><br>(c) 表現作者<b>憂國憂民、以天下為己任</b>的政治抱負，以及<b>先憂後樂</b>的高尚情操——在天下人憂慮之前先憂慮，在天下人享樂之後才享樂。',
  ex:'《岳陽樓記》是十二篇指定文言經典之一，卷一甲部高頻出題。核心關鍵詞：古仁人之心、先憂後樂、不以物喜不以己悲。答題時要能準確語譯並分析寫作手法（對比、設問）。'},
-{id:'ch2',s:'chi',g:'S5',p:'卷一',type:'mc',graph:false,
+{id:'ch2',k:'指定文言經典（二）',s:'chi',g:'S5',p:'卷一',type:'mc',graph:false,
  q:'「師者，所以傳道受業解惑也。」（韓愈《師說》）句中「受」字的意思是',
  opts:['接受','傳授','遭受','授予'],ans:1,
  ex:'「受」通「授」，意為傳授。此句為判斷句：「老師，是用來傳道、授業、解惑的人。」十二篇範文常考通假字：受／授、有／又、知／智等。'},
-{id:'ch3',s:'chi',g:'S5',p:'卷二',type:'essay',graph:false,
+{id:'ch3',k:'寫作進階',s:'chi',g:'S5',p:'卷二',type:'essay',graph:false,
  q:'試以「這一步，我走對了」為題，寫作一篇文章。<br><br><span class="muted">（建議：審題 → 確定「這一步」的具體內容 → 構思轉折 → 安排首尾呼應。全文不少於 650 字。）</span>',
  ans:'<b>審題要點：</b><br>① <b>「這一步」</b>——必須聚焦於一個具體的決定或行動，切忌泛泛而談。<br>② <b>「走對了」</b>——要寫出「對」的判斷依據，即這一步帶來的正向結果或內心成長。<br>③ 隱含<b>「曾經猶豫／不被看好」</b>——「對了」暗示曾有對立面，宜鋪墊掙扎。<br><br><b>結構建議：</b><br>開頭：以場景或心理描寫切入，點出抉擇時刻<br>發展：寫出選擇「這一步」的困難與掙扎（外界壓力／內心疑慮）<br>轉折：促使自己邁步的關鍵<br>結局：這一步帶來的改變，印證「走對了」<br>結尾：抒情議論，昇華主題<br><br><b>寫作手法：</b>心理描寫、對比（前後心境）、細節描寫（動作、環境烘托）',
  ex:'卷二高分關鍵：① 立意深刻 — 不止寫「做了好事」，要寫出成長與領悟；② 取材具體 — 用細節代替空泛形容；③ 結構完整 — 首尾呼應；④ 語言錘鍊 — 動詞精準、句式多變。'},
-{id:'ch4',s:'chi',g:'S6',p:'卷一',type:'short',graph:false,
+{id:'ch4',k:'閱讀策略',s:'chi',g:'S6',p:'卷一',type:'short',graph:false,
  q:'比較閱讀：試比較李白《月下獨酌》（其一）與蘇軾《念奴嬌·赤壁懷古》兩篇作品中「酒」的作用及所寄託的情感。',
  ans:'<b>李白《月下獨酌》：</b>「花間一壺酒，獨酌無相親」——酒是<b>排遣孤獨、邀月共飲</b>的媒介。詩人以酒入醉，達致「我歌月徘徊，我舞影零亂」的物我交融之境，寄託<b>懷才不遇的寂寞與超然曠達</b>。<br><br><b>蘇軾《念奴嬌》：</b>「人生如夢，一尊還酹江月」——酒是<b>弔古傷今、祭奠英雄</b>的憑藉。詞人由周瑜「雄姿英發」對比自身「早生華髮」，借酒抒發<b>功業未成的感慨與豁達自解</b>。<br><br><b>比較：</b>兩者皆借酒抒情，但李白重在<b>孤高自適</b>，蘇軾重在<b>歷史滄桑感</b>；李以浪漫想像取勝，蘇以時空對照見長。',
  ex:'比較題答題框架：先分述（各作品的手法 + 情感 + 引例），再綜合比較（異同並陳）。切忌只描述不分柝。十二篇範文的比較閱讀是卷一甲部高分題型，建議熟記每篇的核心意象與情感關鍵詞。'},
 
 /* ═══ 英國語文 ═══ */
-{id:'en1',s:'eng',g:'S4',p:'Paper 1',type:'mc',graph:false,
+{id:'en1',k:'Grammar Essentials',s:'eng',g:'S4',p:'Paper 1',type:'mc',graph:false,
  q:'"Despite the torrential rain, the match went ahead as scheduled."<br>The word <b>torrential</b> most nearly means:',
  opts:['light and intermittent','extremely heavy','seasonal','unexpected'],ans:1,
  ex:'"Torrential rain" is a common collocation meaning very heavy rain. A "torrent" is a fast-flowing stream. Context clue: the match going ahead "despite" the rain implies adverse conditions.'},
-{id:'en2',s:'eng',g:'S5',p:'Paper 2',type:'essay',graph:false,
+{id:'en2',k:'Writing Part B Genres',s:'eng',g:'S5',p:'Paper 2',type:'essay',graph:false,
  q:'<b>Paper 2 Part B — Argumentative Essay</b><br><br>"Social media does more harm than good to teenagers." Write an essay discussing this statement.<br><br><span class="muted">(Suggested length: ~400 words. Remember to present both sides and state your position clearly.)</span>',
  ans:'<b>Structure (5 paragraphs):</b><br><br><b>Para 1 — Introduction:</b> Hook + background + thesis statement. e.g. "In an era where the average teenager spends over four hours daily on social platforms, the debate over its impact has never been more urgent. While social media enables connection and self-expression, its documented effects on mental health suggest the harm outweighs the benefit."<br><br><b>Para 2 — Arguments FOR (benefits):</b> Access to information and learning resources; maintaining friendships across distance; platforms for civic engagement and creativity.<br><br><b>Para 3 — Arguments AGAINST (harms):</b> Correlation with anxiety and depression; cyberbullying; sleep disruption; distorted self-image via curated content.<br><br><b>Para 4 — Rebuttal:</b> Acknowledge that harms are often a matter of usage pattern, then counter: the design of platforms (algorithmic feeds, infinite scroll) is deliberately engineered to maximise engagement, so individual willpower is an insufficient safeguard.<br><br><b>Para 5 — Conclusion:</b> Restate thesis in new words + recommendation (digital literacy education, regulation).<br><br><b>Useful language:</b> It is undeniable that… / Proponents argue that… / A closer examination reveals… / This is not to suggest that… / In the final analysis…',
  ex:'DSE Writing is marked on <b>Content, Organisation, Language</b> and <b>Accuracy</b>. Key scoring tips: ① Address ALL parts of the prompt ② Use a clear thesis ③ Develop each point with a concrete example ④ Include a rebuttal for a higher band ⑤ Vary sentence structures (complex + compound + simple) ⑥ Use topic-specific vocabulary accurately.'},
-{id:'en3',s:'eng',g:'S5',p:'Paper 3',type:'short',graph:false,
+{id:'en3',k:'Paper 3 Integrated Skills',s:'eng',g:'S5',p:'Paper 3',type:'short',graph:false,
  q:'<b>Paper 3 — Integrated Skills</b><br><br>You are the president of the <b>Debating Society</b> at your school. You have listened to a radio programme about youth mental health and read the Data File.<br><br>Write a <b>proposal</b> to the Principal suggesting a school-wide "Mental Wellness Week". You should:<br>• identify two problems facing students<br>• propose two specific activities with details<br>• explain the expected benefits<br><br><span class="muted">(Write approximately 300–350 words.)</span>',
  ans:'<b>Format reminder — Proposal:</b><br>To: [Recipient] &nbsp;|&nbsp; From: [Your name, role] &nbsp;|&nbsp; Date: &nbsp;|&nbsp; Subject:<br><br><b>1. Introduction</b> — state the purpose.<br>"I am writing to propose a Mental Wellness Week, to be held from 10 to 14 November."<br><br><b>2. Identified problems</b> (draw from Data File & listening):<br>• Academic pressure — cite a statistic from the Data File, e.g. "68% of respondents reported sleep deprivation during examination periods."<br>• Limited awareness of support services — reference the radio programme where the counsellor noted students rarely seek help early.<br><br><b>3. Proposed activities</b> (2, with concrete details):<br>• <b>"Unplug Hour"</b> — daily 45-minute screen-free break with guided stretching; venue: school hall; no cost.<br>• <b>Peer Support Training</b> — 20 student volunteers trained by the school social worker over two lunchtime sessions.<br><br><b>4. Expected benefits</b> — reduced stress, earlier help-seeking, stronger peer networks.<br><br><b>5. Closing</b> — request approval / offer to discuss.<br><br><b>Register:</b> formal and polite throughout ("I would be grateful if…", "I should be happy to…").',
  ex:'Paper 3 rewards <b>task completion</b> and <b>register</b>. Four recurring traps: ① Writing in the wrong format ② Not using Data File content (you MUST integrate it) ③ Wrong tone for the recipient ④ Ignoring word limits. Always spend the first 10 minutes annotating the Data File and highlighting what maps to each bullet.'},
-{id:'en4',s:'eng',g:'S6',p:'Paper 4',type:'short',graph:false,
+{id:'en4',k:'Speaking Mastery',s:'eng',g:'S6',p:'Paper 4',type:'short',graph:false,
  q:'<b>Paper 4 — Speaking Practice</b><br><br><b>Part A: Group Discussion (4 candidates, 8 minutes)</b><br>Topic: "Some people say that schools should abolish homework. Discuss."<br><br><b>Part B: Individual Response (1 minute)</b><br>"Do you think technology has made learning easier or harder? Why?"<br><br><span class="muted">（完整練習請到「工具」分頁開啟 English Oral 訓練室，支援 AI 模擬小組討論、錄音記錄、DSE 標準評分）</span>',
  ans:'<b>Group Discussion — Useful language</b><br><br><b>Opening / initiating:</b><br>• "Shall I kick off? I think one key issue is…"<br>• "Perhaps we could start by considering…"<br><br><b>Inviting others:</b><br>• "What do you think, [name]?"<br>• "Would you agree that…?"<br><br><b>Building on others:</b><br>• "That\'s a fair point, and I\'d add that…"<br>• "Building on what [name] said, …"<br><br><b>Disagreeing politely:</b><br>• "I see your point, but I\'d argue that…"<br>• "With respect, I think there\'s another angle…"<br><br><b>Summarising / concluding:</b><br>• "So far we\'ve agreed that… Shall we move on?"<br>• "To wrap up, the consensus seems to be…"<br><br><b>Individual Response — PEE structure:</b><br><b>P</b>oint: state your answer in the first 10 seconds.<br><b>E</b>xplain: give one clear reason.<br><b>E</b>xample: a personal, concrete example.<br>Close with a brief restatement.',
  ex:'DSE Speaking is assessed on <b>Pronunciation & Delivery</b>, <b>Communication Strategies</b>, <b>Vocabulary & Language Patterns</b> and <b>Ideas & Organisation</b>. Aim for 4–6 substantial turns in the discussion; quality beats quantity. Silence is penalised more than a minor grammatical slip — always have a "buying time" phrase ready.'},
-{id:'en5',s:'eng',g:'S6',p:'Paper 1',type:'mc',graph:false,
+{id:'en5',k:'Exam Reading',s:'eng',g:'S6',p:'Paper 1',type:'mc',graph:false,
  q:'Identify the rhetorical device in: "The city never sleeps; it merely blinks."',
  opts:['Hyperbole','Personification','Oxymoron','Simile'],ans:1,
  ex:'Personification — the city is given human actions ("sleeps", "blinks"). Note that "never sleeps" is also hyperbolic, but the pairing with "blinks" (a human eyelid action) makes personification the dominant device. Look for the device that carries the sentence\'s main effect.'},
 
 /* ═══ 公民與社會發展 ═══ */
-{id:'cs1',s:'cs',g:'S4',p:'卷一',type:'short',graph:false,
+{id:'cs1',k:'主題一：一國兩制下的香港',s:'cs',g:'S4',p:'卷一',type:'short',graph:false,
  q:'資料 A：某調查顯示，香港 65 歲及以上人口比例將由 2021 年的 20% 上升至 2041 年的 34%。<br>資料 B：有意見認為應延長退休年齡以應對勞動力萎縮。<br><br>(a) 指出資料 A 反映的人口趨勢。（2 分）<br>(b) 參考資料及就你所知，分析人口老化對香港可能帶來的兩項挑戰。（6 分）',
  ans:'(a) 資料反映香港<b>人口老化</b>問題持續加劇，老年人口比例在二十年間顯著上升，人口結構呈現高齡化趨勢。<br><br>(b) <b>挑戰一：公共財政壓力。</b>老年人口增加令醫療及安老服務需求上升，政府醫療與福利開支大增；同時勞動人口萎縮令稅基縮小，收支失衡。<br><b>挑戰二：勞動力不足與經濟活力下降。</b>勞動人口減少令部分行業（如護理、建造業）出現人手短缺，企業招聘困難，影響生產力與經濟增長。<br>（其他可接受答案：家庭照顧壓力上升、消費結構改變、房屋需求轉變等）',
  ex:'公民科答題要點：① 必須<b>引用資料</b>數據 ② 必須<b>扣連所學概念</b>（如可持續發展、生活質素）③ 從<b>多角度</b>分析（個人／社會／國家／全球）④ 分析要說明<b>因果關係</b>，不能只描述現象。'},
-{id:'cs2',s:'cs',g:'S5',p:'卷一',type:'essay',graph:false,
+{id:'cs2',k:'主題三：互聯相依的當代世界',s:'cs',g:'S5',p:'卷一',type:'essay',graph:false,
  q:'有人認為：「發展經濟與保護環境必然互相矛盾。」你是否同意這說法？解釋你的答案。<br><br><span class="muted">（延伸回應題：須選定立場，提出論據，並回應反對意見。建議 500–600 字。）</span>',
  ans:'<b>立場：不同意</b>（部分不同意亦可，但立場必須清晰）。<br><br><b>引言：</b>界定關鍵概念。「經濟發展」指生產力與生活水平的提升；「環境保護」指維持生態系統的可持續性。二者並非零和遊戲。<br><br><b>論點一：可持續發展模式可兼顧二者。</b>發展可再生能源（太陽能、風能）既能創造就業與產業鏈，又能減少碳排放。國家在新能源汽車、光伏產業的發展正是例證——既帶動經濟增長，也推動減碳。<br><br><b>論點二：環境破壞反過來損害經濟。</b>空氣污染增加醫療開支、降低勞動生產力；極端天氣造成的基建損失巨大。長遠而言，破壞環境的經濟增長不可持續。<br><br><b>駁論：</b>有人指環保規例會增加企業成本、削弱競爭力。須承認短期確有陣痛，但政府可透過補貼與技術支援協助轉型，長遠能建立「綠色競爭力」。<br><br><b>結論：</b>重申立場——經濟發展與環境保護可通過科技創新與政策配套達致雙贏，關鍵在於選擇何種發展模式。',
  ex:'延伸回應題評分重點：① 立場清晰 ② 論證有層次（論點 → 例證 → 分析）③ 有<b>駁論</b>（回應反對意見是高分的關鍵）④ 引用資料及時事例證 ⑤ 結構完整有結論。常見失分：立場搖擺、只陳述不分析、缺乏具體例子。'},
 
 /* ═══ 經濟 ═══ */
-{id:'ec1',s:'econ',g:'S4',p:'卷一',type:'mc',graph:false,
+{id:'ec1',k:'彈性',s:'econ',g:'S4',p:'卷一',type:'mc',graph:false,
  q:'若某物品的需求價格彈性為 0.6，則當價格上升 10% 時，總收入會',
  opts:['增加','減少','不變','無法確定'],ans:0,
  ex:'|Ed| = 0.6 < 1（低彈性 / 需求缺乏彈性）。低彈性時，價格上升的百分比大於需求量下降的百分比，故總收入（P × Q）增加。規律：|Ed| < 1，加價增收；|Ed| > 1，減價增收。'},
-{id:'ec2',s:'econ',g:'S5',p:'卷二',type:'short',graph:false,
+{id:'ec2',k:'生產與成本',s:'econ',g:'S5',p:'卷二',type:'short',graph:false,
  q:'下表顯示某工廠的短期生產數據：<br><br>勞動人數：0 / 1 / 2 / 3 / 4 / 5<br>總產量：0 / 10 / 25 / 42 / 52 / 58<br><br>(a) 計算第 3 名工人的邊際產量。<br>(b) 從哪一名工人開始出現邊際報酬遞減？解釋原因。',
  ans:'(a) MP<sub>3</sub> = TP<sub>3</sub> − TP<sub>2</sub> = 42 − 25 = <b>17 單位</b><br><br>(b) 先列出各 MP：MP<sub>1</sub> = 10，MP<sub>2</sub> = 15，MP<sub>3</sub> = 17，MP<sub>4</sub> = 10，MP<sub>5</sub> = 6<br>MP 由 MP<sub>3</sub> = 17 下降至 MP<sub>4</sub> = 10，故<b>從第 4 名工人開始</b>出現邊際報酬遞減。<br><br>原因：短期內至少有一種生產要素（如資本／廠房面積）固定不變。當可變要素（勞動）不斷增加，每單位勞動所配合的固定要素愈來愈少，生產效率下降，邊際產量遞減。',
  ex:'邊際報酬遞減定律的重要澄清：① 只適用於<b>短期</b>（有固定要素）② 是 MP <b>下降</b>，不代表 TP 下降（只要 MP > 0，TP 仍上升）③ 起點是 MP 開始下降之處，不是 TP 開始下降之處。這是卷二極高頻的失分位。'},
-{id:'ec3',s:'econ',g:'S6',p:'卷二',type:'essay',graph:false,
+{id:'ec3',k:'宏觀經濟',s:'econ',g:'S6',p:'卷二',type:'essay',graph:false,
  q:'假設香港經濟處於衰退，失業率上升至 5%，通脹率為 1%。<br><br>(a) 建議政府可採取的兩項擴張性財政政策措施，並解釋其作用機制。<br>(b) 討論實施擴張性財政政策可能遇到的兩項限制。',
  ans:'(a) <b>措施一：增加政府公共開支（如基建投資）。</b>政府支出 G 是總需求的組成部分，G ↑ 直接令 AD ↑。透過乘數效應，國民收入的增加幅度大於初始支出，帶動就業上升，失業率下降。<br><b>措施二：減稅（如減薪俸稅、利得稅）。</b>減稅令家戶可支配收入上升 → 消費 C ↑；企業稅後利潤上升 → 投資 I ↑。C 與 I 上升令 AD 右移，產出與就業增加。<br><br>(b) <b>限制一：時滯問題。</b>政策由制訂、立法到落實需時，可能出現「認知時滯、執行時滯、效果時滯」，政策生效時經濟已自行復甦，反而造成通脹。<br><b>限制二：擠出效應。</b>政府增加開支若以發債融資，可能推高利率，抑制私人投資，抵銷部分擴張效果。<br>（其他：預算赤字的可持續性、資源是否已充分利用——若接近充分就業，擴張只會推高通脹而非產出）',
  ex:'財政政策題的答題層次：① 指明政策工具（G 或 T）② 說明影響哪個 AD 組成部分 ③ 用 AD–AS 圖說明均衡產出與物價的變動 ④ 討論限制時必須聯繫具體經濟環境。圖表要標示座標軸、AD 曲線移動方向及新舊均衡點。'},
 
 /* ═══ 化學（補充計算） ═══ */
-{id:'c7',s:'chem',g:'S6',p:'卷一',type:'short',graph:false,
+{id:'c7',k:'摩爾與化學計算',s:'chem',g:'S6',p:'卷一',type:'short',graph:false,
  q:'在某溫度下，把 2.0 mol 的 N<sub>2</sub> 及 6.0 mol 的 H<sub>2</sub> 注入 1 dm<sup>3</sup> 的容器中，達致平衡時生成 1.6 mol 的 NH<sub>3</sub>。<br>反應：N<sub>2</sub>(g) + 3H<sub>2</sub>(g) ↔ 2NH<sub>3</sub>(g)<br><br>求平衡常數 Kc。',
  ans:'設平衡時 NH<sub>3</sub> = 1.6 mol。<br>由摩爾比 N<sub>2</sub> : H<sub>2</sub> : NH<sub>3</sub> = 1 : 3 : 2，生成 1.6 mol NH<sub>3</sub> 消耗 N<sub>2</sub> = 0.8 mol、H<sub>2</sub> = 2.4 mol。<br><br><b>平衡時：</b><br>[N<sub>2</sub>] = (2.0 − 0.8)/1 = <b>1.2 mol dm<sup>-3</sup></b><br>[H<sub>2</sub>] = (6.0 − 2.4)/1 = <b>3.6 mol dm<sup>-3</sup></b><br>[NH<sub>3</sub>] = 1.6/1 = <b>1.6 mol dm<sup>-3</sup></b><br><br>Kc = [NH<sub>3</sub>]<sup>2</sup> / ([N<sub>2</sub>][H<sub>2</sub>]<sup>3</sup>) = (1.6)<sup>2</sup> / (1.2 × 3.6<sup>3</sup>)<br>= 2.56 / (1.2 × 46.656) = 2.56 / 55.99 ≈ <b>0.0457</b>　（單位：dm<sup>6</sup> mol<sup>-2</sup>）',
  ex:'Kc 計算用「ICE 表」（Initial / Change / Equilibrium）最穩妥。記住：① 係數變成立方／平方 ② Kc 只受溫度影響，濃度與壓強改變不影響 Kc 的數值 ③ 用平衡<b>濃度</b>代入，不是初始濃度。'},
 
 /* ═══ 物理（補充） ═══ */
-{id:'p7',s:'phy',g:'S5',p:'卷一',type:'short',graph:false,
+{id:'p7',k:'磁學與電磁感應',s:'phy',g:'S5',p:'卷一',type:'short',graph:false,
  q:'一條長直導線載有 5 A 電流，垂直穿過紙面向外。<br><br>(a) 在紙面上畫出導線周圍磁場的方向。<br>(b) 若導線旁 2 cm 處有一條長 10 cm 的平行導線，載有 3 A 的同向電流，求兩導線間每單位長度的力，並指出是吸引還是排斥。<br>（μ<sub>0</sub> = 4π × 10<sup>-7</sup> T m A<sup>-1</sup>）',
  ans:'(a) 電流向外，由<b>右手握拳定則</b>（拇指指向電流方向，四指彎曲方向即磁場方向），磁場為<b>逆時針方向的同心圓</b>。<br><br>(b) F/L = μ<sub>0</sub>I<sub>1</sub>I<sub>2</sub> / (2πd)<br>= (4π × 10<sup>-7</sup> × 5 × 3) / (2π × 0.02)<br>= (60π × 10<sup>-7</sup>) / (0.04π) = 1.5 × 10<sup>-4</sup> N m<sup>-1</sup><br>長 10 cm 的導線受力 = 1.5 × 10<sup>-4</sup> × 0.1 = <b>1.5 × 10<sup>-5</sup> N</b><br><br>方向：<b>互相吸引</b>（同向電流相吸，反向電流相斥）',
  ex:'兩條平行載流導線：同向相吸、反向相斥。公式 F/L = μ<sub>0</sub>I<sub>1</sub>I<sub>2</sub>/(2πd)。安培的定義正是基於此公式。常考陷阱：忘記把 cm 換算為 m。'},
 
 /* ═══ 生物（補充） ═══ */
-{id:'b7',s:'bio',g:'S4',p:'卷一',type:'short',graph:false,
+{id:'b7',k:'酶與代謝',s:'bio',g:'S4',p:'卷一',type:'short',graph:false,
  q:'下圖顯示某酶在不同溫度下的相對活性。<br>（文字描述：0°C 時活性接近 0；隨溫度上升活性上升，於 40°C 達最高；超過 40°C 後急劇下降，至 60°C 時活性接近 0。）<br><br>(a) 解釋 0–40°C 活性上升的原因。<br>(b) 解釋超過 40°C 後活性急劇下降的原因。<br>(c) 這變化是否可逆？解釋。',
  ans:'(a) 溫度上升令<b>分子動能增加</b>，酶分子與底物分子的碰撞頻率上升，形成酶—底物複合物的機會增加，故反應速率上升。<br><br>(b) 高溫破壞酶分子的<b>三級結構</b>（氫鍵、離子鍵等次級鍵斷裂），令<b>活性部位的形狀改變</b>，底物不再能與之結合，酶<b>變性</b>。<br><br>(c) <b>不可逆。</b>變性涉及蛋白質空間結構的永久性破壞，即使溫度回落，酶也無法恢復原有構象，故活性不能恢復。（對比：低溫只是降低動能，活性<b>可逆</b>地下降，回暖後可恢復。）',
  ex:'酶活性題的高頻對比：低溫 → 活性低但<b>可逆</b>；高溫 → 變性<b>不可逆</b>。pH 偏離最適值同樣會導致變性。答題要用「三級結構」「活性部位形狀」「變性」等準確術語，不能只說「酶壞了」。'},
 
 /* ═══ 地理 ═══ */
-{id:'g1',s:'geo',g:'S4',p:'卷一',type:'mc',graph:false,
+{id:'g1',k:'地圖與技能',s:'geo',g:'S4',p:'卷一',type:'mc',graph:false,
  q:'在地勢圖上，等高線愈密集表示該處的坡度',
  opts:['愈平緩','愈陡峭','高度愈高','高度愈低'],ans:1,
  ex:'等高線的疏密反映坡度：線愈密，表示相同水平距離內的高度變化愈大，即坡度愈陡。等高線的數值才反映絕對高度，疏密與高度無關。'},
-{id:'g2',s:'geo',g:'S5',p:'卷一',type:'short',graph:false,
+{id:'g2',k:'人文地理（二）',s:'geo',g:'S5',p:'卷一',type:'short',graph:false,
  q:'參考所提供的人口金字塔資料（文字描述：某城市人口金字塔呈「壺形」，底部狹窄，中上部寬闊，65 歲以上比例明顯偏高），回答問題：<br><br>(a) 描述該城市的人口結構特徵。<br>(b) 指出該城市可能面對的兩項社會問題並解釋。',
  ans:'(a) 該城市呈現<b>人口老化及低出生率</b>的特徵：幼年及青少年人口比例低（底部狹窄），勞動年齡人口及老年人口比例高，整體人口增長停滯甚至負增長。<br><br>(b) <b>問題一：勞動力萎縮與養老負擔加重。</b>勞動人口比例下降令供養比上升，在職者需供養更多退休人士，增加稅務與福利壓力。<br><b>問題二：醫療及安老服務需求激增。</b>老年人口比例高令長期護理、醫療設施需求上升，政府公共開支結構需重新調配。<br>（其他：消費市場萎縮、創新活力下降、房屋需求改變）',
  ex:'人口金字塔題的答題步驟：① 描述形狀（壺形／金字塔形／柱形）② 指出各年齡組的比例特徵 ③ 推論出生率與死亡率水平 ④ 聯繫發展階段（已開發／開發中）⑤ 引申社會經濟問題。描述時要引用具體資料數據。'},
 
 /* ═══ 歷史 ═══ */
-{id:'h1',s:'hist',g:'S5',p:'卷一',type:'mc',graph:false,
+{id:'h1',k:'二十世紀的衝突（二）',s:'hist',g:'S5',p:'卷一',type:'mc',graph:false,
  q:'下列哪一項<b>不是</b>導致第二次世界大戰在歐洲爆發的直接原因？',
  opts:['《凡爾賽條約》引起的德國不滿','1930 年代經濟大蕭條','綏靖政策的失敗','聯合國的成立'],ans:3,
  ex:'聯合國成立於 1945 年，是二戰的<b>結果</b>而非原因。其餘三項皆是戰爭爆發的重要原因：凡爾賽條約的苛刻條款助長德國民族主義；經濟大蕭條令極端政黨崛起；綏靖政策（慕尼黑協定）未能遏止侵略。'},
-{id:'h2',s:'hist',g:'S6',p:'卷一',type:'essay',graph:false,
+{id:'h2',k:'選修單元',s:'hist',g:'S6',p:'卷一',type:'essay',graph:false,
  q:'「經濟大蕭條是導致第二次世界大戰爆發的最主要原因。」你是否同意？試以 1919–1939 年間的歷史發展加以論證。',
  ans:'<b>立場：部分同意</b>（須有明確立場並兼論其他因素）。<br><br><b>支持論據（經濟大蕭條的重要性）：</b><br>① 1929 年華爾街股災引發全球經濟大崩潰，各國採取保護主義，國際合作瓦解。<br>② 德國受打擊尤深（依賴美國貸款），失業人數逾六百萬，為納粹黨提供群眾基礎——納粹黨在 1932 年成為國會第一大黨。<br>③ 日本受經濟衝擊，軍國主義抬頭，1931 年發動九一八事變。<br><br><b>反駁 / 其他因素：</b><br>① 凡爾賽條約的深層怨恨（戰敗恥辱、割地賠款）早於大蕭條已存在，是納粹宣傳的核心素材。<br>② 國際聯盟的結構缺陷（美國缺席、無軍隊、全體一致原則）令集體安全失效。<br>③ 綏靖政策的錯誤判斷——英法在慕尼黑協定的退讓給予希特勒擴張信心。<br>④ 意識形態因素：法西斯主義與納粹的擴張本質。<br><br><b>結論：</b>經濟大蕭條是<b>關鍵催化劑</b>，為極端主義提供土壤，但若缺乏凡爾賽條約的怨恨、國聯的失效與綏靖政策的縱容，戰爭未必爆發。故應視之為「必要但不充分」的條件。',
  ex:'歷史論述題的評分準則：① 立場清晰 ② 史實準確且具體（年份、人名、條約、數字）③ 因果分析層次分明 ④ 兼論正反或多重因素 ⑤ 有明确結論。避免「只叙述不分析」及「史實錯誤」。'},
 
 /* ═══ 中國歷史 ═══ */
-{id:'ch1h',s:'chist',g:'S5',p:'卷一',type:'mc',graph:false,
+{id:'ch1h',k:'隋唐',s:'chist',g:'S5',p:'卷一',type:'mc',graph:false,
  q:'唐代「三省六部制」中，負責草擬詔令的部門是',
  opts:['尚書省','門下省','中書省','御史台'],ans:2,
  ex:'唐代三省分工：<b>中書省</b>草擬詔令（決策）→ <b>門下省</b>審核封駁（審議）→ <b>尚書省</b>下轄六部執行。此設計旨在分散相權、互相制衡，並提高決策的嚴謹性。御史台屬監察機構。'},
-{id:'ch2h',s:'chist',g:'S6',p:'卷一',type:'essay',graph:false,
+{id:'ch2h',k:'近現代中國',s:'chist',g:'S6',p:'卷一',type:'essay',graph:false,
  q:'「變法圖強是清末自救的重要途徑，但最終未能挽救清廷。」試以洋務運動及戊戌變法加以說明。',
  ans:'<b>洋務運動（1861–1895）：</b><br><b>內容：</b>以「自強」「求富」為號召，興辦軍事工業（江南製造局、福州船政局）、民用企業（輪船招商局），設立同文館、派遣留學生，建立北洋水師。<br><b>局限：</b>① 只學西方技術而不改制度（「中學為體，西學為用」）② 官僚管理腐敗，效率低下 ③ 缺乏全國統籌，由地方督撫主導 ④ 守舊派反對。<br><b>結果：</b>甲午戰爭戰敗，北洋水師全軍覆沒，標誌洋務運動失敗。<br><br><b>戊戌變法（1898）：</b><br><b>內容：</b>光緒帝推行新政，包括廢八股、設學堂、鼓勵實業、精簡機構、訓練新軍等。<br><b>失敗原因：</b>① 以慈禧為首的守舊派力量強大（發動政變囚禁光緒）② 維新派缺乏實權與軍事支持，依賴皇帝 ③ 變法過急，短時間內頒布大量法令，觸動既得利益 ④ 缺乏群眾基礎與地方官員配合。<br><b>結果：</b>僅歷時 103 天即失敗，六君子遇害。<br><br><b>總結：</b>兩次改革皆因<b>只停留在技術或制度表層的修補，未能觸動專制體制的根本</b>，加上守舊勢力頑強與改革派力量薄弱，故無法真正圖強。這亦促使時人轉向革命。',
  ex:'比較兩次改革的論述題，宜用「背景 → 內容 → 局限 → 結果 → 評論」的統一框架分段，最後綜合比較異同（洋務重器物、戊戌重制度），並指出其共同失敗根源。答題時務必附具體史實（機構名稱、年份、人物）。'},
 
 /* ═══ 中國文學 ═══ */
-{id:'cl1',s:'chilit',g:'S5',p:'卷二',type:'short',graph:false,
+{id:'cl1',k:'唐宋文學（二）',s:'chilit',g:'S5',p:'卷二',type:'short',graph:false,
  q:'閱讀李白《月下獨酌》（其一）節錄：<br><br>「花間一壺酒，獨酌無相親。舉杯邀明月，對影成三人。月既不解飲，影徒隨我身。暫伴月將影，行樂須及春。」<br><br>(a) 詩人如何運用「以樂景寫哀情」的手法？<br>(b) 分析「月」與「影」兩個意象的作用。',
  ans:'(a) 首句描寫<b>花間月下、美酒當前</b>的良辰美景（樂景），卻緊接「獨酌無相親」——美景之中只有詩人獨自飲酒，無人相伴（哀情）。樂景與哀情形成強烈反差，<b>以景之美反襯人之孤</b>，令孤獨感更為突出。後文「行樂須及春」表面是及時行樂，實則透露出在孤寂中強作歡顏的無奈。<br><br>(b) <b>「月」與「影」是詩人虛構的陪伴者。</b>詩人舉杯邀月、與影相對，把無情之物化為「三人」共飲的熱鬧場面。這兩個意象的作用：① 表現詩人<b>極度的孤獨</b>——須以月影為伴，愈顯形單影隻；② 表現詩人<b>浪漫奔放的想像力</b>與<b>超然豁達</b>的胸懷；③ 「月既不解飲，影徒隨我身」又點出這種陪伴的虛幻——月不懂飲酒、影只是被動跟隨，<b>反襯出孤獨終究無法排遣</b>。',
  ex:'中國文學賞析題答題框架：<b>手法辨識 → 引例說明 → 效果分析 → 情感／主題</b>。常見失分：只複述詩句大意而無分析；把「以樂景寫哀情」誤作「對比」而不指明反襯的方向。意象題要兼顧「內容作用」與「情感作用」兩個層次。'},
-{id:'cl2',s:'chilit',g:'S6',p:'卷一',type:'essay',graph:false,
+{id:'cl2',k:'創作訓練',s:'chilit',g:'S6',p:'卷一',type:'essay',graph:false,
  q:'試以「窗」為題，寫一篇散文或新詩。<br><br><span class="muted">（文學創作卷：建議先構思「窗」的象徵意義——可以是視野、隔閡、盼望、回憶的出口等，再選取具體場景展開。）</span>',
  ans:'<b>構思方向（三選一）：</b><br><br><b>方向一 — 象徵「視野與局限」：</b>透過同一扇窗看四季流轉、人事變遷，寫個人成長中視野的開拓；結尾由「透窗看世界」昇華至「走出窗外的勇氣」。<br><br><b>方向二 — 象徵「隔閡與溝通」：</b>寫隔着一扇窗的兩個人（如生病的親人、疏遠的舊友），重點描寫窗內外的動作細節與心理距離，結尾以「窗終被推開」或「終究沒有推開」收束。<br><br><b>方向三 — 象徵「盼望與等待」：</b>以童年時倚窗盼父母歸來的場景為主線，對比成長後自己成為被等待者，寫出時間流轉與親情的傳承。<br><br><b>散文寫作要點：</b><br>① 以<b>具體場景</b>開篇，避免空泛議論<br>② 善用<b>感官描寫</b>（光影、聲音、氣味）<br>③ 象徵意義要<b>含蓄自然</b>，不宜直接說破<br>④ 首尾呼應，結尾留白<br><br><b>新詩寫作要點：</b>① 意象集中而統一 ② 善用分行與節奏 ③ 避免直白抒情，讓意象自己說話',
  ex:'文學創作卷的評分準則：<b>立意、結構、語言、技巧</b>。高分關鍵在於「以小見大」——選取一個具體的切入點（如一扇特定的窗），而非泛泛談論抽象概念。象徵手法要貫穿全篇，不宜在結尾才突然出現。'},
 
 /* ═══ 英語文學 ═══ */
-{id:'el1',s:'englit',g:'S5',p:'Paper 1',type:'essay',graph:false,
+{id:'el1',k:'Critical Approaches',s:'englit',g:'S5',p:'Paper 1',type:'essay',graph:false,
  q:'<b>Poetry Analysis</b><br><br>Read the following extract and write a critical appreciation:<br><br>"Because I could not stop for Death —<br>He kindly stopped for me —<br>The Carriage held but just Ourselves —<br>And Immortality."<br>— Emily Dickinson<br><br><span class="muted">Discuss: the personification of Death, the tone, and how the imagery develops the theme.</span>',
  ans:'<b>Model critical appreciation:</b><br><br>Dickinson opens her lyric by <b>personifying Death as a courteous gentleman caller</b> who "kindly stopped" — the adjective "kindly" is deeply unsettling, for it attributes gentleness to the most feared of absolutes. This <b>understated irony</b> establishes a tone that is at once calm, courteous and quietly unnerving; the speaker recounts her own dying with the composure of a social visit.<br><br>The <b>carriage</b> becomes an extended metaphor for the passage from life to eternity. Its restriction — "held but just Ourselves / And Immortality" — is <b>paradoxically both confining and expansive</b>: the physical space is narrow, yet the inclusion of "Immortality" opens the scene onto infinite vistas. The capitalisation of "Death" and "Immortality" grants both the status of allegorical figures, reinforcing the poem\'s movement from the literal toward the abstract.<br><br>The <b>iambic metre and hymn-like quatrains</b> (common metre, 8-6-8-6 syllables) echo the Protestant hymns Dickinson knew intimately, lending the scene a ritual solemnity appropriate to its subject. The <b>dashes</b> punctuate the lines like held breaths, slowing the reading pace and mimicking the speaker\'s unhurried, reflective delivery.<br><br>Through these devices Dickinson <b>domesticates mortality</b>: death is not a violent rupture but an inevitable, almost gentle appointment. The theme that emerges is one of <b>acceptance</b> — the speaker neither resists nor fears, suggesting that immortality is not a distant reward but a companion already seated beside her in the carriage of the present moment.',
  ex:'Literature essays are assessed on <b>understanding of the text</b>, <b>analysis of techniques</b>, <b>organisation</b> and <b>literary language</b>. Structure each body paragraph as: <b>technique → quotation → explanation → effect on theme</b>. Always integrate short quotations (2–5 words) rather than long blocks. Use the literary present tense throughout.'},
-{id:'el2',s:'englit',g:'S6',p:'Paper 2',type:'mc',graph:false,
+{id:'el2',k:'Exam Technique',s:'englit',g:'S6',p:'Paper 2',type:'mc',graph:false,
  q:'In drama, a speech delivered by a character alone on stage, revealing inner thoughts, is called a:',
  opts:['Aside','Soliloquy','Monologue','Chorus'],ans:1,
  ex:'A <b>soliloquy</b> is delivered when the character is (or believes himself to be) alone, revealing private thoughts. An <b>aside</b> is a brief remark directed to the audience while other characters are present and unhearing. A <b>monologue</b> is a long speech addressed to other characters. The <b>chorus</b> is a commenting group (Greek tragedy).'},
 
 /* ═══ BA ═══ */
-{id:'ba1',s:'ba',g:'S4',p:'卷一',type:'mc',graph:false,
+{id:'ba1',k:'會計基礎',s:'ba',g:'S4',p:'卷一',type:'mc',graph:false,
  q:'企業以現金 $5,000 購入辦公設備。此交易的會計分錄為',
  opts:['借：辦公設備 / 貸：現金','借：現金 / 貸：辦公設備','借：費用 / 貸：現金','借：現金 / 貸：費用'],ans:0,
  ex:'資產增加記借方，資產減少記貸方。辦公設備（資產）增加 → 借記；現金（資產）減少 → 貸記。記住口訣：資產增加記借、負債及資本增加記貸。'},
-{id:'ba2',s:'ba',g:'S5',p:'卷一',type:'short',graph:false,
+{id:'ba2',k:'財務報表（一）',s:'ba',g:'S5',p:'卷一',type:'short',graph:false,
  q:'某公司 2026 年度的資料如下：<br>銷貨 $800,000；銷貨成本 $500,000；營業費用 $180,000<br>流動資產 $300,000；存貨 $120,000；流動負債 $150,000<br><br>(a) 計算毛利率及淨利率。<br>(b) 計算流動比率及酸性測試比率。<br>(c) 簡述流動比率的理想水平及其限制。',
  ans:'(a) 毛利 = 800,000 − 500,000 = $300,000<br>毛利率 = 300,000 / 800,000 × 100% = <b>37.5%</b><br>淨利 = 300,000 − 180,000 = $120,000<br>淨利率 = 120,000 / 800,000 × 100% = <b>15%</b><br><br>(b) 流動比率 = 300,000 / 150,000 = <b>2 : 1</b><br>酸性測試比率 = (300,000 − 120,000) / 150,000 = 180,000 / 150,000 = <b>1.2 : 1</b><br><br>(c) 流動比率的理想水平一般為 <b>2 : 1</b>，表示企業有足夠流動資產償還短期債務。<br><b>限制：</b>① 比率過高可能表示資金閒置，未能有效運用（如過多現金或呆滯存貨）② 只反映某一時點的狀況，可能被「窗飾」操縱 ③ 未考慮流動資產的<b>變現能力差異</b>（存貨未必能迅速套現）④ 未考慮現金流量的<b>時間配合</b>（應收帳款何時收到）。',
  ex:'比率分析題必答結構：<b>計算 → 數值 → 解讀（好／壞）→ 限制</b>。常見失分：只給數字不作解讀，或只寫公式不代入。酸性測試比率 = (流動資產 − 存貨) / 流動負債，剔除存貨的原因是存貨變現能力最差。'},
-{id:'ba3',s:'ba',g:'S6',p:'卷二',type:'essay',graph:false,
+{id:'ba3',k:'財務管理',s:'ba',g:'S6',p:'卷二',type:'essay',graph:false,
  q:'某公司考慮投資一項新設備，成本為 $500,000，預計每年淨現金流入為 $150,000，使用年期 5 年，殘值為零。公司的資本成本為 10%。<br><br>(a) 計算該項目的回收期。<br>(b) 計算淨現值（NPV）。（貼現系數：年金現值系數 (5 年, 10%) = 3.791）<br>(c) 評論回收期法與淨現值法的優劣。',
  ans:'(a) 回收期 = 500,000 / 150,000 = <b>3.33 年</b>（約 3 年 4 個月）<br><br>(b) NPV = 每年現金流入現值 − 初始投資<br>= 150,000 × 3.791 − 500,000<br>= 568,650 − 500,000 = <b>$68,650</b><br>NPV > 0 ⇒ <b>應接受此項目</b><br><br>(c) <b>回收期法：</b><br>優點：計算簡單易明；重視資金回流速度與<b>風險</b>（回收期短代表風險低）；適合資金緊絀或技術更新快的企業。<br>缺點：① <b>忽略貨幣時間價值</b>（這是最大缺陷）② 忽略回收期<b>之後</b>的現金流量 ③ 未考慮整體盈利能力 ④ 缺乏客觀的取捨準則。<br><br><b>淨現值法：</b><br>優點：① <b>考慮貨幣時間價值</b> ② 考慮項目<b>整段年期</b>的所有現金流量 ③ 直接反映項目為股東創造的價值 ④ 決策準則明確（NPV > 0 即接受）。<br>缺點：① 貼現率的選擇帶主觀性，且對結果影響極大 ② 現金流量預測存在不確定性 ③ 較難向非財務人員解釋。',
  ex:'投資評估題的答題關鍵：① 計算要列明公式與步驟 ② 比較題要<b>優劣並陳</b> ③ 指出回收期「忽略時間價值」及「忽略回收期後現金流」兩大缺陷是必答 ④ 若能聯繫企業實際情況（風險偏好、資金狀況）可得更高分。'},
 
 /* ═══ ICT ═══ */
-{id:'i1',s:'ict',g:'S4',p:'卷一',type:'mc',graph:false,
+{id:'i1',k:'資訊處理',s:'ict',g:'S4',p:'卷一',type:'mc',graph:false,
  q:'在資料庫中，用於唯一識別每一筆記錄的欄位稱為',
  opts:['外鍵 (Foreign Key)','主鍵 (Primary Key)','索引 (Index)','欄位名稱 (Field Name)'],ans:1,
  ex:'主鍵 (Primary Key) 的值在表中必須唯一且非空，用來唯一識別每一筆記錄。外鍵用於建立兩表之間的關聯，其值對應另一表的主鍵。'},
-{id:'i2',s:'ict',g:'S5',p:'卷一',type:'short',graph:false,
+{id:'i2',k:'程式編寫（二）',s:'ict',g:'S5',p:'卷一',type:'short',graph:false,
  q:'寫出以下算法的輸出結果，並說明其時間複雜度。<br><br><pre>for i = 1 to 5:\n    for j = 1 to i:\n        print("*")\n    next j\n    print("\n")\nnext i</pre>',
  ans:'<b>輸出結果：</b><br><pre>*\n**\n***\n****\n*****</pre>（共 1 + 2 + 3 + 4 + 5 = 15 個星號，呈直角三角形）<br><br><b>時間複雜度：O(n<sup>2</sup>)</b><br><br>解釋：外層迴圈執行 n 次，內層迴圈在 i = k 時執行 k 次。總執行次數 = 1 + 2 + … + n = n(n+1)/2。當 n 增大時，最高次項為 n<sup>2</sup>/2，故時間複雜度為 O(n<sup>2</sup>)。',
  ex:'嵌套迴圈的時間複雜度通常為各層次數相乘。此例中內層次數隨外層遞增，總次數為等差級數和 n(n+1)/2，取最高次項得 O(n<sup>2</sup>)。常見考法：比較線性搜尋 O(n) 與二分搜尋 O(log n)、冒泡排序 O(n<sup>2</sup>) 的差異。'},
-{id:'i3',s:'ict',g:'S6',p:'卷一',type:'short',graph:false,
+{id:'i3',k:'應試策略',s:'ict',g:'S6',p:'卷一',type:'short',graph:false,
  q:'某公司發現員工可輕易讀取其他部門的機密檔案。<br><br>(a) 指出兩項可實施的技術措施以解決問題。<br>(b) 指出兩項非技術（管理）措施。<br>(c) 解釋為何單靠技術措施不足以保障資訊安全。',
  ans:'(a) <b>技術措施：</b><br>① <b>存取控制 (Access Control)</b> — 按職能設定權限，採用「最小權限原則」(Principle of Least Privilege)，員工只能存取其工作所需的檔案。<br>② <b>加密 (Encryption)</b> — 對機密檔案加密儲存，即使被讀取亦無法解讀；配合<b>雙重認證</b>加強登入保護。<br>（其他：審計日誌 Audit Log、數據遺失防護 DLP、網絡分隔）<br><br>(b) <b>管理措施：</b><br>① 制訂清晰的<b>資訊安全政策</b>，列明資料分類與處理規範。<br>② 定期<b>員工培訓</b>，提升安全意識（如辨識網絡釣魚、妥善保管密碼）。<br>（其他：簽署保密協議、定期安全審計、離職程序管理）<br><br>(c) 技術措施有其局限：<br>① 技術無法防範<b>內部人員的違規行為</b>——獲授權者濫用權限是常見的漏洞來源。<br>② 系統漏洞與人為設定錯誤難以完全避免。<br>③ 安全措施若過於繁複，員工可能<b>繞過</b>程序（如把密碼寫在紙上、使用未經授權的雲端服務）。<br>④ 缺乏管理制度配合，技術設備可能未獲正確使用或定期更新。<br>因此資訊安全須「技術 + 管理 + 人員」三管齊下。',
  ex:'資訊安全題的答題層次：① 先辨識威脅類型（未授權存取屬機密性 Confidentiality 受損）② 技術與管理措施<b>各舉兩項並具體說明</b>（不可只寫名詞）③ 「單靠技術不足」是必答，須從「人」的因素切入。可用 CIA 三角（機密性 Confidentiality、完整性 Integrity、可用性 Availability）協助組織答案。'},
 
 /* ═══ 旅遊與款待 ═══ */
-{id:'t1',s:'thm',g:'S4',p:'卷一',type:'mc',graph:false,
+{id:'t1',k:'旅遊業概論',s:'thm',g:'S4',p:'卷一',type:'mc',graph:false,
  q:'下列哪項<b>不屬於</b>旅遊業的「推因素」(Push Factors)？',
  opts:['逃避日常工作的壓力','渴望增廣見聞','目的地的宣傳推廣','追求休閒放鬆'],ans:2,
  ex:'「推因素」是旅客內在的驅動力（如逃避壓力、追求放鬆、渴望體驗）；「拉因素」是目的地的吸引之處（如宣傳推廣、景點特色、設施配套）。目的地的宣傳推廣屬拉因素。'},
-{id:'t2',s:'thm',g:'S5',p:'卷一',type:'short',graph:false,
+{id:'t2',k:'餐飲業',s:'thm',g:'S5',p:'卷一',type:'short',graph:false,
  q:'一位客人在酒店餐廳投訴牛扒過熟，要求重做，情緒激動。<br><br>(a) 寫出處理該投訴的四個步驟。<br>(b) 解釋何謂「服務補救悖論」(Service Recovery Paradox)。',
  ans:'(a) 處理步驟：<br>① <b>聆聽並致歉</b> — 專心聆聽，不打斷；以「對不起」表達歉意，不推卸責任。<br>② <b>確認問題並提出方案</b> — 重複客人的要求以確認理解（「您希望牛扒改為五成熟，對嗎？」）；立即提出解決方法（重做、更換、提供替代選擇）。<br>③ <b>迅速跟進</b> — 通知廚房優先處理，並在等候期間提供小食或飲品；完成後確認客人滿意。<br>④ <b>記錄與補償</b> — 記錄投訴內容以作改善；視情況提供適當補償（折扣、贈送甜品）。<br><br>(b) <b>服務補救悖論</b>指：經歷服務失誤但獲得<b>出色補救</b>的顧客，其滿意度與忠誠度可能<b>高於</b>從未遇到問題的顧客。原因是成功的補救展現了企業的重視與誠意，反而增強顧客信任。<br><br><b>但須注意：</b>此悖論並非必然——若補救不力、失誤嚴重或重複發生，顧客滿意度會大幅下降。',
  ex:'投訴處理題的標準框架：<b>聆聽 → 致歉 → 解決 → 跟進 → 記錄</b>。答題時每一步都要有<b>具體行動</b>（不可只寫「好好處理」）。服務補救悖論是卷二高頻概念，務必補上其限制條件。'},
-{id:'t3',s:'thm',g:'S6',p:'卷二',type:'essay',graph:false,
+{id:'t3',k:'旅遊與款待的議題',s:'thm',g:'S6',p:'卷二',type:'essay',graph:false,
  q:'「發展旅遊業必然會破壞當地的文化傳統。」你是否同意？試以香港及一個其他地區的例子加以論證。',
  ans:'<b>立場：不同意</b>（可採部分同意，但立場須清晰並兼論兩面）。<br><br><b>反駁論據（旅遊業可保護文化）：</b><br>① <b>提供經濟誘因保育</b> — 旅遊收入使文物古蹟的修復與維護得以持續。例：香港<b>大澳漁村</b>的棚屋與龍舟遊涌因旅遊發展而獲得保育資源與公眾關注，龍舟遊涌更列入國家級非物質文化遺產名錄。<br>② <b>提升文化自豪感與傳承意願</b> — 當傳統文化成為吸引旅客的資產，年輕一代更願意學習與承傳。例：日本<b>京都</b>的茶道、和服體驗及傳統町屋保育，令當地工藝獲得穩定市場與傳承動力。<br><br><b>承認風險（旅遊業確可損害文化）：</b><br>① <b>商品化 / 舞台化 (Commodification)</b> — 傳統儀式為迎合旅客而被簡化、表演化，失去原有意義。<br>② <b>過度旅遊 (Overtourism)</b> — 大量旅客湧入令居民生活受干擾，社區結構改變，租金上升迫使原居民遷出。例：部分歐洲古城出現「博物館化」現象，市中心居民銳減。<br><br><b>平衡之道：</b>關鍵在於<b>規劃與管理</b> — 實施承載力評估、推動社區參與式的文化旅遊、發展深度文化體驗而非大眾觀光、確保收益回流當地社區。<br><br><b>結論：</b>旅遊業本身並非文化破壞的必然原因，<b>發展模式與管理措施</b>才是決定因素。妥善規劃下，旅遊業可成為文化保育的助力。',
  ex:'旅遊與款待卷二的議論題評分重點：① 立場清晰 ② <b>必須引用例子</b>（題目要求「香港及一個其他地區」，兩個例子缺一不可）③ 正反兼論並有駁論 ④ 提出具體可行的建議 ⑤ 運用學科專有名詞（承載力、商品化、過度旅遊、可持續發展）。常見失分：只陳述個人意見而無例子支撐。'},
@@ -2093,11 +2135,14 @@ function renderK(){
     if(!rows)return;
     shown++;
     const open=kOpen[s.id+gi]!==false;
+    /* 該知識點組的練習題數量 */
+    const qn=allQuestions(s.id).filter(x=>x.g===g&&x.k===G.n).length;
     html+=`<div class="kgrp" data-gi="${gi}">
       <div class="kgh">
         <span class="mk2" style="--sc:${s.color}"></span>
         <h3>${esc(G.n)}</h3>
         <span class="n">${dn}/${tot}</span>
+        ${qn?`<button class="btn sm kpq" data-kpq="${esc(G.n)}" title="只練習這個知識點的題目">🎯 練習 ${qn} 題</button>`:''}
       </div>
       <div class="pbar"><i style="width:${tot?Math.round(dn/tot*100):0}%"></i></div>
       <div class="kbody ${open?'':'hide'}">${rows}</div>
@@ -2125,6 +2170,11 @@ function renderK(){
   });
   $('#kq').oninput=renderK;
   $$('[data-kf]').forEach(b=>b.onclick=()=>{kFilter=b.dataset.kf;renderK()});
+  $$('#kgrid [data-kpq]').forEach(b=>b.onclick=e=>{
+    e.stopPropagation();
+    qFocusKp=b.dataset.kpq;qFilter='all';qGroupBy='kp';
+    STATE.tab='q';renderTabs();renderQ();
+  });
   $('#kExpand').onclick=()=>{groups.forEach((_,gi)=>kOpen[s.id+gi]=true);renderK()};
   $('#kCollapse').onclick=()=>{groups.forEach((_,gi)=>kOpen[s.id+gi]=false);renderK()};
 }
@@ -2137,15 +2187,32 @@ function allQuestions(sid){
   const custom=DB.custom.filter(q=>q.s===sid);
   return [...custom,...built];
 }
+/* 分組模式：'paper' 依卷別、'kp' 依知識點 */
+let qGroupBy='kp';
+/* 專項練習：鎖定某個知識點組（null = 全部） */
+let qFocusKp=null;
+
+/* 取得該科該年級的知識點組（含組名與細項） */
+function kpGroups(sid,g){
+  const s=SUBJECTS.find(x=>x.id===sid);
+  return s&&s.K&&s.K[g]?s.K[g]:[];
+}
+
 function renderQ(){
   const s=subj(),p=$('#pane-q');
   const qs=allQuestions(s.id);
-  const byPaper={};
-  qs.forEach(q=>{(byPaper[q.p||'其他']=byPaper[q.p||'其他']||[]).push(q)});
-  const cnt=q=>{
-    const c=DB.custom.find(x=>x.id===q.id);
-    return c?'<span class="owner mine">自訂</span>':'<span class="owner sys">題庫</span>';
+  const g=STATE.grade;
+  const groups=kpGroups(s.id,g);
+
+  const pass=q=>{
+    if(qFocusKp&&q.k!==qFocusKp)return false;
+    if(qFilter==='todo')return DB.ans[q.id]==null;
+    if(qFilter==='done')return DB.ans[q.id]!=null;
+    if(qFilter==='mine')return !!DB.custom.find(x=>x.id===q.id);
+    if(qFilter==='star')return !!DB.star['q'+q.id];
+    return true;
   };
+
   p.innerHTML=`
    <div class="sect">
     <div class="qbar">
@@ -2156,31 +2223,117 @@ function renderQ(){
         <button class="pill ${qFilter==='mine'?'on':''}" data-qf="mine">我的題目</button>
         <button class="pill ${qFilter==='star'?'on':''}" data-qf="star">⭐ 標記</button>
       </div>
+      <div class="segsm" id="gseg">
+        <button class="${qGroupBy==='kp'?'on':''}" data-gb="kp">按知識點</button>
+        <button class="${qGroupBy==='paper'?'on':''}" data-gb="paper">按卷別</button>
+      </div>
       <button class="btn pri" id="qAdd">＋ 新增題目</button>
       <button class="btn" id="qManage">管理</button>
     </div>
+    ${qFocusKp?`<div class="focusbar">
+      <span>🎯 專項練習：<b>${esc(qFocusKp)}</b></span>
+      <button class="btn sm" id="qFocusExit">× 結束專項</button></div>`:''}
     <div id="qlist"></div>
     ${qs.length?'':'<div class="empty">此科目暫無練習題。點擊「新增題目」自行加入（支援拍照上傳、貼上圖片、文字輸入）。</div>'}
    </div>`;
 
   const list=$('#qlist');let html='';
-  Object.keys(byPaper).forEach(paper=>{
-    const arr=byPaper[paper].filter(q=>{
-      if(qFilter==='todo')return DB.ans[q.id]==null;
-      if(qFilter==='done')return DB.ans[q.id]!=null;
-      if(qFilter==='mine')return !!DB.custom.find(x=>x.id===q.id);
-      if(qFilter==='star')return !!DB.star['q'+q.id];
-      return true;
+
+  if(qGroupBy==='kp'){
+    /* ── 依知識點分組：列出該年級所有知識點組，沒題目的組也顯示（標示待補） ── */
+    const byKp={};
+    qs.forEach(q=>{const k=q.k||'未分類';(byKp[k]=byKp[k]||[]).push(q)});
+
+    groups.forEach((G,gi)=>{
+      const arr=(byKp[G.n]||[]).filter(pass);
+      if(qFocusKp&&G.n!==qFocusKp)return;
+      if(!arr.length&&qFocusKp)return;
+      /* 掌握度：該組已作答且答對的題數 */
+      let done=0,right=0;
+      (byKp[G.n]||[]).forEach(q=>{
+        if(DB.ans[q.id]!=null){
+          done++;
+          if(q.type==='mc'&&Number(DB.ans[q.id])===q.ans)right++;
+          else if(q.type!=='mc')right++;   /* 非選擇題自行核對，計入已處理 */
+        }
+      });
+      const tot=(byKp[G.n]||[]).length;
+      const pct=tot?Math.round(right/tot*100):0;
+
+      html+=`<div class="kpgrp">
+        <div class="kpgh" data-kp="${esc(G.n)}">
+          <div class="kpgl">
+            <span class="kpno">${gi+1}</span>
+            <div>
+              <div class="kpgt">${esc(G.n)}</div>
+              <div class="kpgm">${tot} 題${tot?' · 已答 '+done+' · 掌握度 '+pct+'%':''}</div>
+            </div>
+          </div>
+          <div class="kpgr">
+            ${tot?`<div class="kpbar"><i style="width:${pct}%"></i></div>`:'<span class="kpnone">暫無題目</span>'}
+            ${tot?`<button class="btn sm" data-focus="${esc(G.n)}">🎯 專項練習</button>`:''}
+            <span class="kparr">▾</span>
+          </div>
+        </div>
+        <div class="kpbody">
+          <div class="kpitems">${G.items.map((it,ii)=>{
+            const key=kOf(s.id,g+gi,ii);
+            const on=!!DB.done[key];
+            return `<span class="kpi ${on?'on':''}" data-ki="${key}">${on?'✓ ':''}${esc(it)}</span>`;
+          }).join('')}</div>
+          ${arr.length?arr.map((q,i)=>qHTML(q,i)).join('')
+            :(tot?'<div class="empty sm">此篩選條件下沒有題目。</div>'
+                 :'<div class="empty sm">此知識點暫無練習題。按「＋ 新增題目」加入時，可選擇歸入本知識點。</div>')}
+        </div>
+      </div>`;
     });
-    if(!arr.length)return;
-    html+=`<div style="margin:16px 0 9px;font-size:13px;font-weight:700;color:var(--mu);letter-spacing:.4px">
-      ${esc(paper)} · ${arr.length} 題</div>`;
-    arr.forEach((q,i)=>html+=qHTML(q,i));
-  });
+
+    /* 未歸類的自訂題目 */
+    const rest=qs.filter(q=>!q.k).filter(pass);
+    if(rest.length&&!qFocusKp){
+      html+=`<div class="kpgrp">
+        <div class="kpgh"><div class="kpgl"><span class="kpno">＋</span>
+          <div><div class="kpgt">未分類</div>
+          <div class="kpgm">${rest.length} 題 · 建議編輯時指定知識點</div></div></div>
+          <div class="kpgr"><span class="kparr">▾</span></div></div>
+        <div class="kpbody">${rest.map((q,i)=>qHTML(q,i)).join('')}</div>
+      </div>`;
+    }
+  }else{
+    /* ── 依卷別分組（原有模式） ── */
+    const byPaper={};
+    qs.filter(pass).forEach(q=>{(byPaper[q.p||'其他']=byPaper[q.p||'其他']||[]).push(q)});
+    Object.keys(byPaper).forEach(paper=>{
+      const arr=byPaper[paper];
+      if(!arr.length)return;
+      html+=`<div style="margin:16px 0 9px;font-size:13px;font-weight:700;color:var(--mu);letter-spacing:.4px">
+        ${esc(paper)} · ${arr.length} 題</div>`;
+      arr.forEach((q,i)=>html+=qHTML(q,i));
+    });
+  }
+
   list.innerHTML=html||'<div class="empty">此篩選條件下沒有題目。</div>';
 
-  list.querySelectorAll('[data-qf]').forEach(()=>{});
+  /* ── 事件綁定 ── */
   $$('[data-qf]').forEach(b=>b.onclick=()=>{qFilter=b.dataset.qf;renderQ()});
+  $$('#gseg [data-gb]').forEach(b=>b.onclick=()=>{qGroupBy=b.dataset.gb;renderQ()});
+  const fe=$('#qFocusExit');
+  if(fe)fe.onclick=()=>{qFocusKp=null;renderQ()};
+  $$('#qlist [data-focus]').forEach(b=>b.onclick=e=>{
+    e.stopPropagation();qFocusKp=b.dataset.focus;renderQ();
+    const el=$('#qlist');if(el)el.scrollTop=0;
+  });
+  /* 知識點組標題：收合 / 展開 */
+  $$('#qlist .kpgh').forEach(h=>h.onclick=()=>{
+    const grp=h.parentElement;grp.classList.toggle('collapse');
+  });
+  /* 知識點細項：勾選掌握 */
+  $$('#qlist [data-ki]').forEach(el=>el.onclick=e=>{
+    e.stopPropagation();
+    const k=el.dataset.ki;
+    if(DB.done[k])delete DB.done[k];else DB.done[k]=1;
+    save();renderQ();renderHead&&renderHead();
+  });
   bindQ();
   $('#qAdd').onclick=()=>openEditor(null);
   $('#qManage').onclick=openManager;
@@ -4873,6 +5026,9 @@ function openEditor(qid){
         `<option value="${v}" ${editing&&editing.g===v?'selected':''}>${l}</option>`).join('')}</select></div>
     <div class="edrow"><span class="lb">卷別／分類</span>
       <input class="inp" id="eP" value="${esc(editing?editing.p:'')}" placeholder="例如：卷一、Paper 2、自訂分類"></div>
+    <div class="edrow"><span class="lb">知識點</span>
+      <select class="sel" id="eK"></select></div>
+    <div class="fnote" style="margin:-4px 0 0 92px">指定這題所屬的知識點，練習題頁就會<b>按知識點分組</b>，方便針對弱項做專項練習。</div>
     <div class="edrow"><span class="lb">題型</span>
       <select class="sel" id="eT">
         <option value="mc" ${isMC?'selected':''}>多項選擇題（自動批改）</option>
@@ -4977,6 +5133,25 @@ function openEditor(qid){
   $('#eT').onchange=e=>{
     $('#eOptSec').style.display=e.target.value==='mc'?'block':'none';
   };
+
+  /* ── 知識點下拉：隨科目與年級連動 ── */
+  function fillKp(){
+    const sel=$('#eK');if(!sel)return;
+    const sid=$('#eS').value,g=$('#eG').value;
+    const S=SUBJECTS.find(x=>x.id===sid);
+    const groups=(S&&S.K&&S.K[g])?S.K[g]:[];
+    sel.innerHTML=`<option value="">（未指定）</option>`+
+      groups.map(G=>`<option value="${esc(G.n)}">${esc(G.n)}</option>`).join('');
+    const want=editing&&editing.k||kpDraft;
+    if(want&&groups.some(G=>G.n===want))sel.value=want;
+  }
+  /* 使用者手動改過就記住，避免科目/年級連動時被洗掉 */
+  let kpDraft='';
+  $('#eK').onchange=e=>{kpDraft=e.target.value};
+  $('#eS').onchange=fillKp;
+  $('#eG').onchange=fillKp;
+  fillKp();
+
   renderOpts();
 
   /* ── 圖片 ── */
@@ -5076,6 +5251,8 @@ function openEditor(qid){
          若被文字答案覆蓋，自動批改會永遠判錯。 */
       obj.ans=Math.min(Number($('#eAns').value),opts.length-1);
     }
+    const kp=$('#eK')?$('#eK').value:'';
+    if(kp)obj.k=kp;
     const a=$('#eA').value.trim(),ex=$('#eE').value.trim();
     /* 文字版參考答案另存 ansTxt，不覆蓋索引 */
     if(a){ if(type==='mc')obj.ansTxt=a; else obj.ans=a; }
