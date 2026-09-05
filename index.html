@@ -426,6 +426,24 @@ hr.sp{border:none;border-top:1px solid var(--bd);margin:17px 0}
 .kcaret.shut{transform:rotate(-90deg)}
 .kpq+.kcaret{margin-left:2px}
 
+/* ══ 學習記錄：刪除與復原 ══ */
+.logbar{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin:10px 0 4px}
+.logbar .muted{color:var(--mu)}
+.logi .sb{display:inline-flex;align-items:center;gap:5px}
+.logi .sb::before{content:"";width:7px;height:7px;border-radius:50%;
+  background:var(--sc,#94a3b8);flex:0 0 7px}
+.logi .du{font-variant-numeric:tabular-nums;font-weight:650}
+.htoast{display:flex;align-items:center;gap:10px;padding:9px 14px;margin-bottom:12px;
+  background:#1e293b;color:#fff;border-radius:10px;font-size:13px;
+  box-shadow:0 4px 14px rgba(15,23,42,.25);animation:htIn .22s ease}
+.htoast .btn{margin-left:auto}
+@keyframes htIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+
+@media(max-width:520px){
+  .logbar{flex-direction:column;align-items:stretch}
+  .logbar .btn{width:100%;justify-content:center}
+}
+
 /* ══ 歷屆試題 ══ */
 .ppyears{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
 .ppy{display:flex;flex-direction:column;align-items:center;gap:1px;
@@ -2581,8 +2599,9 @@ const subj=()=>SUBJECTS.find(s=>s.id===STATE.subject)||SUBJECTS[0];
 function fmtDur(sec){
   sec=Math.max(0,Math.round(sec));
   const h=Math.floor(sec/3600),m=Math.floor(sec%3600/60),s=sec%60;
-  if(h>0)return h+' 小時 '+(m>0?m+' 分':'');
-  if(m>0)return m+' 分 '+(s>0?s+' 秒':'');
+  /* 用 filter 組合，避免串接時留下尾隨空格（'15 分 ' 這種） */
+  if(h>0)return [h+' 小時',m>0?m+' 分':''].filter(Boolean).join(' ');
+  if(m>0)return [m+' 分',s>0?s+' 秒':''].filter(Boolean).join(' ');
   return s+' 秒';
 }
 function fmtHM(sec){
@@ -3314,7 +3333,9 @@ function renderH(){
   const mx=Math.max(1,...per.map(x=>x.v));
   const today=DB.sess.filter(x=>x.d===todayStr()).reduce((a,b)=>a+b.dur,0);
   const week=DB.sess.filter(x=>(Date.now()-new Date(x.d).getTime())<7*864e5).reduce((a,b)=>a+b.dur,0);
-  const recent=[...DB.sess].reverse().slice(0,60);
+  /* 帶上原始索引，避免用長度推算造成錯位 */
+  const LIMIT=100;
+  const recent=[...DB.sess].map((x,i)=>({...x,_i:i})).reverse().slice(0,LIMIT);
 
   p.innerHTML=`
    <div class="sect">
@@ -3346,23 +3367,114 @@ function renderH(){
         <span class="tr"><span class="fl" style="width:${Math.round(x.v/mx*100)}%;background:${x.c}"></span></span>
         <span class="vv">${fmtHM(x.v)}</span>
       </div>`).join('')}</div>`:'<div class="empty">尚無記錄，按上方「開始計時」即可累計。</div>'}
-    <h2 style="font-size:16px;margin:22px 0 10px">最近記錄</h2>
-    ${recent.length?`<div class="log">${recent.map((x,i)=>`
+    <h2 style="font-size:16px;margin:22px 0 10px">
+      最近記錄 <span class="muted" style="font-size:12.5px;font-weight:400">
+      ${DB.sess.length?`（顯示最近 ${recent.length} 筆，共 ${DB.sess.length} 筆）`:''}</span>
+    </h2>
+    <div class="logbar">
+      ${LAST_DEL?`<button class="btn sm pri" id="hUndo">↩ 復原剛刪除的記錄</button>`:''}
+      ${DB.sess.length?`<button class="btn sm dg" id="hClear">🗑 清除全部記錄</button>`:''}
+      ${DB.sess.length>1?`<span class="muted" style="font-size:12px">
+        點任一筆的「刪除」即可移除，累計時間會同步扣減</span>`:''}
+    </div>
+    ${recent.length?`<div class="log">${recent.map(x=>`
       <div class="logi">
         <span class="dt">${esc(x.d)}</span>
-        <span class="sb">${esc(subjById(x.s).name)}</span>
+        <span class="sb" style="--sc:${(subjById(x.s)||{}).color||'#94a3b8'}">${esc(subjById(x.s).name)}</span>
         ${x.note?`<span class="muted" style="font-size:12px;flex:1">${esc(x.note)}</span>`:'<span style="flex:1"></span>'}
         <span class="du">${fmtDur(x.dur)}</span>
-        <button class="btn sm" data-ds="${DB.sess.length-1-i}">刪除</button>
-      </div>`).join('')}</div>`:'<div class="empty">尚無記錄。</div>'}
+        <button class="btn sm" data-ds="${x._i}" title="刪除此筆">刪除</button>
+      </div>`).join('')}</div>`:'<div class="empty">尚無記錄。按上方「開始計時」或「手動加入」即可累計。</div>'}
    </div>`;
 
   $('#tmBtn').onclick=()=>{tmRun?stopTimer():startTimer(s.id)};
   $('#tmManual').onclick=addManual;
-  $$('#pane-h [data-ds]').forEach(b=>b.onclick=()=>{
-    const i=Number(b.dataset.ds);
-    if(confirm('刪除此筆記錄？')){DB.sess.splice(i,1);save();renderH()}
-  });
+
+  $$('#pane-h [data-ds]').forEach(b=>b.onclick=()=>delSession(Number(b.dataset.ds)));
+
+  const undo=$('#hUndo');
+  if(undo)undo.onclick=undoDel;
+  const clr=$('#hClear');
+  if(clr)clr.onclick=()=>{
+    if(!confirm(`確定清除全部 ${DB.sess.length} 筆學習記錄？\n\n各科累計時間會一併歸零。\n此動作可在清除後按「復原」救回一次。`))return;
+    clearAllSess();
+  };
+}
+
+/* ══════════ 學習記錄刪除 ══════════
+   關鍵：DB.time 是各科累計秒數，DB.sess 是每筆時段。
+   兩者必須同步，否則只刪 sess 會出現「清單消失了，
+   但累計時間、分佈圖、本科時間全都沒變」的假象。 */
+let LAST_DEL=null;   /* {items:[...], idxs:[...]} 供復原 */
+
+function delSession(i){
+  const it=DB.sess[i];
+  if(!it){console.warn('delSession: 找不到索引',i);return}
+  const sub=subjById(it.s);
+  if(!confirm(
+    `刪除此筆記錄？\n\n`+
+    `日期：${it.d}\n`+
+    `科目：${sub.name}\n`+
+    `時長：${fmtDur(it.dur)}\n`+
+    (it.note?`備註：${it.note}\n`:'')+
+    `\n「${sub.name}」的累計時間會同步扣減 ${fmtDur(it.dur)}。`
+  ))return;
+
+  DB.sess.splice(i,1);
+  /* 同步扣減該科累計時間，避免殘留或變成負數 */
+  const left=(DB.time[it.s]||0)-(it.dur||0);
+  if(left>0)DB.time[it.s]=left;
+  else delete DB.time[it.s];
+
+  LAST_DEL={items:[it],idxs:[i]};
+  save();renderH();renderHead();
+  hToast(`已刪除 ${sub.name} ${fmtDur(it.dur)}`,()=>undoDel());
+}
+
+function clearAllSess(){
+  if(!DB.sess.length)return;
+  LAST_DEL={items:[...DB.sess],idxs:DB.sess.map((_,i)=>i)};
+  const n=DB.sess.length;
+  DB.sess=[];
+  DB.time={};
+  save();renderH();renderHead();
+  hToast(`已清除 ${n} 筆記錄`,()=>undoDel());
+}
+
+function undoDel(){
+  if(!LAST_DEL)return;
+  const {items,idxs}=LAST_DEL;
+  /* 由小到大插回，確保多筆時順序正確 */
+  idxs.map((idx,k)=>({idx,item:items[k]}))
+      .sort((a,b)=>a.idx-b.idx)
+      .forEach(({idx,item})=>{
+        DB.sess.splice(Math.min(idx,DB.sess.length),0,item);
+        DB.time[item.s]=(DB.time[item.s]||0)+(item.dur||0);
+      });
+  LAST_DEL=null;
+  save();renderH();renderHead();
+  hToast(`已復原 ${items.length} 筆記錄`);
+}
+
+/* 輕提示（含復原按鈕） */
+let hToastT=null;
+function hToast(msg,onUndo){
+  const host=$('#pane-h');
+  if(!host)return;
+  const old=host.querySelector('.htoast');
+  if(old)old.remove();
+  const el=document.createElement('div');
+  el.className='htoast';
+  el.innerHTML=`<span>${esc(msg)}</span>`;
+  if(onUndo){
+    const b=document.createElement('button');
+    b.className='btn sm pri';b.textContent='復原';
+    b.onclick=()=>{onUndo();el.remove()};
+    el.appendChild(b);
+  }
+  host.insertBefore(el,host.firstChild);
+  if(hToastT)clearTimeout(hToastT);
+  hToastT=setTimeout(()=>{if(el.parentNode)el.remove()},6000);
 }
 function subjById(id){return SUBJECTS.find(s=>s.id===id)||{name:'（已移除科目）',color:'#94a3b8'}}
 function startTimer(sid){
