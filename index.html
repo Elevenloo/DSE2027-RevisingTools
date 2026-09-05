@@ -426,6 +426,68 @@ hr.sp{border:none;border-top:1px solid var(--bd);margin:17px 0}
 .kcaret.shut{transform:rotate(-90deg)}
 .kpq+.kcaret{margin-left:2px}
 
+/* ══ 歷屆試題 ══ */
+.ppyears{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.ppy{display:flex;flex-direction:column;align-items:center;gap:1px;
+  padding:8px 15px;border:1px solid var(--bd);border-radius:10px;background:var(--card);
+  cursor:pointer;transition:.13s;min-width:70px}
+.ppy:hover{border-color:var(--pr);background:#f8fafc}
+.ppy.on{background:var(--tx);color:#fff;border-color:var(--tx)}
+.ppy b{font-size:14.5px;font-weight:700}
+.ppy small{font-size:10.5px;color:var(--mu)}
+.ppy.on small{color:rgba(255,255,255,.75)}
+.ppnote{margin:12px 0;padding:11px 14px;background:#f0f9ff;border:1px solid #bae6fd;
+  border-radius:9px;font-size:13px;line-height:1.65;color:#0c4a6e}
+.ppnote.caution{background:#fffbeb;border-color:#fde68a;color:#92400e}
+.ppnote b{display:block;margin-bottom:4px}
+.pplist{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+.ppcard{border:1px solid var(--bd);border-radius:11px;padding:13px 15px;background:var(--card);
+  transition:.13s}
+.ppcard:hover{border-color:#cbd2dc}
+.ppcard.done{background:#f0fdf4;border-color:#86efac}
+.ppc-h{display:flex;align-items:center;gap:11px}
+.ppc-h input[type=checkbox]{width:17px;height:17px;accent-color:var(--ok);cursor:pointer}
+.ppc-t{flex:1;display:flex;flex-direction:column;gap:2px;min-width:0}
+.ppc-t b{font-size:14.5px}
+.ppc-m{font-size:11.5px;color:var(--mu)}
+.ppc-badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:6px;
+  background:#f1f5f9;color:#64748b;flex:0 0 auto}
+.ppcard.done .ppc-badge{background:#dcfce7;color:#15803d}
+.ppc-d{font-size:12.5px;color:var(--mu);line-height:1.6;margin:7px 0 9px 28px}
+.ppc-rec{display:flex;gap:10px;flex-wrap:wrap;margin-left:28px}
+.ppc-rec label{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--mu)}
+.ppc-rec .inp{padding:4px 8px;font-size:12.5px;min-width:96px}
+.ppc-rec .inp.sm2{width:96px}
+.tcard.link{display:block;text-decoration:none;color:inherit;cursor:pointer}
+.tcard.link:hover{border-color:var(--pr);transform:translateY(-2px)}
+.ppc{background:#fef2f2;border-color:#fecaca;color:#991b1b;font-size:12.5px;line-height:1.7}
+.ppc a{color:#b91c1c;font-weight:600}
+.warn{color:var(--er)}
+
+/* ══ PDF 匯入 ══ */
+.pfbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:12px 0 8px}
+.pfhint{font-size:12px;color:var(--mu);margin-bottom:9px}
+.pfstage{position:relative;display:inline-block;max-width:100%;
+  border:1px solid var(--bd);border-radius:9px;overflow:auto;background:#f8fafc;
+  max-height:56vh;user-select:none}
+.pfstage canvas{display:block;max-width:100%;height:auto}
+.pfbox{position:absolute;border:2px solid var(--pr);background:rgba(37,99,235,.09);
+  border-radius:4px;pointer-events:auto}
+.pfbox.ghost{pointer-events:none;border-style:dashed;background:rgba(37,99,235,.06)}
+.pfbox span{position:absolute;left:-2px;top:-19px;background:var(--pr);color:#fff;
+  font-size:11px;font-weight:700;padding:1px 7px;border-radius:4px 4px 0 0}
+.pfbox button{position:absolute;right:-9px;top:-11px;width:20px;height:20px;border-radius:50%;
+  border:0;background:var(--er);color:#fff;font-size:13px;line-height:1;cursor:pointer}
+.pfrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px}
+.pfrow .sel{font-size:12.5px;padding:4px 8px}
+
+@media(max-width:760px){
+  .ppyears{gap:6px}
+  .ppy{padding:7px 11px;min-width:60px}
+  .ppc-rec{margin-left:0}
+  .ppc-d{margin-left:0}
+}
+
 /* ══ 側邊欄：科目 + 年級 ══ */
 .burger{display:none;font-size:19px;line-height:1}
 .scrim{position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:80;
@@ -527,6 +589,71 @@ body.pin .burger{display:none}
 /* 知識點頁的練習入口 */
 .kpq{margin-left:auto;font-size:11.5px !important;padding:2px 9px !important}
 .kgh{display:flex;align-items:center;gap:9px}
+
+/* ══ 智能題型分析 ══ */
+.btn.sm.ai{background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;border-color:#6d28d9}
+.btn.sm.ai:hover{filter:brightness(1.08)}
+.aibox{margin-top:11px;border:1px solid #ddd6fe;border-radius:11px;overflow:hidden;
+  background:#fafafeff;font-size:13px}
+.aibox.hi{border-color:#86efac;background:#f0fdf4}
+.aibox.mid{border-color:#fcd34d;background:#fffbeb}
+.aibox.lo {border-color:#fca5a5;background:#fef2f2}
+.aibox.err{border-color:#fca5a5;background:#fef2f2;padding:11px 13px;color:#991b1b}
+.aihd{display:flex;align-items:center;gap:11px;padding:11px 13px;position:relative;
+  flex-wrap:wrap}
+.aiic{font-size:22px;flex:0 0 auto}
+.ait{flex:1;min-width:150px}
+.ait b{font-size:14.5px;display:block}
+.aimeta{font-size:11.5px;color:var(--mu);margin-top:2px}
+.aimeta b{font-size:11.5px}
+.aibar{width:100%;height:5px;background:#e5e7eb;border-radius:3px;overflow:hidden;margin-top:8px}
+.aibar i{display:block;height:100%;border-radius:3px;
+  background:linear-gradient(90deg,#22c55e,#16a34a);transition:width .3s}
+.aibox.mid .aibar i{background:linear-gradient(90deg,#f59e0b,#d97706)}
+.aibox.lo  .aibar i{background:linear-gradient(90deg,#ef4444,#dc2626)}
+.airz{padding:0 13px 10px}
+.airz b{font-size:11.5px;color:var(--mu);letter-spacing:.4px;display:block;margin-bottom:5px}
+.airz ul{margin:0;padding-left:19px}
+.airz li{font-size:12.5px;color:#475569;line-height:1.7}
+.aiopts{padding:0 13px 10px}
+.aiopts b{font-size:11.5px;color:var(--mu);letter-spacing:.4px;display:block;margin-bottom:6px}
+.aio{display:flex;gap:8px;padding:5px 9px;background:#fff;border:1px solid #e5e7eb;
+  border-radius:7px;margin-bottom:4px;font-size:12.5px;line-height:1.55}
+.aio .k{flex:0 0 18px;font-weight:700;color:var(--pr)}
+.aihint{padding:9px 13px;background:rgba(255,255,255,.72);border-top:1px dashed #d8d3f0;
+  font-size:12px;color:#5b21b6;line-height:1.6}
+.aiact{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:10px 13px;
+  border-top:1px solid #e5e7eb;background:rgba(255,255,255,.6)}
+.aiact .sel{font-size:12.5px;padding:4px 8px}
+.aitoast{margin-top:8px;padding:7px 12px;background:#1e293b;color:#fff;border-radius:8px;
+  font-size:12.5px;animation:aiIn .25s ease}
+@keyframes aiIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
+
+/* ══ 填空題 ══ */
+.qtf{font-size:12px;font-weight:700;color:var(--pr);background:#eff6ff;
+  padding:2px 9px;border-radius:5px;letter-spacing:.5px}
+.fillq{font-size:14px;line-height:2.1}
+.fin{display:inline-block;min-width:92px;padding:3px 9px;margin:0 3px;
+  border:0;border-bottom:2px solid var(--pr);background:#eff6ff;
+  font-size:14px;font-family:inherit;text-align:center;
+  border-radius:5px 5px 0 0;transition:.14s}
+.fin:focus{outline:0;background:#dbeafe;border-bottom-color:#1d4ed8}
+.fin.ok{background:#dcfce7;border-bottom-color:#16a34a;color:#15803d;font-weight:600}
+.fin.no{background:#fee2e2;border-bottom-color:#dc2626;color:#b91c1c}
+.fillsep{color:var(--mu);font-weight:700;margin:0 3px}
+.fillres:not(:empty){margin-top:9px}
+.frbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:8px 12px;
+  background:#fef2f2;border:1px solid #fecaca;border-radius:8px;font-size:12.5px}
+.frbar.all{background:#f0fdf4;border-color:#86efac}
+.frn{font-weight:700;color:var(--er)}
+.frbar.all .frn{color:#15803d}
+.frd{color:#991b1b;background:rgba(255,255,255,.7);padding:2px 8px;border-radius:5px}
+
+@media(max-width:520px){
+  .fin{min-width:70px;font-size:13px}
+  .aiact{flex-direction:column;align-items:stretch}
+  .aiact .sel{width:100%}
+}
 
 /* ══ 練習題 · 知識點分組 ══ */
 .segsm{display:inline-flex;border:1px solid #d7dce5;border-radius:8px;overflow:hidden}
@@ -642,6 +769,7 @@ body,.qcard,.ans,.ex{font-variant-numeric:normal}
   <div class="pane" id="pane-k"></div>
   <div class="pane" id="pane-q"></div>
   <div class="pane" id="pane-t"></div>
+  <div class="pane" id="pane-p"></div>
   <div class="pane" id="pane-h"></div>
 </main>
 
@@ -1980,6 +2108,425 @@ const ORAL_YEARS = [...new Set(
 /* 考試說明：2020–2022 年口試取消 */
 const ORAL_NO_EXAM = [2020,2021,2022];
 /* ════════════════════════════════════════════════════════════
+   歷屆試題（Past Papers）
+   ──────────────────────────────────────────────────────────
+   重要：DSE 試題版權屬香港考試及評核局（HKEAA）所有。
+   考評局明確規定：
+     · 未得書面同意不得複製、儲存於可提取系統、廣播或傳遞
+     · 不得轉載整份試卷
+     · 不得就所引用試題附上標準答案
+     · 不得用於任何人工智能或機器學習模型／平台／工具
+   因此本頁【不內置任何真題原文】，只提供：
+     1. 各年各卷的結構與操練追蹤（記錄你自己買來的卷子做到哪）
+     2. 考評局官方資源的直達連結（網上書店、考生表現樣本、版權申請）
+     3. 由你自行匯入已購買 PDF 的入口（內容只存你自己的瀏覽器）
+   ════════════════════════════════════════════════════════════ */
+
+/* 可操練的年份（新→舊）。2027 是應屆，尚未開考，故不列入 */
+const PP_YEARS=[2026,2025,2024,2023,2022,2021,2020];
+
+/* 各年特殊情況：影響卷別結構，備考時要知道 */
+const PP_NOTE={
+ 2026:{t:'2026',lv:'可購買',
+   d:'最新一份已舉辦的文憑試。試題專輯通常於放榜後數月內出版，若書店尚未上架請稍候。'},
+ 2025:{t:'2025',lv:'可購買',
+   d:'書店已上架。本年各卷結構穩定，是最貼近 2027 應考形式的一份。'},
+ 2024:{t:'2024',lv:'可購買',
+   d:'★ 核心科目優化方案自此年生效：中文科說話卷改動、公民與社會發展科取代通識、應用學習科調整。操練本年起的核心科最具參考價值。'},
+ 2023:{t:'2023',lv:'可購買',
+   d:'優化方案前最後一份核心科試卷。可與 2024 對照，看出題形式變化。'},
+ 2022:{t:'2022',lv:'可購買 · 半價',
+   d:'考評局網上書店此年試題專輯現享五折優惠，性價比最高。'},
+ 2021:{t:'2021',lv:'可購買',
+   d:'⚠ 疫情年：英文科口試（Paper 4）取消，部分科目卷別與作答時間有臨時調整，操練時勿直接套用往年的時間分配。'},
+ 2020:{t:'2020',lv:'可購買',
+   d:'⚠ 疫情年：英文科口試取消、中文科說話卷取消，卷別結構與常態不同，宜作參考而非模擬考。'}
+};
+
+/* 考評局官方資源（皆為公開、穩定的網址） */
+const HKEAA={
+  store:'https://online.hkeaa.edu.hk/Bookstore/',
+  list:'https://www.hkeaa.edu.hk/tc/Resources/publications/list_of_publications/hkdse_erqp_pub/',
+  pub :'https://www.hkeaa.edu.hk/tc/Resources/publications/',
+  perm:'https://www.hkeaa.edu.hk/tc/resources/publications/qps/',
+  lic :'https://www.hkeaa.edu.hk/tc/resources/publications/licence/',
+  copy:'https://www.hkeaa.edu.hk/tc/resources/publications/copyright/',
+  info:'https://www.hkeaa.edu.hk/tc/hkdse/assessment/subject_information/'
+};
+
+/* 操練記錄：DB.pp['math|2024|0'] = {done:1, score:'', time:'', note:''} */
+function ppKey(sid,year,pi){return sid+'|'+year+'|'+pi}
+function ppGet(k){return DB.pp&&DB.pp[k]||{}}
+function ppSet(k,v){if(!DB.pp)DB.pp={};if(v)DB.pp[k]=v;else delete DB.pp[k];save()}
+
+function ppStats(sid){
+  let done=0,tot=0;
+  PP_YEARS.forEach(y=>{
+    (subjById(sid).papers||[]).forEach((_,pi)=>{
+      tot++;
+      if(ppGet(ppKey(sid,y,pi)).done)done++;
+    });
+  });
+  return{done,tot,pct:tot?Math.round(done/tot*100):0};
+}
+
+function renderP(){
+  const s=subj(),p=$('#pane-p');
+  if(!DB.ppf)DB.ppf={year:PP_YEARS[0]};
+  const year=DB.ppf.year;
+  const note=PP_NOTE[year]||{};
+  const papers=s.papers||[];
+  const st=ppStats(s.id);
+
+  p.innerHTML=`
+   <div class="sect">
+    <h2>歷屆試題 · ${esc(s.name)}</h2>
+    <div class="d">記錄你自己操練的進度。<b class="warn">本頁不內置真題原文</b>——DSE 試題版權屬考評局，須另行購買或經學校申請使用。</div>
+
+    <div class="ppyears">
+      ${PP_YEARS.map(y=>{
+        const n=(s.papers||[]).filter((_,pi)=>ppGet(ppKey(s.id,y,pi)).done).length;
+        return `<button class="ppy ${y===year?'on':''}" data-py="${y}">
+          <b>${y}</b><small>${n}/${papers.length}</small></button>`;
+      }).join('')}
+    </div>
+
+    <div class="ppnote ${year<=2021?'caution':''}">
+      <b>${esc(note.t||year)} · ${esc(note.lv||'')}</b>
+      <div>${esc(note.d||'')}</div>
+    </div>
+   </div>
+
+   <div class="sect">
+    <h2>${year} 年卷別</h2>
+    <div class="d">勾選表示已操練，可記錄得分與用時，數據存在你自己的瀏覽器。</div>
+    <div class="pplist">
+      ${papers.map((pp,pi)=>{
+        const k=ppKey(s.id,year,pi),r=ppGet(k);
+        return `<div class="ppcard ${r.done?'done':''}">
+          <div class="ppc-h">
+            <input type="checkbox" data-ppd="${k}" ${r.done?'checked':''}>
+            <div class="ppc-t">
+              <b>${esc(pp.n)}</b>
+              <span class="ppc-m">${esc(pp.w||'')} · ${esc(pp.t||'')}</span>
+            </div>
+            <span class="ppc-badge">${r.done?'已操練':'未操練'}</span>
+          </div>
+          <div class="ppc-d">${esc(pp.d||'')}</div>
+          <div class="ppc-rec">
+            <label>得分 <input class="inp sm2" data-pps="${k}" value="${esc(r.score||'')}" placeholder="例：78%"></label>
+            <label>用時 <input class="inp sm2" data-ppt="${k}" value="${esc(r.time||'')}" placeholder="例：85 分鐘"></label>
+            <label>備註 <input class="inp" data-ppn="${k}" value="${esc(r.note||'')}" placeholder="例：卷二長答失分多"></label>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+    ${papers.length?'':'<div class="empty">本科目尚無卷別資料。</div>'}
+   </div>
+
+   <div class="sect">
+    <h2>官方資源</h2>
+    <div class="d">以下皆為考評局官方網址。試題專輯需購買；考生表現樣本與考試報告可免費查閱。</div>
+    <div class="tgrid">
+      <a class="tcard link" href="${HKEAA.store}" target="_blank" rel="noopener">
+        <span class="ic">🛒</span><h4>考評局網上書店</h4>
+        <p>購買各年《試題專輯》（含評卷參考與考生表現評論）。單科約 HK$61–114，2022 年份五折。</p></a>
+      <a class="tcard link" href="${HKEAA.list}" target="_blank" rel="noopener">
+        <span class="ic">📚</span><h4>試題專輯目錄</h4>
+        <p>按年份列出各科試題專輯，可查售價與編號（PLU）。</p></a>
+      <a class="tcard link" href="${HKEAA.info}" target="_blank" rel="noopener">
+        <span class="ic">📋</span><h4>科目資訊</h4>
+        <p>各科評核大綱、考生表現樣本（含各等級真實答卷與評語，免費）。</p></a>
+      <a class="tcard link" href="${HKEAA.lic}" target="_blank" rel="noopener">
+        <span class="ic">🏫</span><h4>學校使用牌照</h4>
+        <p>學校可申請牌照複製試題作教學用途（2026/27 學年 HK$5,490 起）。</p></a>
+    </div>
+   </div>
+
+   <div class="sect">
+    <h2>把買來的 PDF 匯入本平台</h2>
+    <div class="d">購買試題專輯 PDF 後，可在此切題、OCR 轉文字，並按知識點歸類。
+      <b class="warn">匯入的內容只儲存在你自己的瀏覽器，不會上傳，也不會納入分享版。</b></div>
+    <div class="qtools">
+      <button class="btn pri" id="ppImport">📥 匯入 PDF 並切題</button>
+      <button class="btn" id="ppMine">我的匯入題目（${(DB.custom||[]).filter(q=>q.from==='pp').length}）</button>
+    </div>
+   </div>
+
+   <div class="sect ppc">
+    <b>⚠ 版權提示</b>
+    <div>香港中學文憑考試試題的版權屬香港考試及評核局所有。除《版權條例》允許的豁免外，
+    任何人未經考評局書面同意，不得以任何形式複製、儲存於可提取系統、廣播或傳遞。
+    考評局並明確規定其出版物不得用於任何人工智能或機器學習模型、平台、軟件、系統或工具。</div>
+    <div style="margin-top:8px">
+      學校使用請申請
+      <a href="${HKEAA.lic}" target="_blank" rel="noopener">學校牌照</a>；
+      出版社／機構轉載請見
+      <a href="${HKEAA.perm}" target="_blank" rel="noopener">申請轉載試題事宜</a>。
+      個人考生購買試題專輯自行練習，屬最簡便合規的做法。
+    </div>
+   </div>`;
+
+  /* 年份切換 */
+  $$('#pane-p [data-py]').forEach(b=>b.onclick=()=>{DB.ppf.year=+b.dataset.py;save();renderP()});
+  /* 操練勾選 */
+  $$('#pane-p [data-ppd]').forEach(cb=>cb.onchange=e=>{
+    const k=e.target.dataset.ppd,r=ppGet(k);
+    r.done=e.target.checked?1:0;
+    ppSet(k,r);renderP();
+  });
+  /* 得分 / 用時 / 備註 */
+  ['pps','ppt','ppn'].forEach((f,fi)=>{
+    const key=['score','time','note'][fi];
+    $$('#pane-p [data-'+f+']').forEach(inp=>inp.oninput=e=>{
+      const k=e.target.dataset[f],r=ppGet(k);
+      r[key]=e.target.value;
+      r.done=1;
+      ppSet(k,r);
+    });
+  });
+  const imp=$('#ppImport');
+  if(imp)imp.onclick=()=>openPDFImport();
+  const mine=$('#ppMine');
+  if(mine)mine.onclick=()=>{qFilter='mine';qGroupBy='kp';STATE.tab='q';renderTabs();renderAll()};
+}
+
+/* ──────────────────────────────────────────────────────────
+   PDF 匯入：把購買的試題專輯切成一題一題
+   流程：選檔 → PDF.js 逐頁渲染 → 框選題目區域 → OCR → 存入自訂題庫
+   內容只進 localStorage，不上传，也不會進分享版。
+   ────────────────────────────────────────────────────────── */
+let PDFIMP={pages:[],boxes:[],cur:0,doc:null,file:null};
+
+function loadPDFjs(){
+  return new Promise((res,rej)=>{
+    if(window.pdfjsLib){res(window.pdfjsLib);return}
+    const s=document.createElement('script');
+    s.src='https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js';
+    s.onload=()=>{
+      if(!window.pdfjsLib){rej(new Error('no pdfjs'));return}
+      try{window.pdfjsLib.GlobalWorkerOptions.workerSrc=
+        'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js'}catch(e){}
+      res(window.pdfjsLib);
+    };
+    s.onerror=()=>rej(new Error('network'));
+    document.head.appendChild(s);
+    setTimeout(()=>{if(!window.pdfjsLib)rej(new Error('timeout'))},25000);
+  });
+}
+
+function openPDFImport(){
+  PDFIMP={pages:[],boxes:[],cur:0,doc:null,file:null};
+  openModal('📥 匯入 PDF 並切題',`
+    <div class="pdfimp">
+      <div class="ocrbox">
+        <div class="t">⚠ 請確認版權</div>
+        僅匯入你已購買、或學校已取得考評局牌照的試題。
+        <b>匯入內容只存在你自己的瀏覽器</b>，不會上傳，也不會納入分享版。
+      </div>
+      <div id="pfDrop" class="drop">
+        <div class="dz">
+          <b>把 PDF 拖到這裡</b>
+          <span>或按此選擇檔案（需連網載入 PDF 引擎，約 1 MB）</span>
+        </div>
+        <input type="file" id="pfFile" accept="application/pdf" hidden>
+      </div>
+      <div id="pfStat" class="fnote"></div>
+      <div id="pfWork" style="display:none">
+        <div class="pfbar">
+          <button class="btn sm" id="pfPrev">← 上一頁</button>
+          <span id="pfPage" class="fnote">—</span>
+          <button class="btn sm" id="pfNext">下一頁 →</button>
+          <button class="btn sm" id="pfAuto">🔍 自動偵測題目區塊</button>
+          <button class="btn sm" id="pfClear">清除框選</button>
+        </div>
+        <div class="pfhint">在頁面上拖曳滑鼠框選一題；可連續框選多題。完成後按下方「建立題目」。</div>
+        <div class="pfstage"><canvas id="pfCv"></canvas><div id="pfBoxes"></div></div>
+        <div class="pfrow">
+          <span class="fnote">已框選 <b id="pfN">0</b> 題</span>
+          <span class="fnote">科目
+            <select class="sel" id="pfS">${SUBJECTS.map(x=>
+              `<option value="${x.id}" ${x.id===subj().id?'selected':''}>${esc(x.name)}</option>`).join('')}</select>
+          </span>
+          <label class="fnote"><input type="checkbox" id="pfOcr" checked> OCR 轉文字</label>
+          <button class="btn pri" id="pfGo">建立題目</button>
+        </div>
+      </div>
+    </div>`,()=>{
+
+    const drop=$('#pfDrop'),file=$('#pfFile'),stat=$('#pfStat');
+    drop.onclick=()=>file.click();
+    file.onchange=e=>{if(e.target.files[0])handle(e.target.files[0])};
+    drop.ondragover=e=>{e.preventDefault();drop.classList.add('over')};
+    drop.ondragleave=()=>drop.classList.remove('over');
+    drop.ondrop=e=>{
+      e.preventDefault();drop.classList.remove('over');
+      const f=e.dataTransfer.files[0];
+      if(f&&/pdf/i.test(f.name))handle(f);
+      else alert('請選擇 PDF 檔案');
+    };
+
+    async function handle(f){
+      PDFIMP.file=f;
+      stat.textContent='正在載入 PDF 引擎…';
+      try{
+        const lib=await loadPDFjs();
+        stat.textContent='正在讀取 '+f.name+' …';
+        const buf=await f.arrayBuffer();
+        const doc=await lib.getDocument({data:buf}).promise;
+        PDFIMP.doc=doc;
+        PDFIMP.pages=[];PDFIMP.boxes=[];
+        for(let i=1;i<=doc.numPages;i++){
+          stat.textContent=`正在渲染第 ${i} / ${doc.numPages} 頁…`;
+          const page=await doc.getPage(i);
+          const vp=page.getViewport({scale:1.6});
+          const cv=document.createElement('canvas');
+          cv.width=vp.width;cv.height=vp.height;
+          await page.render({canvasContext:cv.getContext('2d'),viewport:vp}).promise;
+          PDFIMP.pages.push(cv);
+        }
+        $('#pfWork').style.display='';
+        stat.textContent=`已載入 ${f.name}（共 ${PDFIMP.pages.length} 頁）`;
+        PDFIMP.cur=0;drawPage();
+      }catch(err){
+        stat.innerHTML='<b style="color:var(--er)">載入失敗：'+esc(err.message)+'</b><br>'+
+          '若無法連網載入 PDF 引擎，請改用「新增題目」直接上傳題目截圖，功能相同。';
+      }
+    }
+
+    function drawPage(){
+      const cv=$('#pfCv');if(!cv||!PDFIMP.pages.length)return;
+      const src=PDFIMP.pages[PDFIMP.cur];
+      cv.width=src.width;cv.height=src.height;
+      cv.getContext('2d').drawImage(src,0,0);
+      $('#pfPage').textContent=`第 ${PDFIMP.cur+1} / ${PDFIMP.pages.length} 頁`;
+      renderBoxes();
+    }
+    function renderBoxes(){
+      const host=$('#pfBoxes');if(!host)return;
+      host.innerHTML=PDFIMP.boxes.filter(b=>b.p===PDFIMP.cur).map((b,i)=>
+        `<div class="pfbox" style="left:${b.x}px;top:${b.y}px;width:${b.w}px;height:${b.h}px">
+          <span>${i+1}</span>
+          <button data-rm="${i}">×</button></div>`).join('');
+      host.querySelectorAll('[data-rm]').forEach(b=>b.onclick=e=>{
+        e.stopPropagation();
+        const idx=+b.dataset.rm;
+        const list=PDFIMP.boxes.filter(x=>x.p===PDFIMP.cur);
+        PDFIMP.boxes.splice(PDFIMP.boxes.indexOf(list[idx]),1);
+        renderBoxes();updN();
+      });
+      $('#pfN').textContent=PDFIMP.boxes.length;
+    }
+    function updN(){$('#pfN').textContent=PDFIMP.boxes.length}
+
+    /* 拖曳框選 */
+    const st=$('.pfstage');
+    if(st){
+      let sx=0,sy=0,drawing=false,ghost=null;
+      st.onmousedown=e=>{
+        if(e.target.tagName==='BUTTON')return;
+        const r=st.getBoundingClientRect();
+        const cv=$('#pfCv');const scale=cv.width/cv.offsetWidth;
+        sx=(e.clientX-r.left)*scale;sy=(e.clientY-r.top)*scale;
+        drawing=true;ghost=document.createElement('div');
+        ghost.className='pfbox ghost';
+        st.appendChild(ghost);
+      };
+      st.onmousemove=e=>{
+        if(!drawing||!ghost)return;
+        const r=st.getBoundingClientRect();
+        const cv=$('#pfCv');const scale=cv.width/cv.offsetWidth;
+        const x=(e.clientX-r.left)*scale,y=(e.clientY-r.top)*scale;
+        /* 顯示層用 CSS 像素，故換算回顯示比例 */
+        const disp=1/scale;
+        ghost.style.left=Math.min(sx,x)*disp+'px';
+        ghost.style.top =Math.min(sy,y)*disp+'px';
+        ghost.style.width =Math.abs(x-sx)*disp+'px';
+        ghost.style.height=Math.abs(y-sy)*disp+'px';
+      };
+      st.onmouseup=e=>{
+        if(!drawing)return;
+        drawing=false;
+        if(ghost){const w=parseFloat(ghost.style.width),h=parseFloat(ghost.style.height);
+          if(w>28&&h>22){
+            PDFIMP.boxes.push({p:PDFIMP.cur,
+              x:Math.round(parseFloat(ghost.style.left)*(($('#pfCv').width)/$('#pfCv').offsetWidth)),
+              y:Math.round(parseFloat(ghost.style.top )*(($('#pfCv').height)/$('#pfCv').offsetHeight)),
+              w:Math.round(w*(($('#pfCv').width)/$('#pfCv').offsetWidth)),
+              h:Math.round(h*(($('#pfCv').height)/$('#pfCv').offsetHeight))});
+          }
+          ghost.remove();ghost=null;
+        }
+        renderBoxes();
+      };
+    }
+
+    /* 自動偵測：依「有深色內容的列」分群，空白帶視為題目分隔 */
+    $('#pfAuto').onclick=()=>{
+      const cv=PDFIMP.pages[PDFIMP.cur];if(!cv)return;
+      const ctx=cv.getContext('2d');
+      const d=ctx.getImageData(0,0,cv.width,cv.height).data;
+      const rows=[];
+      for(let y=0;y<cv.height;y++){
+        let dark=0;
+        for(let x=0;x<cv.width;x+=3){
+          const i=(y*cv.width+x)*4;
+          if(d[i]<140&&d[i+1]<140&&d[i+2]<140)dark++;
+        }
+        rows.push(dark>2);
+      }
+      /* 連續空白超過 26 列 → 分隔 */
+      const blocks=[];let start=-1,gap=0;
+      rows.forEach((on,y)=>{
+        if(on){if(start<0)start=y;gap=0}
+        else if(start>=0){gap++;if(gap>26){if(y-gap-start>34)blocks.push([start,y-gap]);start=-1;gap=0}}
+      });
+      if(start>=0)blocks.push([start,rows.length]);
+      const margin=Math.round(cv.width*0.06);
+      blocks.forEach(([a,b])=>{
+        PDFIMP.boxes.push({p:PDFIMP.cur,x:margin,y:a,
+          w:cv.width-margin*2,h:b-a});
+      });
+      renderBoxes();
+      $('#pfStat').textContent=`在第 ${PDFIMP.cur+1} 頁偵測到 ${blocks.length} 個題目區塊，可手動增刪調整。`;
+    };
+    $('#pfClear').onclick=()=>{PDFIMP.boxes=[];renderBoxes()};
+    $('#pfPrev').onclick=()=>{if(PDFIMP.cur>0){PDFIMP.cur--;drawPage()}};
+    $('#pfNext').onclick=()=>{if(PDFIMP.cur<PDFIMP.pages.length-1){PDFIMP.cur++;drawPage()}};
+
+    $('#pfGo').onclick=async()=>{
+      if(!PDFIMP.boxes.length){alert('請先框選題目區域');return}
+      const sid=$('#pfS').value,useOcr=$('#pfOcr').checked;
+      const stat2=$('#pfStat');let n=0;
+      for(const b of PDFIMP.boxes){
+        try{
+          const src=PDFIMP.pages[b.p];
+          const c2=document.createElement('canvas');
+          c2.width=b.w;c2.height=b.h;
+          c2.getContext('2d').drawImage(src,b.x,b.y,b.w,b.h,0,0,b.w,b.h);
+          const url=c2.toDataURL('image/png');
+          let txt='';
+          if(useOcr){
+            try{stat2.textContent=`OCR 處理中（${n+1}/${PDFIMP.boxes.length}）…`;
+              txt=await runOCR(url,'chi_tra+eng');
+            }catch(e){txt=''}
+          }
+          DB.custom=DB.custom||[];
+          DB.custom.push({id:uid(),s:sid,g:STATE.grade,p:'歷屆試題',k:'',
+            type:'short',q:txt||'（見題目圖）',ans:'',ex:'',
+            imgs:[url],graph:false,from:'pp',mine:true});
+          n++;
+        }catch(e){console.warn('PDF box failed',e)}
+      }
+      save();
+      stat2.innerHTML=`<b style="color:var(--ok)">已建立 ${n} 題</b>，可在練習題頁的「我的題目」找到，請記得指定知識點。`;
+      PDFIMP.boxes=[];
+      renderBoxes();
+      renderQ&&renderQ();
+    };
+  });
+}
+/* ════════════════════════════════════════════════════════════
    核心引擎：狀態管理 / 導航 / 知識點 / 練習 / 學習時間 / 倒數
    ════════════════════════════════════════════════════════════ */
 
@@ -2180,6 +2727,7 @@ function renderTabs(){
     ['k','📚 知識點'],
     ['q','✏️ 練習題'],
     ['t','🧪 工具與模擬'],
+    ['p','📄 歷屆試題'],
     ['h','📊 學習記錄']
   ];
   $('#tabs').innerHTML=tabs.map(([id,n])=>
@@ -2188,10 +2736,11 @@ function renderTabs(){
 }
 
 function renderAll(){
-  ['k','q','t','h'].forEach(t=>$('#pane-'+t).classList.toggle('on',STATE.tab===t));
+  ['k','q','t','p','h'].forEach(t=>$('#pane-'+t).classList.toggle('on',STATE.tab===t));
   if(STATE.tab==='k')renderK();
   if(STATE.tab==='q')renderQ();
   if(STATE.tab==='t')renderT();
+  if(STATE.tab==='p')renderP();
   if(STATE.tab==='h')renderH();
 }
 
@@ -2496,6 +3045,92 @@ function renderQ(){
   $('#qManage').onclick=openManager;
 }
 
+/* ══════════ 填空題輔助 ══════════ */
+/* 題目裡 ____ 的數量 */
+function fillCount(q){
+  if(!q)return 0;
+  const m=String(q).match(/____/g);
+  return m?m.length:0;
+}
+/* 已存答案 → 陣列（舊格式為字串時轉成長度 1 的陣列） */
+function fillAnswers(saved,n){
+  if(saved==null)return new Array(Math.max(n,0)).fill('');
+  if(Array.isArray(saved)){
+    const a=saved.slice(0,n);
+    while(a.length<n)a.push('');
+    return a;
+  }
+  const parts=String(saved).split('|');
+  const a=parts.slice(0,n);
+  while(a.length<n)a.push('');
+  return a;
+}
+/* 標準答案 → 陣列（用 | 分隔） */
+function fillStd(q){
+  if(!q)return [];
+  const raw=q.ansTxt!=null?q.ansTxt:q.ans;
+  if(raw==null||raw==='')return [];
+  return String(raw).split('|').map(x=>x.trim());
+}
+/* 模糊比對：去空白、大小寫、常見標點 */
+function fillEq(a,b){
+  const ra=String(a==null?'':a).trim(), rb=String(b==null?'':b).trim();
+  if(!ra||!rb)return false;
+  /* ① 純數字先比：100 與 100.0、0100 視為相同。
+        必須在清除標點之前做，否則小數點會被當標點清掉（100.0 → 1000）。 */
+  if(/^[+-]?\d*\.?\d+$/.test(ra)&&/^[+-]?\d*\.?\d+$/.test(rb)){
+    return parseFloat(ra)===parseFloat(rb);
+  }
+  /* ② 一般文字：去空白、大小寫、常見中英標點 */
+  const norm=x=>x.toLowerCase()
+    .replace(/\s+/g,'')
+    .replace(/[，,。．、；;：:！!？?「」『』（）()【】\[\]]/g,'');
+  const A=norm(ra),B=norm(rb);
+  if(!A||!B)return false;
+  if(A===B)return true;
+  /* ③ 一方包含另一方且長度差 ≤1：容忍 OCR 錯字與簡答小差異 */
+  if(A.includes(B)||B.includes(A))return Math.abs(A.length-B.length)<=1;
+  return false;
+}
+/* 批改：回傳 {n, got, right, detail:[{ok,std}]} 或 null */
+function fillResult(q,saved){
+  const n=fillCount(q.q);
+  if(!n)return null;
+  const std=fillStd(q);
+  if(!std.length)return null;
+  const got=fillAnswers(saved,n);
+  const detail=[];
+  let right=0;
+  for(let i=0;i<n;i++){
+    const ok=std[i]!=null&&fillEq(got[i],std[i]);
+    if(ok)right++;
+    detail.push({ok,std:std[i]||'',got:got[i]||''});
+  }
+  return{n,right,detail,all:right===n};
+}
+/* 渲染題幹：____ → 輸入框 */
+function fillRender(qtext,vals,res,qid){
+  const parts=String(qtext).split('____');
+  let html='';
+  parts.forEach((p,i)=>{
+    html+=tex2html(p);
+    if(i<parts.length-1){
+      const st=res&&res.detail&&res.detail[i];
+      const cls=st?(st.ok?'fin ok':'fin no'):'fin';
+      html+=`<input class="${cls}" data-fill="${qid}" data-fi="${i}"
+        value="${esc((vals&&vals[i])||'')}" placeholder="空 ${i+1}" autocomplete="off">`;
+    }
+  });
+  return html;
+}
+function fillResHTML(res){
+  if(!res)return'';
+  return `<div class="frbar ${res.all?'all':''}">
+    <span class="frn">${res.right} / ${res.n} 空正確</span>
+    ${res.detail.map((d,i)=>d.ok?'':`<span class="frd">第 ${i+1} 空：應為「${esc(d.std)}」</span>`).join('')}
+  </div>`;
+}
+
 function qHTML(q,i){
   const c=DB.custom.find(x=>x.id===q.id);
   const own=c?'<span class="owner mine">自訂</span>':'<span class="owner sys">題庫</span>';
@@ -2511,6 +3146,13 @@ function qHTML(q,i){
       }
       return `<div class="${cls}" data-q="${q.id}" data-o="${j}"><span class="k">${'ABCD'[j]}</span><span>${tex2html(o)}</span></div>`;
     }).join('')}</div>`;
+  }else if(q.type==='fill'){
+    /* 填空題：把 ____ 換成輸入框，逐空批改 */
+    const n=fillCount(q.q);
+    const arr=fillAnswers(DB.ans[q.id],n);
+    const res=fillResult(q,DB.ans[q.id]);
+    body=`<div class="fillq">${fillRender(q.q,arr,res,q.id)}</div>
+      <div class="fillres" id="fr-${q.id}">${res?fillResHTML(res):''}</div>`;
   }else{
     body=`<textarea class="ta" data-q="${q.id}" rows="3" placeholder="在此輸入你的答案…">${esc(DB.ans[q.id]||'')}</textarea>`;
   }
@@ -2519,7 +3161,7 @@ function qHTML(q,i){
   return `<div class="qcard" data-id="${q.id}">
     <div class="qh">
       <span class="qno">${i+1}</span>
-      <div class="qt">${tex2html(q.q)}</div>
+      <div class="qt">${q.type==='fill'?'<span class="qtf">填空題</span>':tex2html(q.q)}</div>
       ${own}
       <span class="star ${star?'on':''}" data-qs="${q.id}" title="標記">★</span>
       ${c?`<button class="btn sm" data-edit="${q.id}">編輯</button>`:''}
@@ -2527,16 +3169,16 @@ function qHTML(q,i){
     ${q.imgs&&q.imgs.length?`<div class="qimgs">${q.imgs.map(u=>`<img src="${u}" onclick="zoomImg('${u}')">`).join('')}</div>`:''}
     ${body}
     <div class="qact">
-      ${q.type==='mc'?`<button class="btn sm pri" data-chk="${q.id}">核對答案</button>`:''}
+      ${(q.type==='mc'||q.type==='fill')?`<button class="btn sm pri" data-chk="${q.id}">核對答案</button>`:''}
       ${hasAns?`<button class="btn sm" data-ans="${q.id}">查看答案與解析</button>`:''}
       ${q.graph?`<button class="btn sm" data-gr="${q.id}">🖊 圖形標註</button>`:''}
-      ${q.type==='mc'?`<button class="btn sm" data-clear="${q.id}">清除</button>`:''}
+      ${(q.type==='mc'||q.type==='fill')?`<button class="btn sm" data-clear="${q.id}">清除</button>`:''}
     </div>
     ${hasAns?`<div class="ans" id="ans-${q.id}">
       ${(q.ansTxt||(q.type==='mc'&&q.opts&&q.opts[q.ans]!=null)||q.ans!=null)?
         `<div class="tag">參考答案</div><div>${tex2html(
           q.ansTxt || (q.opts?String(q.opts[q.ans]):String(q.ans))
-        )}</div>`:''}
+        ).replace(/\|/g,' <span class="fillsep">|</span> ')}</div>`:''}
       ${q.ex?`<div class="ex"><b>解析：</b>${tex2html(q.ex)}</div>`:''}
     </div>`:''}
   </div>`;
@@ -2557,9 +3199,43 @@ function bindQ(){
       });
     }
   });
+  /* 填空題：逐空輸入 */
+  $$('#qlist [data-fill]').forEach(inp=>inp.oninput=()=>{
+    const qid=inp.dataset.fill;
+    const q=allQuestions(STATE.subject).find(x=>x.id===qid);
+    if(!q)return;
+    const n=fillCount(q.q);
+    const arr=fillAnswers(DB.ans[qid],n);
+    arr[+inp.dataset.fi]=inp.value;
+    /* 全空則清除記錄 */
+    DB.ans[qid]=arr.every(x=>!String(x).trim())?null:arr;
+    save();
+    /* 輸入時移除舊的批改標記 */
+    inp.classList.remove('ok','no');
+  });
   $$('#qlist [data-chk]').forEach(b=>b.onclick=()=>{
     const qid=b.dataset.chk;
     const q=allQuestions(STATE.subject).find(x=>x.id===qid);
+    if(!q)return;
+    /* 填空題：逐空比對 */
+    if(q.type==='fill'){
+      const n=fillCount(q.q);
+      const arr=fillAnswers(DB.ans[qid],n);
+      if(arr.every(x=>!String(x).trim())){alert('請先填寫答案');return}
+      if(!fillStd(q).length){alert('此題尚未設定參考答案，無法自動批改。\n請點「編輯」在參考答案欄用 | 分隔填入各空答案。');return}
+      const res=fillResult(q,arr);
+      /* 更新輸入框顏色 */
+      $$(`#qlist [data-fill="${qid}"]`).forEach((inp,i)=>{
+        inp.classList.remove('ok','no');
+        if(res&&res.detail[i])inp.classList.add(res.detail[i].ok?'ok':'no');
+      });
+      const host=$('#fr-'+qid);
+      if(host)host.innerHTML=fillResHTML(res);
+      b.textContent=res&&res.all?'✓ 全對':`✗ ${res.right}/${res.n}`;
+      b.classList.toggle('ok',!!(res&&res.all));
+      b.classList.toggle('dg',!(res&&res.all));
+      return;
+    }
     if(DB.ans[qid]==null){alert('請先選擇答案');return}
     $$(`#qlist .opt[data-q="${qid}"]`).forEach(x=>{
       x.classList.remove('right','wrong');
@@ -2577,6 +3253,15 @@ function bindQ(){
   });
   $$('#qlist [data-clear]').forEach(b=>b.onclick=()=>{
     const qid=b.dataset.clear;delete DB.ans[qid];save();renderQ();
+  });
+  /* 填空題：Enter 跳下一空 */
+  $$('#qlist [data-fill]').forEach(inp=>inp.onkeydown=e=>{
+    if(e.key!=='Enter')return;
+    e.preventDefault();
+    const qid=inp.dataset.fill;
+    const all=$$(`#qlist [data-fill="${qid}"]`);
+    const i=all.indexOf(inp);
+    if(i>=0&&i<all.length-1)all[i+1].focus();
   });
   $$('#qlist [data-gr]').forEach(b=>b.onclick=()=>openGraph(b.dataset.gr));
   $$('#qlist [data-edit]').forEach(b=>b.onclick=()=>openEditor(b.dataset.edit));
@@ -5212,9 +5897,12 @@ function openEditor(qid){
     <div class="edrow"><span class="lb">題型</span>
       <select class="sel" id="eT">
         <option value="mc" ${isMC?'selected':''}>多項選擇題（自動批改）</option>
+        <option value="fill" ${editing&&editing.type==='fill'?'selected':''}>填空題（逐空自動批改）</option>
         <option value="short" ${editing&&editing.type==='short'?'selected':''}>短答／結構題（手寫作答）</option>
         <option value="essay" ${editing&&editing.type==='essay'?'selected':''}>論述／長答題</option>
       </select></div>
+    <div class="fnote" id="eFillTip" style="margin:2px 0 0 92px;display:${editing&&editing.type==='fill'?'block':'none'}">
+      在題目中用 <b>____</b>（4 個底線）標示空位；參考答案用 <b>|</b> 分隔，例如「香港|1997」。</div>
   </div>
 
   <div class="edsec">
@@ -5245,9 +5933,11 @@ function openEditor(qid){
       <textarea class="ta" id="eOcrOut" placeholder="辨識結果會出現在這裡，可編輯後按「填入題目」"></textarea>
       <div class="ocrbar">
         <span class="st" id="eOcrSt"></span>
+        <button class="btn sm ai" id="eAi">✨ 智能分析題型</button>
         <button class="btn sm pri" id="eOcrFill">填入題目</button>
         <button class="btn sm" id="eOcrAppend">附加到題目</button>
       </div>
+      <div id="eAiBox"></div>
     </div>
   </div>
 
@@ -5306,12 +5996,18 @@ function openEditor(qid){
     sel.innerHTML=ED.opts.map((o,i)=>
       `<option value="${i}" ${String(cur)===String(i)?'selected':''}>${'ABCD'[i]||i+1}</option>`).join('');
   }
+  /* 讓智慧分析引擎（p7b.js）能重新繪製選項與答案下拉 */
+  if(typeof AI_HOOKS!=='undefined'){AI_HOOKS.renderOpts=renderOpts;AI_HOOKS.renderAns=renderAns}
+
   $('#eOptAdd').onclick=()=>{
     if(ED.opts.length>=6){alert('最多 6 個選項');return}
     ED.opts.push('');renderOpts();
   };
   $('#eT').onchange=e=>{
-    $('#eOptSec').style.display=e.target.value==='mc'?'block':'none';
+    const v=e.target.value;
+    $('#eOptSec').style.display=v==='mc'?'block':'none';
+    const tip=$('#eFillTip');
+    if(tip)tip.style.display=v==='fill'?'block':'none';
   };
 
   /* ── 知識點下拉：隨科目與年級連動 ── */
@@ -5396,11 +6092,87 @@ function openEditor(qid){
         out.push(t);
       }
       $('#eOcrOut').value=out.join('\n\n');
-      st.textContent='辨識完成。請檢查並修正錯字，然後按「填入題目」。';
+      st.textContent='辨識完成，正在分析題型…';
+      /* 自動跑一次智能分析 */
+      try{ renderAi(analyzeQuestion($('#eOcrOut').value)); }
+      catch(err){ renderAi(null,'分析失敗：'+(err.message||err)); }
+      st.textContent='完成。請檢查下方分析結果與辨識文字，修正後套用。';
     }catch(e){
       st.textContent='OCR 無法使用：'+(e.message||e)+'。請直接在題目欄手動輸入，或只保留圖片。';
     }
   };
+
+  /* ── 智能分析 ── */
+  function renderAi(a,errMsg){
+    const box=$('#eAiBox');
+    if(!box)return;
+    if(errMsg||!a){
+      box.innerHTML=`<div class="aibox err">${esc(errMsg||'無法分析')}</div>`;
+      return;
+    }
+    const lv=a.conf>=70?'hi':a.conf>=45?'mid':'lo';
+    const lvTxt=a.conf>=70?'高':a.conf>=45?'中':'低';
+    box.innerHTML=`
+      <div class="aibox ${lv}">
+        <div class="aihd">
+          <span class="aiic">${QT_ICON[a.type]||'❓'}</span>
+          <div class="ait">
+            <b>${esc(QT_NAME[a.type]||a.type)}</b>
+            <div class="aimeta">判斷信心 <b>${a.conf}%（${lvTxt}）</b>
+              ${a.mark?' · '+a.mark+' 分':''}
+              ${a.blanks?' · '+a.blanks+' 個空位':''}
+              ${a.opts&&a.opts.length?' · '+a.opts.length+' 個選項':''}
+              ${a.subs.length>1?' · 含子題 ('+a.subs.join(')(')+')':''}
+              ${a.math?' · 含數學式':''}
+            </div>
+          </div>
+          <div class="aibar"><i style="width:${a.conf}%"></i></div>
+        </div>
+        <div class="airz">
+          <b>判斷依據</b>
+          <ul>${a.reasons.map(r=>`<li>${esc(r)}</li>`).join('')}</ul>
+        </div>
+        ${a.opts&&a.opts.length?`<div class="aiopts">
+          <b>偵測到的選項</b>
+          ${a.opts.map(o=>`<div class="aio"><span class="k">${esc(o.k)}</span><span>${esc(o.v)}</span></div>`).join('')}
+        </div>`:''}
+        <div class="aihint">${esc(a.hint)}</div>
+        <div class="aiact">
+          <button class="btn sm pri" id="eAiApply">✓ 套用到題目</button>
+          <button class="btn sm" id="eAiStem">只套用題幹與題型</button>
+          <select class="sel" id="eAiType" style="width:auto">
+            ${Object.entries(QT_NAME).filter(([k])=>k!=='other').map(([k,n])=>
+              `<option value="${k}" ${k===a.type?'selected':''}>${n}</option>`).join('')}
+          </select>
+          <span class="fnote">可手動改為正確題型</span>
+        </div>
+      </div>`;
+    AI_LAST=a;
+    $('#eAiApply').onclick=()=>{applyAnalysis(a);aiToast('已套用：題型、題幹'
+      +(a.opts.length?'、'+a.opts.length+' 個選項':''))};
+    $('#eAiStem').onclick=()=>{
+      $('#eT').value=(a.type==='other')?'short':a.type;
+      $('#eT').dispatchEvent(new Event('change'));
+      $('#eQ').value=a.stem||a.raw;
+      aiToast('已套用題型與題幹');
+    };
+    $('#eAiType').onchange=e=>{a.type=e.target.value;renderAi(a)};
+  }
+  /* 手動觸發分析（OCR 失敗時，可自己貼文字後分析） */
+  $('#eAi').onclick=()=>{
+    const t=$('#eOcrOut').value.trim()||$('#eQ').value.trim();
+    if(!t){alert('請先進行 OCR 辨識，或在題目欄貼上題目文字');return}
+    try{renderAi(analyzeQuestion(t))}
+    catch(err){renderAi(null,'分析失敗：'+(err.message||err))}
+  };
+  function aiToast(msg){
+    const box=$('#eAiBox');
+    if(!box)return;
+    const el=document.createElement('div');
+    el.className='aitoast';el.textContent=msg;
+    box.appendChild(el);
+    setTimeout(()=>el.remove(),2600);
+  }
   $('#eOcrFill').onclick=()=>{$('#eQ').value=$('#eOcrOut').value.trim()};
   $('#eOcrAppend').onclick=()=>{
     const t=$('#eOcrOut').value.trim();
@@ -5659,13 +6431,21 @@ function openSettings(after){
 function buildShareHTML(){
   try{
     closeModal();
-    /* 清空已渲染內容，讓產出的檔案回到乾淨初始狀態（init 會重新渲染） */
-    ['k','q','t','h'].forEach(t=>{const e=$('#pane-'+t);if(e)e.innerHTML=''});
+    /* 清空已渲染內容，讓產出的檔案回到乾淨初始狀態。
+       記得要清空全部五個分頁（含 pane-p），否則分享版會帶著你當下的畫面。 */
+    ['k','q','t','p','h'].forEach(t=>{const e=$('#pane-'+t);if(e)e.innerHTML=''});
     const sh=$('#shead');if(sh)sh.innerHTML='';
     const nv=$('#subnav');if(nv)nv.innerHTML='';
+    const sb=$('#sideSubj');if(sb)sb.innerHTML='';
+    const ts=$('#tabs');if(ts)ts.innerHTML='';
+
+    /* ★ 版權保護：從 PDF 匯入的歷屆試題（from==='pp'）不打包進分享版。
+       這些是你自行購買、只供本人使用的材料，分享出去會違反考評局規定。 */
+    const shareCustom=(DB.custom||[]).filter(q=>q.from!=='pp');
+    const excluded=(DB.custom||[]).length-shareCustom.length;
 
     const seed={
-      custom:DB.custom||[],
+      custom:shareCustom,
       cards:DB.cards||{},
       set:{dseYear:DB.set.dseYear,examDate:DB.set.examDate},
       by:DB.set.roleName||'',
@@ -5678,12 +6458,22 @@ function buildShareHTML(){
     if(html.indexOf('</head>')<0){alert('頁面結構異常，無法產生分享版。');return}
     html=html.replace('</head>',inject+'\n</head>');
 
-    const n=(DB.custom||[]).length;
+    const n=shareCustom.length;
     const c=Object.values(DB.cards||{}).reduce((a,v)=>a+((v||[]).length),0);
     dl(new Blob([html],{type:'text/html;charset=utf-8'}),'DSE2027-分享版.html');
+
+    /* ★ 關鍵：清空後必須把自己這一頁重新畫回來。
+       過去少了這段，產生分享版後使用者的畫面會整片空白、
+       科目導航欄消失，必須重新載入才能繼續用。 */
+    try{
+      renderNav();renderHead();renderTabs();renderAll();
+      if(typeof renderCD==='function')renderCD();
+    }catch(e){console.warn('restore render failed',e)}
+
     setTimeout(()=>{
       alert('分享版網頁已產生！\n\n'+
         '已打包：'+n+' 條自訂題目、'+c+' 張閃卡\n'+
+        (excluded?'（另有 '+excluded+' 條匯入的歷屆試題因版權關係未打包）\n':'')+
         '（你的學習進度與計時記錄不會被打包）\n\n'+
         '下一步：\n'+
         '1. 開 https://app.netlify.com/drop\n'+
@@ -5783,6 +6573,356 @@ function init(){
 }
 
 document.addEventListener('DOMContentLoaded',init);
+/* ════════════════════════════════════════════════════════════
+   智能題目辨識引擎
+   ──────────────────────────────────────────────────────────
+   拍照 → OCR → 本引擎分析文字特徵 → 判斷題型並自動拆解
+   支援：多項選擇題 / 填空題 / 短答題 / 論述題 / 其他
+   ════════════════════════════════════════════════════════════ */
+
+/* ── 題型常數 ── */
+const QT={
+  MC   :'mc',     /* 多項選擇題 */
+  FILL :'fill',   /* 填空題 */
+  SHORT:'short',  /* 短答／結構題 */
+  ESSAY:'essay',  /* 論述／長答題 */
+  OTHER:'other'   /* 其他／未能判斷 */
+};
+const QT_NAME={
+  mc:'多項選擇題',fill:'填空題',short:'短答／結構題',
+  essay:'論述／長答題',other:'其他類型'
+};
+const QT_ICON={mc:'🔘',fill:'✏️',short:'📝',essay:'📄',other:'❓'};
+
+/* ── OCR 常見誤辨校正 ──
+   Tesseract 對選項字母、數字、符號的誤判有一定規律 */
+const OCR_FIX=[
+  /* 行首選項字母：mode='head' 表示只在行首套用，避免內文被改壞 */
+  [/^[\s]*[（(]\s*([A-F])\s*[)）]\s*[.。、:：]?\s*/,'$1. ','head'],
+  [/^[\s]*([A-F])\s*[.。、:：]\s*/i,'$1. ','head'],
+  /* 圈號 ①②③④ → A. B. C. D.（繁中卷常見） */
+  [/^[\s]*①[\s]*/,'A. ','head'],
+  [/^[\s]*②[\s]*/,'B. ','head'],
+  [/^[\s]*③[\s]*/,'C. ','head'],
+  [/^[\s]*④[\s]*/,'D. ','head'],
+  [/^[\s]*⑤[\s]*/,'E. ','head'],
+  [/^[\s]*⑥[\s]*/,'F. ','head'],
+  /* 底線統一為標準填空標記（全文套用） */
+  [/＿{2,}/g,'____','all'],
+  [/_{2,}/g,'____','all'],
+  [/－{3,}/g,'____','all'],
+  [/—{2,}/g,'____','all'],
+  [/–{2,}/g,'____','all'],
+  [/\.{4,}/g,'____','all']
+];
+
+/* ── 分數／題號特徵 ── */
+const RE_MARK=/[（(]\s*(\d{1,2})\s*(?:分|mark|marks|分數)\s*[)）]/i;
+const RE_MARK2=/\[\s*(\d{1,2})\s*(?:分|mark|marks)?\s*\]/i;
+const RE_SUB=/^[\s]*[（(]?\s*([a-d]|[ivx]{1,3})\s*[)）]\s*/i;
+
+/* ── 題型關鍵詞 ── */
+const KW={
+  /* 論述題：需要展開論證、篇幅長 */
+  essay:['試解釋','試說明','試論述','論述','評論','評估','評價','你是否同意','加以說明',
+    '加以論證','闡述','討論','分析','試評論','試以','探討','比較','評析',
+    'Discuss','Explain','Evaluate','To what extent','Do you agree','Assess',
+    'Comment on','Analyse','Analyze','Compare and contrast','Justify'],
+  /* 短答題：有明確答案、篇幅短 */
+  short:['求','計算','寫出','列舉','列出','指出','說明','解釋','完成','化簡','解',
+    '證明','描述','定義','分辨','辨別','簡述','概括',
+    'Find','Calculate','Write','List','State','Name','Solve','Simplify','Prove',
+    'Describe','Define','Identify','Give'],
+  /* 填空題 */
+  fill:['填上','填充','填入','完成下列句子','把答案寫在','空格','橫線上',
+    'Fill in','Complete the','Fill each blank']
+};
+
+/* ── 前置處理 ── */
+function ocrClean(t){
+  if(!t)return'';
+  let s=String(t)
+    .replace(/\r\n?/g,'\n')
+    .replace(/\u00a0/g,' ')      /* 不換行空格 */
+    .replace(/[ \t]+/g,' ');     /* 壓縮行內空白 */
+  /* 逐行校正：只對標記為 'head' 的規則做行首替換 */
+  s=s.split('\n').map(line=>{
+    let l=line.trim();
+    for(const [re,rep,mode] of OCR_FIX){
+      if(mode==='head')l=l.replace(re,rep);
+      else l=l.replace(re,rep);
+    }
+    return l;
+  }).join('\n');
+  /* 去掉多餘空行，但保留段落 */
+  return s.replace(/\n{3,}/g,'\n\n').trim();
+}
+
+/* ── 擷取選項 ──
+   回傳 {opts:[{k:'A',v:'...'}], startIdx: 選項起始行號 } */
+function extractOpts(lines){
+  /* 兩種排版：
+     ① 有括號：（A）恆溫 / (A) 恆溫 / (A). 恆溫 → 括號後標點可有可無
+     ② 無括號：A. 恆溫 / A、恆溫     → 必須有標點，否則「A 國」這類內文會誤判 */
+  /* 不加 /i：只認大寫 A–F。
+     DSE 選擇題選項一律大寫；小寫 (a)(b)(c) 是子題，若放寬會被誤判成選項。 */
+  const OPT_BRACKET=/^[\s]*[（(]\s*([A-F])\s*[)）]\s*[.。、:：]?\s*(.+)$/;
+  const OPT_PLAIN  =/^[\s]*([A-F])\s*[.。、:：]\s*(.+)$/;
+  const found=[];
+  let start=-1;
+  lines.forEach((l,i)=>{
+    const m=l.match(OPT_BRACKET)||l.match(OPT_PLAIN);
+    if(m){
+      const k=(m[1]||'').toUpperCase();
+      const v=(m[2]||'').trim();
+      if(!k||!v)return;
+      /* 必須是連續字母（A→B→C），且從 A 開頭，避免把 (a) 子題誤判為選項 */
+      if(found.length===0){
+        if(k!=='A')return;
+      }else if(k!==String.fromCharCode(found[found.length-1].k.charCodeAt(0)+1)){
+        return;
+      }
+      found.push({k,v,line:i});
+      if(start<0)start=i;
+    }
+  });
+  /* 至少 2 個選項才算選擇題；且必須是 A 開頭 */
+  if(found.length>=2&&found[0].k==='A')return{opts:found,start};
+  /* 嘗試第二種排版：選項用數字 1. 2. 3. 4. 且題目有「哪」字 */
+  const NUM_RE=/^[\s]*([1-4])\s*[.。、)）]\s*(.+)$/;
+  const nf=[];let ns=-1;
+  lines.forEach((l,i)=>{
+    const m=l.match(NUM_RE);
+    if(m&&(nf.length===0||+m[1]===nf.length+1)){
+      nf.push({k:'ABCD'[nf.length],v:m[2].trim(),line:i});
+      if(ns<0)ns=i;
+    }
+  });
+  if(nf.length>=3)return{opts:nf,start:ns,numeric:true};
+  return{opts:[],start:-1};
+}
+
+/* ── 偵測小寫子題格式 (a)(b)(c) ── */
+function hasLowerSubs(text){
+  const m=text.match(/[（(]\s*([a-f])\s*[)）]/g);
+  if(!m)return false;
+  /* 至少 2 個且為連續字母才算子題 */
+  const ks=m.map(x=>x.replace(/[（()]|\)/g,'').trim().toLowerCase());
+  let seq=1;
+  for(let i=1;i<ks.length;i++){
+    if(ks[i].charCodeAt(0)===ks[i-1].charCodeAt(0)+1)seq++;
+  }
+  return seq>=2;
+}
+
+/* ── 擷取填空空位 ── */
+function extractBlanks(text){
+  const m=text.match(/____/g);
+  return m?m.length:0;
+}
+
+/* ── 擷取分數 ── */
+function extractMark(text){
+  let m=text.match(RE_MARK)||text.match(RE_MARK2);
+  return m?parseInt(m[1],10):null;
+}
+
+/* ── 擷取子題 ── */
+function extractSubs(text){
+  const subs=[];
+  const re=/[\s(（]*([a-d])\s*[)）]\s*/gi;
+  let m;
+  while((m=re.exec(text))!==null){
+    const k=m[1].toLowerCase();
+    if(!subs.includes(k))subs.push(k);
+  }
+  /* 中文數字子題 */
+  if(/\(i{1,3}\)/i.test(text)){
+    ['i','ii','iii'].forEach(x=>{if(new RegExp('\\('+x+'\\)','i').test(text)&&!subs.includes(x))subs.push(x)});
+  }
+  return subs;
+}
+
+/* ── 偵測是否含數學式 ── */
+function detectMath(text){
+  const sig=[
+    /\$[^$]+\$/,                 /* LaTeX 行內 */
+    /\\(frac|sqrt|int|lim|sum|pi|theta|alpha|beta|times|div|pm)/i,
+    /\^{?\d?}?/,                 /* 上標 */
+    /[\u2080-\u2089\u2070-\u2079]/,      /* 上標下標（用轉義寫，避免字型缺字檢查誤判） */
+    /[∫∑√≤≥±×÷≠≈∞Δθαβπλμσ]/,
+    /\b\d+\s*[+\-×÷\/]\s*\d+\s*=/,
+    /[xyz]\s*[=><]\s*\d/
+  ];
+  return sig.some(r=>r.test(text));
+}
+
+/* ── 偵測語言 ── */
+function detectLang(text){
+  const cjk=(text.match(/[\u4e00-\u9fff]/g)||[]).length;
+  const latin=(text.match(/[A-Za-z]/g)||[]).length;
+  if(cjk>latin*1.5)return'chi';
+  if(latin>cjk*1.5)return'eng';
+  return'mix';
+}
+
+/* ══════════════════════════════════════════════════════════
+   主分析函式
+   輸入：OCR 原始文字
+   輸出：{type, conf, stem, opts, blanks, mark, subs, math, lang, reasons, hint}
+   ══════════════════════════════════════════════════════════ */
+function analyzeQuestion(raw){
+  const text=ocrClean(raw);
+  if(!text||text.length<4){
+    return{type:QT.OTHER,conf:0,stem:text||'',opts:[],blanks:0,mark:null,
+      subs:[],math:false,lang:'mix',reasons:['文字太少，無法判斷'],hint:'請重新拍攝或手動輸入題目。'};
+  }
+  const lines=text.split('\n').map(l=>l.trim()).filter(l=>l.length);
+  const reasons=[];
+  let score={mc:0,fill:0,short:0,essay:0};
+
+  /* ── 1. 選項偵測（最強信號） ── */
+  const {opts,start}=extractOpts(lines);
+  const hasQWord=/哪[一一個]?[項個種]?|下列|以下|何者|Which of the following|Which one/i.test(text);
+
+  if(opts.length>=2){
+    score.mc+=60;
+    reasons.push(`偵測到 ${opts.length} 個連續選項（${opts.map(o=>o.k).join('、')}）`);
+    if(hasQWord){score.mc+=20;reasons.push('題目含「下列／哪項」等選擇題引導詞')}
+    if(opts.length>=4){score.mc+=10;reasons.push('選項達 4 個，為標準選擇題格式')}
+  }else if(hasQWord){
+    score.mc+=15;
+    reasons.push('含選擇題引導詞，但未偵測到清楚選項（可能 OCR 漏辨）');
+  }
+
+  /* ── 2. 填空空位 ── */
+  const blanks=extractBlanks(text);
+  if(blanks>=1){
+    score.fill+=45+Math.min(blanks,4)*8;
+    reasons.push(`偵測到 ${blanks} 個填空空位`);
+  }
+  const fillKw=KW.fill.filter(k=>text.includes(k));
+  if(fillKw.length){
+    score.fill+=25;
+    reasons.push('含填空題關鍵詞：'+fillKw.slice(0,2).join('、'));
+  }
+
+  /* ── 3. 論述題關鍵詞 ── */
+  const essayKw=KW.essay.filter(k=>text.includes(k));
+  if(essayKw.length){
+    score.essay+=20+Math.min(essayKw.length,3)*15;
+    reasons.push('含論述題關鍵詞：'+essayKw.slice(0,3).join('、'));
+  }
+
+  /* ── 4. 短答題關鍵詞 ── */
+  const shortKw=KW.short.filter(k=>text.includes(k));
+  if(shortKw.length){
+    score.short+=15+Math.min(shortKw.length,3)*8;
+    reasons.push('含短答題關鍵詞：'+shortKw.slice(0,3).join('、'));
+  }
+
+  /* ── 5. 分數加權 ── */
+  const mark=extractMark(text);
+  if(mark!=null){
+    reasons.push('分數標記：'+mark+' 分');
+    if(mark>=6){score.essay+=30;reasons.push('6 分以上，偏向長答／論述')}
+    else if(mark>=3){score.short+=18;reasons.push('3–5 分，偏向短答／結構題')}
+    else{score.short+=8}
+  }
+
+  /* ── 6. 篇幅 ── */
+  const len=text.replace(/\s/g,'').length;
+  if(len>280){score.essay+=15;reasons.push('文字量多（'+len+' 字），偏向論述題')}
+  else if(len<40){score.short+=10;reasons.push('文字量少，偏向短答或填空')}
+
+  /* ── 7. 子題 ── */
+  const subs=extractSubs(text);
+  if(subs.length>=2){
+    reasons.push('含子題：('+subs.join(') (')+')');
+    score.short+=10;
+    score.essay+=5;
+    /* 小寫 (a)(b)(c) 是子題而非選項：明確扣分，避免被選項偵測誤導 */
+    if(hasLowerSubs(text)){
+      score.mc-=45;
+      reasons.push('子題為小寫 (a)(b)，非選擇題選項');
+    }
+  }
+
+  /* ── 8. 數學式 ── */
+  const math=detectMath(text);
+  if(math){
+    reasons.push('含數學符號／公式');
+    score.short+=10;
+  }
+
+  /* ── 決策 ── */
+  let type,conf;
+  const ranked=Object.entries(score).sort((a,b)=>b[1]-a[1]);
+  const [top,topScore]=ranked[0];
+  const [second,secondScore]=ranked[1];
+
+  if(topScore<25){
+    type=QT.OTHER;
+    conf=Math.min(35,topScore);
+    reasons.unshift('各題型特徵皆不明顯');
+  }else{
+    type=top;
+    /* 信心 = 領先幅度 + 絕對分數 */
+    const lead=topScore-secondScore;
+    conf=Math.min(96,Math.round(35+topScore*0.42+lead*0.32));
+  }
+
+  /* ── 題幹：選項之前的部分 ── */
+  let stem=text;
+  if(opts.length){
+    stem=lines.slice(0,start).join('\n').trim();
+    /* 題幹結尾若被截斷（如 "為" "是"）保留原樣，使用者可自行補 */
+  }
+
+  /* ── 建議答案（選擇題無法自動得知，填空題留空） ── */
+  let hint='';
+  if(type===QT.MC)hint='請點選正確答案，系統會自動批改。';
+  else if(type===QT.FILL)hint='請在「參考答案」欄用 | 分隔各空答案，例如：香港|1997';
+  else if(type===QT.ESSAY)hint='論述題建議填入答題框架或評分重點。';
+  else if(type===QT.SHORT)hint='短答題可填入標準答案，供自行核對。';
+  else hint='未能判斷題型，請手動選擇並補充內容。';
+
+  return{
+    type,conf,stem,opts,blanks,mark,subs,math,lang:detectLang(text),
+    raw:text,reasons,hint,
+    scores:score
+  };
+}
+
+/* 編輯器內部函式的掛勾（openEditor 會填入，讓本檔能重新繪製選項） */
+const AI_HOOKS={renderOpts:null,renderAns:null};
+
+/* ── 把分析結果套用到編輯器 ── */
+function applyAnalysis(a){
+  const setT=$('#eT');
+  if(setT){
+    /* other 沒有對應選項，退回 short並提示 */
+    setT.value=(a.type===QT.OTHER)?QT.SHORT:a.type;
+    setT.dispatchEvent(new Event('change'));
+  }
+  const q=$('#eQ');
+  if(q){
+    q.value=a.stem||a.raw||'';
+    q.dispatchEvent(new Event('input',{bubbles:true}));
+  }
+  if(a.opts&&a.opts.length){
+    ED.opts=a.opts.map(o=>o.v);
+    /* 補到至少 4 個，方便增減 */
+    while(ED.opts.length<4)ED.opts.push('');
+    /* 必須透過 hook 呼叫：renderOpts / renderAns 定義在 openEditor 的閉包內，
+       直接用 typeof 判斷會是 undefined，導致選項填進去了但畫面沒更新。 */
+    if(AI_HOOKS.renderOpts)AI_HOOKS.renderOpts();
+    if(AI_HOOKS.renderAns)AI_HOOKS.renderAns();
+  }
+  const p=$('#eP');
+  if(p&&!p.value&&a.mark)p.value='（'+a.mark+' 分）';
+  return a;
+}
 
 </script>
 </body>
