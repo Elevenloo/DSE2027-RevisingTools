@@ -125,7 +125,8 @@ header{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.86);
 
 /* ── 知識點 ── */
 .ktop{display:flex;gap:9px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
-.kgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
+.kgrid{display:flex;gap:14px;align-items:flex-start}
+.kcol{flex:1;min-width:0;display:flex;flex-direction:column;gap:14px}
 .kgrp{background:var(--card);border:1px solid var(--bd);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
 .kgh{padding:13px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px;
   cursor:pointer;user-select:none;background:linear-gradient(180deg,#fafbfc,#fff)}
@@ -415,8 +416,75 @@ hr.sp{border:none;border-top:1px solid var(--bd);margin:17px 0}
   .obd{flex-direction:column;overflow-y:auto}
   .ocol-r{width:100%}
   .shead{padding:16px}.sh-l h1{font-size:19px}
-  .kgrid,.tgrid{grid-template-columns:1fr}
+  .tgrid{grid-template-columns:1fr}
   .barrow .nm{width:78px;font-size:12px}
+}
+
+/* 知識點卡收合箭頭 */
+.kcaret{margin-left:4px;flex:0 0 auto;font-size:12px;color:var(--mu);
+  transition:transform .18s;line-height:1}
+.kcaret.shut{transform:rotate(-90deg)}
+.kpq+.kcaret{margin-left:2px}
+
+/* ══ 側邊欄：科目 + 年級 ══ */
+.burger{display:none;font-size:19px;line-height:1}
+.scrim{position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:80;
+  opacity:0;pointer-events:none;transition:opacity .22s}
+.scrim.on{opacity:1;pointer-events:auto}
+.side{position:fixed;left:0;top:0;bottom:0;width:290px;max-width:86vw;z-index:90;
+  background:var(--card);border-right:1px solid var(--bd);
+  box-shadow:6px 0 26px rgba(15,23,42,.13);
+  transform:translateX(-100%);transition:transform .24s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column}
+.side.on{transform:none}
+.sidehd{display:flex;align-items:center;gap:8px;padding:13px 15px;
+  border-bottom:1px solid var(--bd);flex:0 0 auto}
+.sidehd b{font-size:14.5px;flex:1}
+.sidehd .ib{font-size:15px}
+#sidePin.on{background:var(--pr);color:#fff;border-color:var(--pr)}
+.sidebd{flex:1;overflow-y:auto;padding:6px 13px 16px;-webkit-overflow-scrolling:touch}
+.sideft{flex:0 0 auto;padding:9px 15px;border-top:1px solid var(--bd);
+  font-size:11.5px;background:var(--bg)}
+.ssec{font-size:11px;font-weight:700;color:var(--mu);letter-spacing:.6px;
+  margin:14px 0 8px;padding-left:2px}
+.side-seg{width:100%;display:grid;grid-template-columns:repeat(3,1fr);gap:0;padding:3px}
+.side-seg button{padding:8px 4px;text-align:center}
+/* 側邊欄科目：直排列表 */
+.slist{display:flex;flex-direction:column;gap:3px}
+.slitem{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:9px;
+  border:1px solid transparent;background:none;cursor:pointer;text-align:left;
+  font-size:13.5px;color:var(--tx);transition:.13s;width:100%}
+.slitem:hover{background:var(--bg)}
+.slitem.on{background:var(--tx);color:#fff;font-weight:600}
+.sldot{width:9px;height:9px;border-radius:50%;flex:0 0 9px;background:var(--c,#94a3b8)}
+.slname{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sltag{font-size:10px;padding:1px 6px;border-radius:4px;background:var(--bg);
+  color:var(--mu);font-weight:700;flex:0 0 auto}
+.slitem.on .sltag{background:rgba(255,255,255,.2);color:#fff}
+.slgrp{font-size:10.5px;font-weight:700;color:var(--mu);letter-spacing:.5px;
+  margin:11px 0 4px;padding-left:3px}
+
+/* 側邊欄釘住時，主內容讓出位置 */
+body.pin main,body.pin header{padding-left:290px}
+body.pin .scrim{display:none}
+body.pin .side{box-shadow:none}
+body.pin .burger{display:none}
+
+@media(max-width:1100px){
+  /* 窄於 1100px 不提供釘住（會吃掉太多畫面） */
+  body.pin main,body.pin header{padding-left:0}
+  body.pin .side{transform:translateX(-100%)}
+  body.pin .burger{display:block}
+}
+@media(max-width:860px){
+  .burger{display:block}
+  #gradeSeg{display:none}
+  .subnav{display:none}
+  .side{width:270px}
+}
+@media(max-width:520px){
+  .brand small{display:none}
+  .side{width:88vw}
 }
 
 /* ══ LaTeX 數學排版 ══ */
@@ -530,6 +598,7 @@ body,.qcard,.ans,.ex{font-variant-numeric:normal}
 
 <header>
   <div class="hd wrap">
+    <button class="ib burger" id="btnSide" title="科目與年級選單" aria-label="選單">☰</button>
     <div class="brand"><span class="mk">DSE</span>
       <div><b>2027 學習平台</b><small>中四 – 中六 · 知識點 · 練習 · 模擬</small></div></div>
     <div class="seg" id="gradeSeg">
@@ -545,6 +614,27 @@ body,.qcard,.ans,.ex{font-variant-numeric:normal}
   </div>
   <div class="subnav"><div class="in" id="subnav"></div></div>
 </header>
+
+<!-- ══ 側邊欄：科目 + 年級（可隨時隱藏） ══ -->
+<div class="scrim" id="scrim"></div>
+<aside class="side" id="side">
+  <div class="sidehd">
+    <b>選科與年級</b>
+    <button class="ib" id="sidePin" title="固定在左側（電腦版）">📌</button>
+    <button class="ib" id="sideClose" title="隱藏">×</button>
+  </div>
+  <div class="sidebd">
+    <div class="ssec">年級</div>
+    <div class="seg side-seg" id="gradeSeg2">
+      <button data-g="S4">中四</button><button data-g="S5">中五</button><button data-g="S6">中六</button>
+    </div>
+    <div class="ssec">科目</div>
+    <div id="sideSubj"></div>
+  </div>
+  <div class="sideft">
+    <span class="muted" id="sideStat"></span>
+  </div>
+</aside>
 
 <main class="wrap">
   <section class="shead" id="shead"></section>
@@ -734,49 +824,10 @@ const SUBJECTS = [
 
 ];
 /* ════════════════════════════════════════════════════════════
-   選修科目定義（12 科）
+   選修科目定義（10 科）
    ════════════════════════════════════════════════════════════ */
 
 const SUBJECTS_ELECT = [
-
-/* ───────────── 中國文學 ───────────── */
-{id:'chilit',name:'中國文學',en:'Chinese Literature',type:'elect',color:'#be123c',icon:'詩',
- desc:'考核文學創作與文學賞析。卷一為文學創作，卷二為文學賞析。需熟讀指定作品。',
- papers:[
-  {n:'卷一 文學創作',w:'30%',t:'1 小時 30 分',d:'一般為二題選一，可寫散文、詩歌、小說等'},
-  {n:'卷二 文學賞析',w:'70%',t:'1 小時 30 分',d:'設問於指定作品及課外篇章，考核賞析與評論能力'}],
- K:{S4:[
-  {n:'文學概說',items:['文學的特質與功能','詩、散文、小說、戲劇四大文體','文學語言的特點：形象性、含蓄性、音樂性']},
-  {n:'先秦兩漢文學',items:['《詩經》的內容與藝術手法：賦比興','《楚辭》與屈原','先秦歷史散文：《左傳》《戰國策》','先秦諸子散文：《論語》《孟子》《莊子》','漢賦與《史記》的文學成就']},
-  {n:'唐宋文學（一）',items:['唐詩的分期：初唐、盛唐、中唐、晚唐','李白與杜甫的風格比較','王維、孟浩然與山水田園詩','高適、岑參與邊塞詩']}],
-  S5:[
-  {n:'唐宋文學（二）',items:['韓愈、柳宗元與古文運動','宋詞的體制：小令、中調、長調','婉約派：柳永、李清照','豪放派：蘇軾、辛棄疾','唐宋八大家的散文成就']},
-  {n:'元明清文學',items:['元曲：雜劇與散曲','關漢卿《竇娥冤》','明清小說：《三國演義》《水滸傳》《西遊記》《紅樓夢》','《儒林外史》的諷刺藝術','明清散文：歸有光、桐城派']},
-  {n:'現當代文學',items:['魯迅的小說與雜文','郁達夫、沈從文的小說','徐志摩、聞一多的新詩','朱自清、冰心的散文']},
-  {n:'文學賞析方法',items:['意象與意境的分析','表現手法：象徵、對比、烘托、用典','語言風格：豪放、婉約、沉鬱、清新','結構與章法：起承轉合']}],
-  S6:[
-  {n:'指定作品精讀',items:['詩經選、楚辭選','樂府詩選、古體詩選','唐詩選、宋詞選','元曲選','明清小品文選','現當代詩文選']},
-  {n:'文學評論寫作',items:['賞析題的結構：總起 → 分述 → 總結','引用原文與分析的比例','比較題的處理：異同並陳','避免複述內容而忽略分析']},
-  {n:'創作訓練',items:['散文創作：抒情、敘事、說理','新詩創作：意象經營與節奏','小說創作：人物、情節、環境','創作的取材與剪裁']}]}},
-
-/* ───────────── 英語文學 ───────────── */
-{id:'englit',name:'英語文學',en:'Literature in English',type:'elect',color:'#6366f1',icon:'Lit',
- desc:'以英語文學作品為研習對象，考核詩歌、散文與戲劇的評論與賞析能力。',
- papers:[
-  {n:'Paper 1 Poetry & Prose',w:'50%',t:'1 小時 30 分',d:'設問於指定的詩歌與散文作品，考核分析與評論'},
-  {n:'Paper 2 Drama',w:'30%',t:'1 小時 30 分',d:'設問於指定戲劇作品'},
-  {n:'School-based Assessment',w:'20%',t:'—',d:'校本評核：文學評論寫作任務'}],
- K:{S4:[
-  {n:'Literary Terms',items:['Imagery, symbol & motif','Simile, metaphor, personification, hyperbole','Alliteration, assonance, onomatopoeia, rhyme scheme','Irony: verbal, dramatic, situational','Theme, plot, character, setting, point of view']},
-  {n:'Poetry Basics',items:['Sonnet: Shakespearean & Petrarchan','Blank verse & free verse','Stanza forms: quatrain, couplet, octave','Reading a poem: paraphrase then interpret','Tone & mood']},
-  {n:'Prose Basics',items:['Short story: exposition, rising action, climax, resolution','First-person vs third-person narration','Characterisation: direct & indirect','Dialogue & dialect']}],
-  S5:[
-  {n:'Drama',items:['Tragedy & comedy conventions','Soliloquy, aside & dramatic irony','Stage directions & subtext','Shakespearean language & verse','Modern drama: realism & absurdism']},
-  {n:'Critical Approaches',items:['Close reading & textual evidence','Context: historical, social, biographical','Feminist & Marxist readings','Psychoanalytic approaches','Comparative analysis across texts']},
-  {n:'Essay Writing',items:['Thesis statement construction','PEEL / PEE paragraph structure','Integrating quotations smoothly','Literary present tense','Avoiding plot summary']}],
-  S6:[
-  {n:'Set Texts Study',items:['Poetry selection: close analysis of prescribed poems','Prose selection: novel / short stories','Drama selection: prescribed play','Thematic links across texts'],'note':'按學校選讀的作品調整'},
-  {n:'Exam Technique',items:['Unpacking the question: instruction words','Planning a comparison essay','Managing 3 essays in 90 minutes','Revision of key quotations','Balancing breadth & depth']}]}},
 
 /* ───────────── 中國歷史 ───────────── */
 {id:'chist',name:'中國歷史',en:'Chinese History',type:'elect',color:'#b45309',icon:'史',
@@ -1483,26 +1534,6 @@ const BANK = [
  ans:'<b>洋務運動（1861–1895）：</b><br><b>內容：</b>以「自強」「求富」為號召，興辦軍事工業（江南製造局、福州船政局）、民用企業（輪船招商局），設立同文館、派遣留學生，建立北洋水師。<br><b>局限：</b>① 只學西方技術而不改制度（「中學為體，西學為用」）② 官僚管理腐敗，效率低下 ③ 缺乏全國統籌，由地方督撫主導 ④ 守舊派反對。<br><b>結果：</b>甲午戰爭戰敗，北洋水師全軍覆沒，標誌洋務運動失敗。<br><br><b>戊戌變法（1898）：</b><br><b>內容：</b>光緒帝推行新政，包括廢八股、設學堂、鼓勵實業、精簡機構、訓練新軍等。<br><b>失敗原因：</b>① 以慈禧為首的守舊派力量強大（發動政變囚禁光緒）② 維新派缺乏實權與軍事支持，依賴皇帝 ③ 變法過急，短時間內頒布大量法令，觸動既得利益 ④ 缺乏群眾基礎與地方官員配合。<br><b>結果：</b>僅歷時 103 天即失敗，六君子遇害。<br><br><b>總結：</b>兩次改革皆因<b>只停留在技術或制度表層的修補，未能觸動專制體制的根本</b>，加上守舊勢力頑強與改革派力量薄弱，故無法真正圖強。這亦促使時人轉向革命。',
  ex:'比較兩次改革的論述題，宜用「背景 → 內容 → 局限 → 結果 → 評論」的統一框架分段，最後綜合比較異同（洋務重器物、戊戌重制度），並指出其共同失敗根源。答題時務必附具體史實（機構名稱、年份、人物）。'},
 
-/* ═══ 中國文學 ═══ */
-{id:'cl1',k:'唐宋文學（二）',s:'chilit',g:'S5',p:'卷二',type:'short',graph:false,
- q:'閱讀李白《月下獨酌》（其一）節錄：<br><br>「花間一壺酒，獨酌無相親。舉杯邀明月，對影成三人。月既不解飲，影徒隨我身。暫伴月將影，行樂須及春。」<br><br>(a) 詩人如何運用「以樂景寫哀情」的手法？<br>(b) 分析「月」與「影」兩個意象的作用。',
- ans:'(a) 首句描寫<b>花間月下、美酒當前</b>的良辰美景（樂景），卻緊接「獨酌無相親」——美景之中只有詩人獨自飲酒，無人相伴（哀情）。樂景與哀情形成強烈反差，<b>以景之美反襯人之孤</b>，令孤獨感更為突出。後文「行樂須及春」表面是及時行樂，實則透露出在孤寂中強作歡顏的無奈。<br><br>(b) <b>「月」與「影」是詩人虛構的陪伴者。</b>詩人舉杯邀月、與影相對，把無情之物化為「三人」共飲的熱鬧場面。這兩個意象的作用：① 表現詩人<b>極度的孤獨</b>——須以月影為伴，愈顯形單影隻；② 表現詩人<b>浪漫奔放的想像力</b>與<b>超然豁達</b>的胸懷；③ 「月既不解飲，影徒隨我身」又點出這種陪伴的虛幻——月不懂飲酒、影只是被動跟隨，<b>反襯出孤獨終究無法排遣</b>。',
- ex:'中國文學賞析題答題框架：<b>手法辨識 → 引例說明 → 效果分析 → 情感／主題</b>。常見失分：只複述詩句大意而無分析；把「以樂景寫哀情」誤作「對比」而不指明反襯的方向。意象題要兼顧「內容作用」與「情感作用」兩個層次。'},
-{id:'cl2',k:'創作訓練',s:'chilit',g:'S6',p:'卷一',type:'essay',graph:false,
- q:'試以「窗」為題，寫一篇散文或新詩。<br><br><span class="muted">（文學創作卷：建議先構思「窗」的象徵意義——可以是視野、隔閡、盼望、回憶的出口等，再選取具體場景展開。）</span>',
- ans:'<b>構思方向（三選一）：</b><br><br><b>方向一 — 象徵「視野與局限」：</b>透過同一扇窗看四季流轉、人事變遷，寫個人成長中視野的開拓；結尾由「透窗看世界」昇華至「走出窗外的勇氣」。<br><br><b>方向二 — 象徵「隔閡與溝通」：</b>寫隔着一扇窗的兩個人（如生病的親人、疏遠的舊友），重點描寫窗內外的動作細節與心理距離，結尾以「窗終被推開」或「終究沒有推開」收束。<br><br><b>方向三 — 象徵「盼望與等待」：</b>以童年時倚窗盼父母歸來的場景為主線，對比成長後自己成為被等待者，寫出時間流轉與親情的傳承。<br><br><b>散文寫作要點：</b><br>① 以<b>具體場景</b>開篇，避免空泛議論<br>② 善用<b>感官描寫</b>（光影、聲音、氣味）<br>③ 象徵意義要<b>含蓄自然</b>，不宜直接說破<br>④ 首尾呼應，結尾留白<br><br><b>新詩寫作要點：</b>① 意象集中而統一 ② 善用分行與節奏 ③ 避免直白抒情，讓意象自己說話',
- ex:'文學創作卷的評分準則：<b>立意、結構、語言、技巧</b>。高分關鍵在於「以小見大」——選取一個具體的切入點（如一扇特定的窗），而非泛泛談論抽象概念。象徵手法要貫穿全篇，不宜在結尾才突然出現。'},
-
-/* ═══ 英語文學 ═══ */
-{id:'el1',k:'Critical Approaches',s:'englit',g:'S5',p:'Paper 1',type:'essay',graph:false,
- q:'<b>Poetry Analysis</b><br><br>Read the following extract and write a critical appreciation:<br><br>"Because I could not stop for Death —<br>He kindly stopped for me —<br>The Carriage held but just Ourselves —<br>And Immortality."<br>— Emily Dickinson<br><br><span class="muted">Discuss: the personification of Death, the tone, and how the imagery develops the theme.</span>',
- ans:'<b>Model critical appreciation:</b><br><br>Dickinson opens her lyric by <b>personifying Death as a courteous gentleman caller</b> who "kindly stopped" — the adjective "kindly" is deeply unsettling, for it attributes gentleness to the most feared of absolutes. This <b>understated irony</b> establishes a tone that is at once calm, courteous and quietly unnerving; the speaker recounts her own dying with the composure of a social visit.<br><br>The <b>carriage</b> becomes an extended metaphor for the passage from life to eternity. Its restriction — "held but just Ourselves / And Immortality" — is <b>paradoxically both confining and expansive</b>: the physical space is narrow, yet the inclusion of "Immortality" opens the scene onto infinite vistas. The capitalisation of "Death" and "Immortality" grants both the status of allegorical figures, reinforcing the poem\'s movement from the literal toward the abstract.<br><br>The <b>iambic metre and hymn-like quatrains</b> (common metre, 8-6-8-6 syllables) echo the Protestant hymns Dickinson knew intimately, lending the scene a ritual solemnity appropriate to its subject. The <b>dashes</b> punctuate the lines like held breaths, slowing the reading pace and mimicking the speaker\'s unhurried, reflective delivery.<br><br>Through these devices Dickinson <b>domesticates mortality</b>: death is not a violent rupture but an inevitable, almost gentle appointment. The theme that emerges is one of <b>acceptance</b> — the speaker neither resists nor fears, suggesting that immortality is not a distant reward but a companion already seated beside her in the carriage of the present moment.',
- ex:'Literature essays are assessed on <b>understanding of the text</b>, <b>analysis of techniques</b>, <b>organisation</b> and <b>literary language</b>. Structure each body paragraph as: <b>technique → quotation → explanation → effect on theme</b>. Always integrate short quotations (2–5 words) rather than long blocks. Use the literary present tense throughout.'},
-{id:'el2',k:'Exam Technique',s:'englit',g:'S6',p:'Paper 2',type:'mc',graph:false,
- q:'In drama, a speech delivered by a character alone on stage, revealing inner thoughts, is called a:',
- opts:['Aside','Soliloquy','Monologue','Chorus'],ans:1,
- ex:'A <b>soliloquy</b> is delivered when the character is (or believes himself to be) alone, revealing private thoughts. An <b>aside</b> is a brief remark directed to the audience while other characters are present and unhearing. A <b>monologue</b> is a long speech addressed to other characters. The <b>chorus</b> is a commenting group (Greek tragedy).'},
-
 /* ═══ BA ═══ */
 {id:'ba1',k:'會計基礎',s:'ba',g:'S4',p:'卷一',type:'mc',graph:false,
  q:'企業以現金 $5,000 購入辦公設備。此交易的會計分錄為',
@@ -2020,8 +2051,47 @@ function fmtClock(sec){
 const todayStr=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
 
 /* ══════════ 導航渲染 ══════════ */
+/* ── 側邊欄狀態 ── */
+const SIDE={
+  open:false,
+  pinned:false,
+  isMobile(){return window.matchMedia?window.matchMedia('(max-width:860px)').matches:false},
+  /* 開：手機為覆蓋式（含遮罩）；電腦釘住時為常駐 */
+  show(){this.open=true;$('#side').classList.add('on');
+    if(!this.pinned||this.isMobile())$('#scrim').classList.add('on');},
+  hide(){this.open=false;$('#side').classList.remove('on');$('#scrim').classList.remove('on');},
+  toggle(){this.open?this.hide():this.show()},
+  setPin(v){
+    this.pinned=v;
+    document.body.classList.toggle('pin',v);
+    const b=$('#sidePin');if(b)b.classList.toggle('on',v);
+    if(v){$('#scrim').classList.remove('on');this.open=true;$('#side').classList.add('on')}
+    try{localStorage.setItem('dse2027-pin',v?'1':'0')}catch(e){}
+  },
+  /* 選完科目或年級：手機自動收起，電腦釘住則維持 */
+  afterPick(){ if(!this.pinned||this.isMobile())this.hide(); }
+};
+
+/* 切換科目（側邊欄與頂部科目列共用） */
+function pickSubject(sid){
+  STATE.subject=sid;STATE.tab='k';
+  renderNav();renderHead();renderTabs();renderAll();
+  SIDE.afterPick();
+  try{localStorage.setItem('dse2027-last',JSON.stringify({g:STATE.grade,s:STATE.subject}))}catch(e){}
+}
+/* 切換年級（頂部與側邊欄兩組按鈕同步） */
+function pickGrade(g){
+  STATE.grade=g;
+  $$('#gradeSeg button,#gradeSeg2 button').forEach(b=>b.classList.toggle('on',b.dataset.g===g));
+  renderHead();renderTabs();renderAll();
+  SIDE.afterPick();
+  try{localStorage.setItem('dse2027-last',JSON.stringify({g:g,s:STATE.subject}))}catch(e){}
+}
+
 function renderNav(){
-  $$('#gradeSeg button').forEach(b=>b.classList.toggle('on',b.dataset.g===STATE.grade));
+  $$('#gradeSeg button,#gradeSeg2 button').forEach(b=>b.classList.toggle('on',b.dataset.g===STATE.grade));
+
+  /* 頂部橫向科目列（電腦版） */
   const nav=$('#subnav');
   let h='<span class="snlab">核心</span>';
   const core=SUBJECTS.filter(s=>s.type==='core');
@@ -2033,10 +2103,50 @@ function renderNav(){
   h+='<span class="snlab" style="margin-left:6px">選修</span>';
   h+=elect.map(s=>`<button class="schip ${s.id===STATE.subject?'on':''}" data-s="${s.id}">${esc(s.name)}</button>`).join('');
   nav.innerHTML=h;
-  [...nav.querySelectorAll('.schip')].forEach(b=>b.onclick=()=>{
-    STATE.subject=b.dataset.s;STATE.tab='k';renderNav();renderHead();renderTabs();renderAll();
-    try{localStorage.setItem('dse2027-last',JSON.stringify({g:STATE.grade,s:STATE.subject}))}catch(e){}
+  [...nav.querySelectorAll('.schip')].forEach(b=>b.onclick=()=>pickSubject(b.dataset.s));
+
+  /* 側邊欄直排科目清單 */
+  const TAG={core:'核心',ext:'延伸',elect:'選修'};
+  let sh='';
+  [['core','核心科目'],['ext','延伸科目'],['elect','選修科目']].forEach(([ty,label])=>{
+    const arr=SUBJECTS.filter(s=>s.type===ty);
+    if(!arr.length)return;
+    sh+=`<div class="slgrp">${label}</div><div class="slist">`;
+    sh+=arr.map(s=>`<button class="slitem ${s.id===STATE.subject?'on':''}" data-s="${s.id}">
+      <span class="sldot" style="--c:${s.color}"></span>
+      <span class="slname">${esc(s.name)}</span>
+      <span class="sltag">${TAG[ty]}</span></button>`).join('');
+    sh+='</div>';
   });
+  const sb=$('#sideSubj');
+  if(sb){
+    sb.innerHTML=sh;
+    [...sb.querySelectorAll('.slitem')].forEach(b=>b.onclick=()=>pickSubject(b.dataset.s));
+  }
+  const st=$('#sideStat');
+  if(st){
+    const s=subj();
+    st.textContent=`${s.name} · ${STATE.grade==='S4'?'中四':STATE.grade==='S5'?'中五':'中六'}`;
+  }
+}
+
+/* 綁定側邊欄開合（只需一次） */
+function bindSide(){
+  const bs=$('#btnSide');
+  if(bs)bs.onclick=()=>SIDE.toggle();
+  const sc=$('#scrim');
+  if(sc)sc.onclick=()=>SIDE.hide();
+  const cl=$('#sideClose');
+  if(cl)cl.onclick=()=>SIDE.hide();
+  const pn=$('#sidePin');
+  if(pn)pn.onclick=()=>SIDE.setPin(!SIDE.pinned);
+  $$('#gradeSeg button,#gradeSeg2 button').forEach(b=>b.onclick=()=>pickGrade(b.dataset.g));
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'&&SIDE.open&&!SIDE.pinned)SIDE.hide();
+    if(e.key==='Escape'&&$('#mGen')&&$('#mGen').classList.contains('on'))closeModal();
+  });
+  /* 還原釘住設定 */
+  try{if(localStorage.getItem('dse2027-pin')==='1')SIDE.setPin(true)}catch(e){}
 }
 
 function subjStats(s,g){
@@ -2138,11 +2248,12 @@ function renderK(){
     /* 該知識點組的練習題數量 */
     const qn=allQuestions(s.id).filter(x=>x.g===g&&x.k===G.n).length;
     html+=`<div class="kgrp" data-gi="${gi}">
-      <div class="kgh">
+      <div class="kgh" data-tog="${gi}">
         <span class="mk2" style="--sc:${s.color}"></span>
         <h3>${esc(G.n)}</h3>
         <span class="n">${dn}/${tot}</span>
         ${qn?`<button class="btn sm kpq" data-kpq="${esc(G.n)}" title="只練習這個知識點的題目">🎯 練習 ${qn} 題</button>`:''}
+        <span class="kcaret ${open?'':'shut'}">▾</span>
       </div>
       <div class="pbar"><i style="width:${tot?Math.round(dn/tot*100):0}%"></i></div>
       <div class="kbody ${open?'':'hide'}">${rows}</div>
@@ -2152,10 +2263,17 @@ function renderK(){
   $('#kNo').style.display=shown?'none':'block';
 
   grid.querySelectorAll('.kgh').forEach(hd=>hd.onclick=e=>{
-    if(e.target.closest('.star'))return;
-    const gi=hd.parentElement.dataset.gi,key=s.id+gi;
+    if(e.target.closest('.star')||e.target.closest('.kpq'))return;
+    const grp=hd.parentElement,gi=grp.dataset.gi,key=s.id+gi;
     kOpen[key]=kOpen[key]===false;
-    hd.parentElement.querySelector('.kbody').classList.toggle('hide',kOpen[key]===false);
+    const shut=kOpen[key]===false;
+    grp.querySelector('.kbody').classList.toggle('hide',shut);
+    const car=grp.querySelector('.kcaret');
+    if(car)car.classList.toggle('shut',shut);
+    /* 就地收合後重新排版：masonry 會把卡片重新分配到最矮的欄，
+       所以只收一張也會立即看到其他卡片往上補（過去用 grid，行高被同列最高卡撐住，
+       要整列都收才會縮，就是這個原因）。 */
+    layoutKGrid();
   });
   grid.querySelectorAll('input[type=checkbox]').forEach(cb=>cb.onchange=e=>{
     const k=e.target.dataset.k;
@@ -2173,11 +2291,50 @@ function renderK(){
   $$('#kgrid [data-kpq]').forEach(b=>b.onclick=e=>{
     e.stopPropagation();
     qFocusKp=b.dataset.kpq;qFilter='all';qGroupBy='kp';
-    STATE.tab='q';renderTabs();renderQ();
+    /* 必須用 renderAll()：它才會切換 pane 的顯示（renderQ 只填內容） */
+    STATE.tab='q';renderTabs();renderAll();
+    window.scrollTo({top:0,behavior:'smooth'});
   });
   $('#kExpand').onclick=()=>{groups.forEach((_,gi)=>kOpen[s.id+gi]=true);renderK()};
   $('#kCollapse').onclick=()=>{groups.forEach((_,gi)=>kOpen[s.id+gi]=false);renderK()};
+
+  layoutKGrid();
 }
+
+/* ── 知識點卡片瀑布流排版 ──
+   CSS grid 的列高由同列最高的卡片決定，收起一張時若同列還有高卡，
+   版面高度不變，看起來就像「沒收起來」。改成用 JS 把卡片逐一放進目前最矮的欄，
+   任一张卡片收合都會立即重排。 */
+function layoutKGrid(){
+  const grid=$('#kgrid');
+  if(!grid)return;
+  const cards=[...grid.querySelectorAll('.kgrp')];
+  if(!cards.length)return;
+  const w=grid.clientWidth||900;
+  const cols=w<620?1:w<1020?2:3;
+  /* 已分欄且欄數相同 → 只需重排，不必重建（保留事件與捲動位置） */
+  grid.innerHTML='';
+  const colEls=[];
+  for(let i=0;i<cols;i++){
+    const c=document.createElement('div');
+    c.className='kcol';
+    grid.appendChild(c);colEls.push(c);
+  }
+  cards.forEach(card=>{
+    let min=0;
+    for(let i=1;i<cols;i++){
+      if(colEls[i].offsetHeight<colEls[min].offsetHeight)min=i;
+    }
+    colEls[min].appendChild(card);
+  });
+}
+/* 視窗寬度改變時重新分欄 */
+let _kGridRaf=null;
+window.addEventListener('resize',()=>{
+  if(!$('#kgrid')||STATE.tab!=='k')return;
+  if(_kGridRaf)cancelAnimationFrame(_kGridRaf);
+  _kGridRaf=requestAnimationFrame(()=>layoutKGrid());
+});
 let kFilter='all';
 
 /* ══════════ 練習題 ══════════ */
@@ -2442,23 +2599,22 @@ function zoomImg(u){
 /* ══════════ 工具與模擬 ══════════ */
 function renderT(){
   const s=subj(),p=$('#pane-t');
-  const tools=TOOLS.filter(t=>t.s.includes(s.id)||t.s.includes('*'));
+  const subjTools=TOOLS.filter(t=>t.cat==='subj'&&t.s.includes(s.id));
+  const genTools =TOOLS.filter(t=>t.cat==='gen');
+  const card=t=>`<button class="tcard" data-tool="${t.id}">
+        <span class="ic">${t.ic}</span><h4>${esc(t.n)}</h4><p>${esc(t.d)}</p></button>`;
+
   p.innerHTML=`
    <div class="sect">
-    <h2>工具與模擬</h2>
-    <div class="d">適用於 ${esc(s.name)} 的互動工具；通用工具對所有科目開放。</div>
-    <div class="tgrid">
-      ${tools.map(t=>`<button class="tcard" data-tool="${t.id}">
-        <span class="ic">${t.ic}</span><h4>${esc(t.n)}</h4><p>${esc(t.d)}</p></button>`).join('')}
-    </div>
+    <h2>${esc(s.name)} 專用模擬</h2>
+    <div class="d">只適用於本科目的互動模擬與工具。</div>
+    ${subjTools.length?`<div class="tgrid">${subjTools.map(card).join('')}</div>`
+      :'<div class="empty">本科目暫無專屬模擬工具，可使用下方的通用學習工具。</div>'}
    </div>
    <div class="sect">
-    <h2>通用工具</h2>
-    <div class="d">不論科目皆可使用。</div>
-    <div class="tgrid">
-      ${TOOLS.filter(t=>t.s.includes('*')).map(t=>`<button class="tcard" data-tool="${t.id}">
-        <span class="ic">${t.ic}</span><h4>${esc(t.n)}</h4><p>${esc(t.d)}</p></button>`).join('')}
-    </div>
+    <h2>通用學習工具</h2>
+    <div class="d">不論科目皆可使用，學習進度會計入目前選擇的「${esc(s.name)}」。</div>
+    <div class="tgrid">${genTools.map(card).join('')}</div>
    </div>`;
   $$('#pane-t [data-tool]').forEach(b=>b.onclick=()=>openTool(b.dataset.tool));
 }
@@ -2600,16 +2756,40 @@ function closeModal(){$('#mGen').classList.remove('on')}
    互動工具（一）：工具清單 / 數學圖形標註板 / M2 函數繪圖器
    ════════════════════════════════════════════════════════════ */
 
+/* 工具依科目分配。
+   cat='subj' 學科專屬模擬：只出現在指定科目。
+   cat='gen'  通用學習工具：各科都可用（閃卡、計時器這類學習方法，非學科模擬）。
+   以前的 '*' 會讓物理實驗、化學原子模型出現在每一科，現已改為精確指定。 */
 const TOOLS=[
- {id:'graph',n:'圖形標註板',d:'網格畫布，可繪圖、標點、加文字與量角，適合幾何題標註',ic:'✏️',s:['*']},
- {id:'plot', n:'M2 函數繪圖器',d:'輸入方程式即時繪出曲線，支援多條曲線、導數、積分面積、極坐標',ic:'📈',s:['*']},
- {id:'phys', n:'物理實驗模擬',d:'拋體運動、單擺、電路、光的折射與全反射',ic:'🧲',s:['phy','*']},
- {id:'atom', n:'化學原子模型',d:'原子結構與電子排布、元素週期表、三維分子模型',ic:'⚛️',s:['chem','*']},
- {id:'oral', n:'English Oral 訓練室',d:'AI 小組討論與個人短講、全過程錄音記錄、DSE 標準評分',ic:'🎙️',s:['eng','*']},
- {id:'card', n:'自製閃卡',d:'輸入問題與答案，隨機抽測並記錄答對率',ic:'🗂️',s:['*']},
- {id:'stats',n:'統計計算機',d:'輸入數據即算平均數、中位數、標準差、四分位數並繪箱形圖',ic:'📊',s:['math','m2','*']},
- {id:'timer',n:'專注計時器',d:'番茄鐘，可指定科目並自動累計學習時間',ic:'⏱️',s:['*']}
+ /* 學科專屬模擬 */
+ {id:'plot', n:'函數繪圖器',cat:'subj',
+  d:'輸入方程式即時繪出曲線，支援多曲線、導數、積分面積、極坐標與參數式',ic:'📈',
+  s:['math','m2']},
+ {id:'phys', n:'物理實驗模擬',cat:'subj',
+  d:'拋體運動、單擺、電路（歐姆定律）、光的折射與全反射、碰撞與動量',ic:'🧲',
+  s:['phy']},
+ {id:'atom', n:'化學原子模型',cat:'subj',
+  d:'原子結構與電子排布、元素週期表、三維分子模型',ic:'⚛️',
+  s:['chem']},
+ {id:'oral', n:'English Oral 訓練室',cat:'subj',
+  d:'歷屆真題、AI 小組討論與個人短講、全過程記錄、DSE 標準評分',ic:'🎙️',
+  s:['eng']},
+ {id:'graph',n:'圖形標註板',cat:'subj',
+  d:'網格畫布，可繪圖、標點、加文字與量角，適合幾何證明、受力圖、實驗裝置圖',ic:'✏️',
+  s:['math','m2','phy','chem','geo','ict']},
+ {id:'stats',n:'統計計算機',cat:'subj',
+  d:'輸入數據即算平均數、中位數、標準差、四分位數並繪箱形圖',ic:'📊',
+  s:['math','m2','econ','geo','ba','bio','phy','chem']},
+ /* 通用學習工具 */
+ {id:'card', n:'自製閃卡',cat:'gen',
+  d:'輸入問題與答案，隨機抽測並記錄答對率',ic:'🗂️',s:[]},
+ {id:'timer',n:'專注計時器',cat:'gen',
+  d:'番茄鐘，可指定科目並自動累計學習時間',ic:'⏱️',s:[]}
 ];
+/* 取得某科目可用的工具：學科專屬 + 通用 */
+function toolsFor(sid){
+  return TOOLS.filter(t=>t.cat==='gen'||t.s.includes(sid));
+}
 
 function openTool(id){
   const T=TOOLS.find(t=>t.id===id);
@@ -5537,11 +5717,8 @@ function init(){
   }catch(e){}
   if(!SUBJECTS.find(s=>s.id===STATE.subject))STATE.subject='chi';
 
-  $$('#gradeSeg button').forEach(b=>b.onclick=()=>{
-    STATE.grade=b.dataset.g;kFilter='all';
-    renderNav();renderHead();renderAll();
-    try{localStorage.setItem('dse2027-last',JSON.stringify({g:STATE.grade,s:STATE.subject}))}catch(e){}
-  });
+  /* 年級切換改由 bindSide() 統一綁定（頂部與側邊欄兩組按鈕同步） */
+  bindSide();
 
   $('#cdBtn').onclick=openCDPanel;
   $('#btnSet').onclick=()=>openSettings();
