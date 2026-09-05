@@ -419,6 +419,62 @@ hr.sp{border:none;border-top:1px solid var(--bd);margin:17px 0}
   .barrow .nm{width:78px;font-size:12px}
 }
 
+/* ══ LaTeX 數學排版 ══ */
+.mth,.mblk{font-family:"Cambria Math","Latin Modern Math","Times New Roman",Times,serif;
+  font-size:1.05em;letter-spacing:.01em}
+.mblk{display:block;margin:9px 0;text-align:center;font-size:1.14em}
+/* 分數 */
+.mfrac{display:inline-flex;flex-direction:column;vertical-align:middle;
+  text-align:center;margin:0 .18em;position:relative;top:.05em}
+.mfrac .num{border-bottom:1.4px solid currentColor;padding:0 .42em .1em;line-height:1.3}
+.mfrac .den{padding:.1em .42em 0;line-height:1.3}
+.mfrac.sm{font-size:.86em}
+/* 極限／max／min：下標置中於正下方 */
+.mop{display:inline-flex;flex-direction:column;align-items:center;
+  vertical-align:middle;margin:0 .16em;line-height:1.12}
+.mop .opn{font-style:normal}
+.mop .munder{font-size:.74em;font-style:normal;line-height:1.15}
+/* 函數名正體 */
+.mfn{font-style:normal;padding-right:.1em}
+/* 根式 */
+.msqrt{display:inline-flex;align-items:flex-start;white-space:nowrap;margin:0 .06em}
+.msqrt .sym{line-height:1.3}
+.msqrt .rad{border-top:1.3px solid currentColor;padding:.08em .2em 0 .12em;margin-left:-.06em}
+.msqrt .n{font-size:.68em;position:relative;top:-.5em;margin-right:-.5em}
+/* 積分 */
+.mint{display:inline-flex;flex-direction:column;align-items:center;
+  vertical-align:middle;margin:0 .14em;line-height:1}
+.mint .ihi,.mint .ilo{font-size:.72em;font-style:normal;line-height:1.1;position:static;top:auto;bottom:auto}
+.mint .iint{font-size:1.5em;line-height:.86}
+/* 矩陣 */
+.mmat{display:inline-flex;align-items:center;vertical-align:middle;margin:0 .18em}
+.mmat .mbra{font-size:1.7em;font-weight:300;line-height:.85;
+  transform:scaleY(1.2);font-family:"Times New Roman",serif}
+.mmat .mrows{display:inline-flex;flex-direction:column;margin:0 .16em;text-align:center}
+.mmat .mrow{display:flex;justify-content:center;gap:.7em;padding:.06em 0}
+/* 文字模式 */
+.mtx{font-family:inherit;font-style:normal}
+
+/* ══ Oral 真題庫 ══ */
+.lv{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:5px;
+    vertical-align:middle;letter-spacing:.2px;line-height:1.5}
+.lv.a{background:#dcfce7;color:#15803d}
+.lv.b{background:#fef3c7;color:#b45309}
+.lv.c{background:#f1f5f9;color:#64748b}
+.lv.r{background:#e0e7ff;color:#4338ca}
+.qtools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:12px 0;
+  padding:10px;background:var(--bg);border-radius:9px}
+.qtools .sel,.qtools .inp{font-size:13px;padding:5px 9px}
+.qlist2{max-height:400px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin:10px 0}
+.qitem{padding:11px 13px;border:1px solid #e5e7eb;border-radius:9px;cursor:pointer;
+  background:#fff;transition:.14s}
+.qitem:hover{border-color:var(--pr);background:#f8fafc;transform:translateX(2px)}
+.qi-h{display:flex;align-items:center;gap:8px;margin-bottom:5px;flex-wrap:wrap}
+.qi-y{font-size:11.5px;font-weight:700;color:var(--pr);background:#eff6ff;
+  padding:1px 7px;border-radius:5px}
+.qi-t{font-size:12px;color:var(--mu);font-weight:600}
+.qi-s{font-size:13px;color:#374151;line-height:1.55}
+
 /* ══ 數學上下標：改用 HTML 標籤，避免缺字型變方框 ══ */
 sub,sup{font-size:.72em;line-height:0;position:relative;font-weight:inherit}
 sub{bottom:-.25em} sup{top:-.45em}
@@ -887,6 +943,243 @@ const SUBJECTS_ELECT = [
 
 SUBJECTS.push(...SUBJECTS_ELECT);
 /* ════════════════════════════════════════════════════════════
+   LaTeX → HTML 數學排版轉換器
+   ──────────────────────────────────────────────────────────
+   把 $\frac{a}{b}$、x^{2}、\lim_{x \to 0} 等 LaTeX 語法
+   轉成可直接閱讀的 HTML 數學排版，避免學生看到原始碼。
+
+   支援：分數、根式、上下標、積分、極限、矩陣、
+        希臘字母、數學函數（sin/cos/log…）、關係符號
+   ════════════════════════════════════════════════════════════ */
+
+const TEX_SYM = {
+  'times':'×','div':'÷','pm':'±','mp':'∓','cdot':'·','ast':'∗','circ':'∘','bullet':'•',
+  'to':'→','rightarrow':'→','leftarrow':'←','Rightarrow':'⇒','Leftarrow':'⇐','leftrightarrow':'↔',
+  'le':'≤','leq':'≤','ge':'≥','geq':'≥','ne':'≠','neq':'≠','approx':'≈','equiv':'≡','sim':'∼',
+  'infty':'∞','partial':'∂','nabla':'∇','sum':'∑','prod':'∏','int':'∫','iint':'∬','oint':'∮',
+  'alpha':'α','beta':'β','gamma':'γ','delta':'δ','epsilon':'ε','varepsilon':'ε','zeta':'ζ',
+  'eta':'η','theta':'θ','iota':'ι','kappa':'κ','lambda':'λ','mu':'μ','nu':'ν','xi':'ξ',
+  'pi':'π','rho':'ρ','sigma':'σ','tau':'τ','upsilon':'υ','phi':'φ','chi':'χ','psi':'ψ','omega':'ω',
+  'Gamma':'Γ','Delta':'Δ','Theta':'Θ','Lambda':'Λ','Xi':'Ξ','Pi':'Π','Sigma':'Σ',
+  'Phi':'Φ','Psi':'Ψ','Omega':'Ω',
+  'dots':'…','ldots':'…','cdots':'⋯','vdots':'⋮','ddots':'⋱',
+  'angle':'∠','triangle':'△','perp':'⊥','parallel':'∥','deg':'°','degree':'°',
+  'prime':'′','emptyset':'∅','in':'∈','notin':'∉','subset':'⊂','supset':'⊃',
+  'cup':'∪','cap':'∩','forall':'∀','exists':'∃','propto':'∝','pm':'±'
+};
+
+/* 這些函數名稱要正體顯示（sin 而非 sin 斜體） */
+const TEX_FN = ['sin','cos','tan','cot','sec','csc','arcsin','arccos','arctan',
+  'sinh','cosh','tanh','log','ln','lg','exp','det','max','min','sup','inf',
+  'deg','dim','ker','hom','arg','gcd','limsup','liminf'];
+
+/* 純格式指令，直接忽略 */
+const TEX_SKIP = ['displaystyle','textstyle','scriptstyle','scriptscriptstyle',
+  'limits','nolimits','left','right','big','Big','bigg','Bigg','bigl','bigr',
+  'biggl','biggr','mathopen','mathclose','mathbin','mathrel','nonumber','notag',
+  'label','centering','small','large','normalsize','hfill','vspace','hspace'];
+
+/* 取出 {...} 群組內容，支援巢狀大括號 */
+function texGrp(s,i){
+  if(s[i]!=='{')return null;
+  let d=0,j=i;
+  for(;j<s.length;j++){
+    if(s[j]==='{')d++;
+    else if(s[j]==='}'){d--;if(d===0)return{v:s.slice(i+1,j),end:j+1}}
+  }
+  return null;
+}
+
+/* 矩陣環境：pmatrix / bmatrix / matrix / cases */
+function texMatrix(body,name){
+  const rows=body.split('\\\\').map(r=>r.trim()).filter(x=>x.length);
+  const cells=rows.map(r=>r.split('&').map(c=>texRender(c.trim())));
+  const L=name==='pmatrix'?'(':name==='bmatrix'?'[':name==='vmatrix'?'|':'{';
+  const R=name==='pmatrix'?')':name==='bmatrix'?']':name==='vmatrix'?'|':'}';
+  let h='<span class="mmat"><span class="mbra">'+L+'</span><span class="mrows">';
+  cells.forEach(r=>{
+    h+='<span class="mrow">'+r.map(c=>'<span>'+c+'</span>').join('')+'</span>';
+  });
+  return h+'</span><span class="mbra">'+R+'</span></span>';
+}
+
+/* 核心：把 LaTeX 主體轉成 HTML */
+function texRender(s){
+  if(s==null)return '';
+  let out='',i=0;
+  while(i<s.length){
+    const c=s[i];
+
+    /* ── 反斜線開頭的指令 ── */
+    if(c==='\\'){
+      const j=i+1;
+
+      /* \begin{...} / \end{...} */
+      const env=/^(begin|end)\{([a-zA-Z]*)\}/.exec(s.slice(j));
+      if(env){
+        if(env[1]==='end'){i=j+env[0].length;continue}
+        const nm=env[2];
+        const close='\\end{'+nm+'}';
+        const k=s.indexOf(close,j+env[0].length);
+        const body=k<0?s.slice(j+env[0].length):s.slice(j+env[0].length,k);
+        out+=texMatrix(body,nm);
+        i=k<0?s.length:k+close.length;
+        continue;
+      }
+
+      /* 讀指令名 */
+      const m=/^[a-zA-Z]+/.exec(s.slice(j));
+      const cmd=m?m[0]:'';
+
+      /* \\ 換行、\, \; \! 空格 */
+      if(!cmd){
+        const nx=s[j];
+        if(nx==='\\'){out+='<br>';i=j+1;continue}
+        if(nx===','||nx===';'||nx==='!'||nx===':'||nx==='>'){out+='&nbsp;';i=j+1;continue}
+        if(nx==='{'||nx==='}'||nx==='$'||nx==='%'||nx==='&'||nx==='_'||nx==='#'){out+=nx;i=j+1;continue}
+        out+=nx;i=j+1;continue;
+      }
+
+      let rest=j+cmd.length;
+      while(s[rest]===' ')rest++;
+
+      /* 分數 */
+      if(cmd==='frac'||cmd==='dfrac'||cmd==='tfrac'||cmd==='cfrac'){
+        const a=texGrp(s,rest);
+        if(a){
+          const b=texGrp(s,a.end);
+          if(b){
+            const sm=(cmd==='tfrac'||cmd==='cfrac')?' sm':'';
+            out+='<span class="mfrac'+sm+'"><span class="num">'+texRender(a.v)+
+                 '</span><span class="den">'+texRender(b.v)+'</span></span>';
+            i=b.end;continue;
+          }
+        }
+      }
+
+      /* 根式 \sqrt{x} 或 \sqrt[n]{x} */
+      if(cmd==='sqrt'){
+        let idx='',p=rest;
+        if(s[p]==='['){const e=s.indexOf(']',p);if(e>0){idx=texRender(s.slice(p+1,e));p=e+1}}
+        const a=texGrp(s,p);
+        if(a){
+          out+='<span class="msqrt">'+(idx?'<span class="n">'+idx+'</span>':'')+
+               '<span class="sym">√</span><span class="rad">'+texRender(a.v)+'</span></span>';
+          i=a.end;continue;
+        }
+      }
+
+      /* 極限／max／min：下標置於正下方 */
+      if(cmd==='lim'||cmd==='max'||cmd==='min'||cmd==='sup'||cmd==='inf'||
+         cmd==='limsup'||cmd==='liminf'){
+        let under='',p=rest;
+        if(s[p]==='_'){
+          p++;
+          const g=(s[p]==='{')?texGrp(s,p):null;
+          if(g){under=texRender(g.v);p=g.end}else{under=texRender(s[p]);p++}
+        }
+        out+='<span class="mop"><span class="opn">'+cmd+'</span>'+
+             (under?'<span class="munder">'+under+'</span>':'')+'</span>';
+        i=p;continue;
+      }
+
+      /* 積分：\int_a^b */
+      if(cmd==='int'||cmd==='iint'||cmd==='oint'){
+        let lo='',hi='',p=rest;
+        if(s[p]==='_'){p++;const g=(s[p]==='{')?texGrp(s,p):null;
+          if(g){lo=g.v;p=g.end}else{lo=s[p]||'';p++}}
+        if(s[p]==='^'){p++;const g=(s[p]==='{')?texGrp(s,p):null;
+          if(g){hi=g.v;p=g.end}else{hi=s[p]||'';p++}}
+        out+='<span class="mint"><span class="ihi">'+texRender(hi)+'</span>'+
+             '<span class="iint">'+TEX_SYM[cmd]+'</span>'+
+             '<span class="ilo">'+texRender(lo)+'</span></span>';
+        i=p;continue;
+      }
+
+      /* 數學函數正體 */
+      if(TEX_FN.indexOf(cmd)>=0){out+='<span class="mfn">'+cmd+'</span>';i=rest;continue}
+
+      /* 符號對照表 */
+      if(TEX_SYM[cmd]!==undefined){out+=TEX_SYM[cmd];i=j+cmd.length;continue}
+
+      /* 文字模式 \text{...} */
+      if(cmd==='text'||cmd==='mathrm'||cmd==='textrm'){
+        const a=texGrp(s,rest);
+        if(a){out+='<span class="mtx">'+a.v+'</span>';i=a.end;continue}
+      }
+
+      /* 純格式指令：忽略 */
+      if(TEX_SKIP.indexOf(cmd)>=0){i=rest;continue}
+
+      /* 未知指令：原樣顯示名稱，避免整段消失 */
+      out+='<span class="mfn">'+cmd+'</span>';
+      i=rest;continue;
+    }
+
+    /* ── 上下標 ^ _ ── */
+    if(c==='^'||c==='_'){
+      i++;
+      let v;
+      if(s[i]==='{'){const g=texGrp(s,i);if(g){v=texRender(g.v);i=g.end}else{v='';i++}}
+      else{v=texRender(s[i]||'');i++}
+      out+= (c==='^') ? '<sup>'+v+'</sup>' : '<sub>'+v+'</sub>';
+      continue;
+    }
+
+    /* ── 裸大括號分組 ── */
+    if(c==='{'){
+      const g=texGrp(s,i);
+      if(g){out+=texRender(g.v);i=g.end;continue}
+    }
+
+    /* ── 一般字元 ── */
+    if(c==='&'){out+='&nbsp;&nbsp;';i++;continue}
+    out+=c;i++;
+  }
+  return out;
+}
+
+/* 判斷一段文字是否真的含數學語法。
+   這是保護貨幣金額的關鍵：$500 與 $x^{2}$ 都用 $ 包住，
+   但貨幣內容只有數字與逗號，沒有 ^ _ { } 或反斜杠指令。 */
+function isMath(s){
+  if(!s)return false;
+  return /\\[a-zA-Z]+/.test(s)   /* \frac \sin \lim … */
+      || /\^/.test(s)            /* 上標 x^{2} */
+      || /_/.test(s)             /* 下標 x_{1} */
+      || /\{[^}]*\}/.test(s);    /* 分組 {a+1} */
+}
+
+/* ── 對外入口：把含 $...$ 的字串轉成 HTML ── */
+function tex2html(src){
+  if(src==null||src==='')return '';
+  let s=String(src);
+  if(s.indexOf('\\')<0&&s.indexOf('$')<0)return s;
+
+  let touched=false;
+
+  /* $$...$$ 獨立成行 */
+  s=s.replace(/\$\$([\s\S]+?)\$\$/g,(m,p)=>{
+    if(!isMath(p))return m;
+    touched=true;
+    return '<span class="mblk">'+texRender(p)+'</span>';
+  });
+
+  /* $...$ 行內 —— 只轉換內容真的像數學式的配對 */
+  s=s.replace(/\$([^$\n]+?)\$/g,(m,p)=>{
+    if(!isMath(p))return m;          /* 保留貨幣金額等一般用法 */
+    touched=true;
+    return '<span class="mth">'+texRender(p)+'</span>';
+  });
+
+  /* 只有在確實轉換過數學式時，才清掉沒配對的殘留定界符。
+     典型情況：'且 $k > 0$，則 $k = $' —— 這兩段內容不含 ^ _ { }，
+     不是 isMath，但它們的 $ 確實是 LaTeX 定界符，必須移除。
+     純貨幣字串（touched = false）完全不會被碰到。 */
+  if(touched)s=s.replace(/\$/g,'');
+  return s;
+}
+/* ════════════════════════════════════════════════════════════
    練習題庫 — 按科目 / 年級 / 卷別分類
    type: mc = 多項選擇題, short = 短答 / 結構題, essay = 論述題
    graph: true 表示可開啟圖形標註板輔助作答
@@ -1218,7 +1511,7 @@ const BANK = [
    標註為參考題，非考評局原卷試題
    ════════════════════════════════════════════════════════════ */
 
-const ORAL_GROUP = [
+let ORAL_GROUP = [
 {y:'參考 · 歷屆題型',t:'Education',
  stimulus:'"Schools should replace examinations with continuous assessment."',
  q:'Do you agree? Discuss the advantages and disadvantages of examinations.',
@@ -1301,7 +1594,7 @@ const ORAL_GROUP = [
  points:['成本與時間','本地旅遊的質素','對本地經濟的益處','可持續性']}
 ];
 
-const ORAL_INDIV = [
+let ORAL_INDIV = [
 {y:'參考 · 歷屆題型',t:'Personal',q:'Who is the person you admire most? Explain why.'},
 {y:'參考 · 歷屆題型',t:'School',q:'What is your favourite school activity? Why do you enjoy it?'},
 {y:'參考 · 歷屆題型',t:'Technology',q:'Do you think smartphones have improved our lives? Why?'},
@@ -1333,6 +1626,286 @@ const AI_ROLES = [
  {id:'a3',name:'Chris',tag:'Devil\'s Advocate',voice:'male-deep',pitch:0.85,rate:0.92,
   style:'Challenges assumptions and offers counter-arguments. Keeps the discussion balanced and lively.'}
 ];
+/* ════════════════════════════════════════════════════════════
+   歷屆 DSE 英文科 Paper 4 真題庫
+   ──────────────────────────────────────────────────────────
+   可信度分級（lv）：
+     A = 考評局公開卷，可逐字核對原文，適合精練與評分
+     B = 考後回憶／補習社彙整，主題可靠、措辭可能有出入，適合擴充練習
+     C = 僅主題索引，原文未取得
+
+   注意：2020–2022 年因疫情取消英文科口試，不存在正式公開試題。
+
+   Part B 真題為「考官根據 Part A 內容即時提問，考生最多 1 分鐘作答」。
+   下方 gq 陣列是該卷提供的引導問題樣本，並非要求逐一作答。
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Part A 小組討論真題 ── */
+const ORAL_PAST_GROUP = [
+/* ═══ A 級：考評局公開卷，可逐字核對 ═══ */
+{y:'2014 DSE',yr:2014,lv:'A',t:'Popular Culture / Heritage',
+ stimulus:'The biography below appeared in a film magazine. You are a member of the Film Club of your school. You want to organise a Bruce Lee Festival.',
+ q:'You may want to talk about: aspects of his life and career that people are interested in; how you would get information about Bruce Lee; activities that you could organise; anything else that is important.',
+ points:['他生平與事業的哪些面向最吸引人','如何蒐集關於李小龍的資料','可以籌辦哪些活動','其他重要考慮']},
+
+{y:'2015 DSE · 2.3',yr:2015,lv:'A',t:'Space / Ambition',
+ stimulus:'Alyssa Carson is a teenager who is training to become an astronaut and hopes to be one of the first people to go to Mars. As members of your school\'s Astronomy Club, your group is planning to invite her to come and give a talk to your school.',
+ q:'You may want to talk about: why she would be a good speaker; what she could talk about; what arrangements would be needed for her visit; anything else that is important.',
+ points:['她為何是合適的講者','她可以講什麼內容','訪問需要什麼安排','其他重要考慮']},
+
+{y:'2017 DSE · 1.1',yr:2017,lv:'A',t:'Work / Cross-border Life',
+ stimulus:'Young Hongkongers head north to Shenzhen for job opportunities.',
+ q:'You may want to talk about: the advantages and disadvantages of working in Shenzhen; whether this will become a popular trend; advice for people who would like to work in Shenzhen; anything else that is important.',
+ points:['在深圳工作的優點與缺點','這會否成為普遍趨勢','給想到深圳工作的人的建議','其他重要考慮']},
+
+{y:'2017 DSE · 1.2',yr:2017,lv:'A',t:'Family / Tradition',
+ stimulus:'Giving money to parents?',
+ q:'You may want to talk about: the reasons people give money to their parents; whether this tradition should continue in Hong Kong today; other ways people can show respect to their parents; anything else that is important.',
+ points:['人們給父母金錢的原因','這傳統在香港今天應否延續','表達孝心的其他方式','其他重要考慮']},
+
+{y:'2017 DSE · 1.3',yr:2017,lv:'A',t:'Culture / Reading',
+ stimulus:'Book fair fighting fit with martial arts theme.',
+ q:'You may want to talk about: why the Hong Kong Book Fair is popular; whether Chinese martial arts literature was a suitable theme; a possible theme for the future; anything else that is important.',
+ points:['書展為何受歡迎','武俠文學是否合適主題','未來可採用的主題','其他重要考慮']},
+
+{y:'2017 DSE · 3.1',yr:2017,lv:'A',t:'Health / Education',
+ stimulus:'EQ or IQ?',
+ q:'You may want to talk about: what problems students face which affect their emotions; why EQ is important; ways your school can help students to develop emotional intelligence; anything else that is important.',
+ points:['學生面對哪些影響情緒的問題','為何 EQ 重要','學校如何協助學生發展情緒智商','其他重要考慮']},
+
+{y:'2017 DSE · 4.1',yr:2017,lv:'A',t:'Health / Community Service',
+ stimulus:'You are members of a school group working with the Red Cross to promote blood donation among students.',
+ q:'You may want to talk about: why giving blood is important; how to encourage students to take part; suitable times and places for donating blood; anything else that is important.',
+ points:['捐血為何重要','如何鼓勵學生參與','合適的時間與地點','其他重要考慮']},
+
+{y:'2018 DSE · 1.1',yr:2018,lv:'A',t:'Education / Communication',
+ stimulus:'I am writing because I am concerned about the use of text messaging at schools in Hong Kong.',
+ q:'You may want to talk about: why students and parents want to text teachers; the advantages and disadvantages of students and teachers texting each other; what schools can do to improve other means of communication; anything else that is important.',
+ points:['學生與家長為何想傳訊息給老師','師生互傳訊息的優點與缺點','學校如何改善其他溝通方式','其他重要考慮']},
+
+{y:'2018 DSE · 1.2',yr:2018,lv:'A',t:'Social Issues / Ageing',
+ stimulus:'The Hong Kong Government is looking at giving elderly people who live alone in public housing up to HK$8,000 a month to employ domestic helpers.',
+ q:'You may want to talk about: the advantages and disadvantages of the scheme; who should be eligible; how the scheme could be improved; anything else that is important.',
+ points:['計劃的優點與缺點','誰應符合資格','計劃可以如何改善','其他重要考慮']},
+
+{y:'2018 DSE · 1.3',yr:2018,lv:'A',t:'Technology / Safety',
+ stimulus:'A 51-year-old man accused of flying a drone to take photographs in the restricted area of Hong Kong International Airport\'s departure terminal last week was arrested.',
+ q:'You may want to talk about: why drones are popular and useful; what problems drones might cause; what rules there should be about flying drones in Hong Kong; anything else that is important.',
+ points:['無人機為何受歡迎及有用','可能造成什麼問題','香港應有什麼規管','其他重要考慮']},
+
+{y:'2018 DSE · 2.1',yr:2018,lv:'A',t:'Media / Critical Thinking',
+ stimulus:'Fake News: There\'s a LOT of it about. Motion: The internet should be censored because it encourages fake news.',
+ q:'You may want to talk about: arguments for the motion; arguments against the motion; which side would be easier to argue; anything else that is important.',
+ points:['支持動議的論點','反對動議的論點','哪一方的立場較易論證','其他重要考慮']},
+
+{y:'2018 DSE · 2.2',yr:2018,lv:'A',t:'Education / Policy',
+ stimulus:'No Attendance No Problem — a letter supporting HKBU\'s relaxed attendance policy.',
+ q:'You may want to talk about: the advantages and disadvantages of HKBU\'s attendance policy; whether you think the policy will be successful; whether it could be applied to secondary schools; anything else that is important.',
+ points:['政策的優點與缺點','政策會否成功','能否套用於中學','其他重要考慮']},
+
+{y:'2018 DSE · 3.1',yr:2018,lv:'A',t:'Education / Relationships',
+ stimulus:'China schools seek to nip young love in the bud — an article about mainland Chinese schools banning student dating.',
+ q:'You may want to talk about: whether you agree with the no dating rule; the advantages and disadvantages of secondary school students dating; guidelines or advice schools should give students about dating; anything else that is important.',
+ points:['是否贊成禁戀愛的規定','中學生拍拖的優點與缺點','學校應給予什麼指引','其他重要考慮']},
+
+/* ═══ B 級：考後回憶／傳媒彙整，主題可靠、措辭可能略有出入 ═══ */
+{y:'2024 DSE · 12/3 17:00',yr:2024,lv:'B',t:'Culture / Technology',
+ stimulus:'Digital museums are becoming increasingly popular, with people sharing art collections online.',
+ q:'Why are people sharing art collections online? What are the differences between watching art collections online and watching in person? How can local museums compete with digital museums to attract more viewers?',
+ points:['網上分享藝術收藏的原因','線上與實地觀賞的分別','本地博物館如何競爭','其他重要考慮']},
+
+{y:'2024 DSE · 12/3 18:00',yr:2024,lv:'B',t:'Work / Technology',
+ stimulus:'Food delivery apps have transformed the way people order meals in Hong Kong.',
+ q:'How popular are delivery apps? What challenges are delivery workers currently facing? What can we do to safeguard these delivery workers?',
+ points:['外送平台的普及程度','外送員面對的困難','如何保障外送員','其他重要考慮']},
+
+{y:'2024 DSE · 12/3 19:00',yr:2024,lv:'B',t:'Hong Kong Life / Environment',
+ stimulus:'Some buildings in Hong Kong have been described as "ugly" and there is debate over whether they should be replaced.',
+ q:'Should a building look attractive? What is the standard of keeping or replacing? What are the reasons that ugly buildings are kept?',
+ points:['建築物應否美觀','保留或拆卸的準則','醜陋建築被保留的原因','其他重要考慮']},
+
+{y:'2024 DSE · 13/3',yr:2024,lv:'B',t:'Tourism / Hong Kong Life',
+ stimulus:'Overtourism has become a concern in many cities, and some countries have introduced policies to manage its impact.',
+ q:'What are the benefits tourism can bring to a city? What are the problems that may be inflicted by tourism in a city? Should Hong Kong follow the policies adopted by other countries as mentioned in the text?',
+ points:['旅遊業為城市帶來的好處','旅遊業造成的問題','香港應否跟隨其他國家政策','其他重要考慮']},
+
+{y:'2024 DSE · 13/3',yr:2024,lv:'B',t:'Health / Lifestyle',
+ stimulus:'Comfort food is often eaten to relieve stress and improve mood.',
+ q:'What are the reasons why people eat comfort food? Can comfort food be part of a healthy diet? What other ways can help people relieve stress and improve mental health?',
+ points:['人們吃安慰食物的原因','安慰食物能否納入健康飲食','其他減壓方法','其他重要考慮']},
+
+{y:'2024 DSE · 14/3',yr:2024,lv:'B',t:'Business / Lifestyle',
+ stimulus:'Multi-functional cafes — combining a cafe with bookstores, pet cafes, or co-working spaces — are gaining popularity.',
+ q:'Why are multi-functional cafes gaining popularity? Which multi-functional cafe will attract the most number of customers? What advice would you have for people who want to start a multi-functional cafe?',
+ points:['多功能咖啡室為何興起','哪類最能吸引顧客','給創業者的建議','其他重要考慮']},
+
+{y:'2024 DSE · 14/3',yr:2024,lv:'B',t:'Media / Hong Kong Life',
+ stimulus:'Your school is planning to create a podcast to promote Hong Kong to overseas audiences.',
+ q:'Which kind of podcast do you think works best to promote Hong Kong? What should be covered in this podcast? How can we pique the interest of the listeners?',
+ points:['哪種 podcast 形式最有效','應涵蓋什麼內容','如何引起聽眾興趣','其他重要考慮']},
+
+{y:'2024 DSE · 14/3',yr:2024,lv:'B',t:'Social Issues / Community',
+ stimulus:'Two community initiatives are being considered: "food angel" (collecting surplus food) and "blue fridge" (a public fridge for sharing food).',
+ q:'Why is it crucial for youngsters to help those in need? Which activity — the food angel or the blue fridge — is better suited for our school to host? What other things can be done by schools to help people in need?',
+ points:['年輕人參與扶助的重要性','哪項活動更適合學校舉辦','學校還可以做什麼','其他重要考慮']},
+
+{y:'2025 DSE · 1.1 · 11/3 17:00',yr:2025,lv:'B',t:'Sport / Inspiration',
+ stimulus:'Edgar Cheung Ka-long is an Olympic gold medallist fencer from Hong Kong. Your school wants to invite him for a visit and an interview.',
+ q:'How can this event be beneficial for students and young people? What activities could be planned during his visit? What questions would you like to ask him?',
+ points:['活動對學生有何益處','可以安排什麼活動','想問他什麼問題','其他重要考慮']},
+
+{y:'2025 DSE · 1.2 · 11/3 18:00',yr:2025,lv:'B',t:'Technology / Public Behaviour',
+ stimulus:'Some places like Mount Fuji in Japan and Berlin have placed restrictions on tourists taking photos.',
+ q:'Why might some people be opposed to taking photos in public places? What are some popular photo spots in Hong Kong? Should Hong Kong implement regulations regarding public photography?',
+ points:['為何有人反對在公共地方拍照','香港有哪些熱門打卡點','香港應否規管','其他重要考慮']},
+
+{y:'2025 DSE · 1.3 · 11/3 19:00',yr:2025,lv:'B',t:'Technology / Education',
+ stimulus:'Smartphones have become increasingly powerful, leading some to question whether personal computers are still necessary.',
+ q:'Why have smartphones become so popular? Are PCs still beneficial for students? Will smartphones eventually replace PCs?',
+ points:['智能手機為何普及','電腦對學生是否仍有用','手機會否取代電腦','其他重要考慮']},
+
+{y:'2025 DSE · 2.1 · 12/3 17:00',yr:2025,lv:'B',t:'Cross-border Life / Tourism',
+ stimulus:'Shenzhen is becoming increasingly popular among Hong Kong tourists, especially during holidays.',
+ q:'What makes Shenzhen more attractive compared to other destinations? Why do people prefer travelling to Shenzhen over other places? How can businesses in Hong Kong encourage residents to stay in the city during holidays?',
+ points:['深圳比其他目的地吸引之處','為何偏好北上','香港商戶如何留住市民','其他重要考慮']},
+
+{y:'2025 DSE · 2.2 · 12/3 18:00',yr:2025,lv:'B',t:'Transport / Independence',
+ stimulus:'Few teenagers in Hong Kong choose to learn to drive, unlike in many other places.',
+ q:'What are the benefits and challenges of being a driver in Hong Kong? Is Hong Kong a car-friendly city? Why do few teenagers choose to learn to drive?',
+ points:['在香港駕駛的優點與困難','香港是否適合駕車','為何少有青少年學車','其他重要考慮']},
+
+{y:'2025 DSE · 2.3 · 12/3 19:00',yr:2025,lv:'B',t:'Health / Well-being',
+ stimulus:'Many teenagers in Hong Kong experience fears and phobias that affect their daily lives.',
+ q:'What are some common fears faced by teenagers in Hong Kong? What are the causes of these fears? How can teenagers overcome their fears?',
+ points:['青少年常見的恐懼','成因是什麼','如何克服','其他重要考慮']}
+];
+
+/* ── Part B 個人短講真題（gq = 該卷引導問題樣本）── */
+const ORAL_PAST_INDIV = [
+{y:'2015 DSE · Alyssa Carson',yr:2015,lv:'A',t:'Space / Ambition',
+ q:'The examiner will ask you one or more questions based on Part A. You will have up to 1 minute to respond.',
+ gq:['Would you like to be an astronaut?','Would you like to go to Mars?',
+     'Do you think Alyssa Carson is too young to train to go to Mars?',
+     'What ambitions do you have for your future?',
+     'If you went to Mars, what do you think you would find there?']},
+
+{y:'2017 DSE · 1.1 Shenzhen',yr:2017,lv:'A',t:'Work / Cross-border Life',
+ q:'The examiner will ask you one or more questions based on Part A. You will have up to 1 minute to respond.',
+ gq:['Have you ever been to Shenzhen?','Would you like to work in Shenzhen?',
+     'Would you like to live outside Hong Kong?','What would you miss if you left Hong Kong?',
+     'What would be the best thing about working in Shenzhen?',
+     'What would you find difficult about working in mainland China?']},
+
+{y:'2017 DSE · 1.2 Giving Money to Parents',yr:2017,lv:'A',t:'Family / Tradition',
+ q:'The examiner will ask you one or more questions based on Part A. You will have up to 1 minute to respond.',
+ gq:['What gifts do parents like to get?','Other than giving money, how can children help their parents?']},
+
+{y:'2017 DSE · 3.1 EQ or IQ',yr:2017,lv:'A',t:'Health / Education',
+ q:'The examiner will ask you one or more questions based on Part A. You will have up to 1 minute to respond.',
+ gq:['What problems do students face which affect their emotions?',
+     'Do you agree that having a high IQ is important?',
+     'Why do you think EQ is important for students?',
+     'Can emotional intelligence be taught, or is it innate?',
+     'Do you think schools focus too much on academic results?',
+     'Who has had the greatest influence on your emotional development?',
+     'How do you deal with negative emotions?',
+     'How can the school help students develop emotional intelligence?']},
+
+{y:'2024 DSE · Digital Museum',yr:2024,lv:'B',t:'Culture / Technology',
+ q:'The examiner will ask you one or more questions based on Part A. You will have up to 1 minute to respond.',
+ gq:['Do you like going to museums?',
+     'Do you think that more art lessons should be provided in schools?',
+     'Do you think that the popularity of online museums will last in the future?',
+     'Who do you think will go to museums? Teenagers or elderly?',
+     'Should teenagers be encouraged to go to museums?',
+     'What can people learn by watching art collections?']},
+
+{y:'2024 DSE · Delivery Apps',yr:2024,lv:'B',t:'Work / Technology',
+ q:'The examiner will ask you one or more questions based on Part A. You will have up to 1 minute to respond.',
+ gq:['Would you prefer to be a food delivery worker?',
+     'Will food delivery jobs be replaced by technology in the future?',
+     'How do food delivery apps increase the number of unhealthy people?']},
+
+{y:'2024 DSE · Ugly Buildings',yr:2024,lv:'B',t:'Hong Kong Life / Environment',
+ q:'The examiner will ask you one or more questions based on Part A. You will have up to 1 minute to respond.',
+ gq:['Do you think buildings in Hong Kong should be built higher?',
+     'Which building in Hong Kong do you like the most?',
+     'Why do some people think that ugly buildings are attractive?']},
+
+{y:'2024 DSE · Tourism Impacts',yr:2024,lv:'B',t:'Tourism / Hong Kong Life',
+ q:'The examiner will ask you one or more questions based on Part A. You will have up to 1 minute to respond.',
+ gq:['Do you prefer to travel alone or with friends?',
+     'Do you travel with your friends or family?',
+     'What makes Hong Kong a good place to visit?',
+     'What can you learn from travelling to other cities?']},
+
+{y:'2025 DSE · 1.1 Cheung Ka Long',yr:2025,lv:'B',t:'Sport / Inspiration',
+ q:'The examiner will ask you one or more questions based on Part A. You will have up to 1 minute to respond.',
+ gq:['Do you consider fencing to be a dangerous sport?',
+     'How can the government encourage the promotion of fencing?',
+     'What traits are essential for a professional athlete?',
+     'Did you participate in sports during the summer holidays?',
+     'Do you enjoy watching the Olympics on television?',
+     'Have you ever watched the Olympic Games?',
+     'Should the government offer financial support to exceptional athletes?',
+     'How can Cheung Ka Long\'s experiences inspire young people?']},
+
+{y:'2025 DSE · 1.2 Photos in Public',yr:2025,lv:'B',t:'Technology / Public Behaviour',
+ q:'The examiner will ask you one or more questions based on Part A. You will have up to 1 minute to respond.',
+ gq:['Do you take photos in public places?',
+     'Who do you think enjoys taking photos more, younger people or older people?',
+     'Why is it important to take photos while travelling?',
+     'Do you like sharing your photos with friends?',
+     'Does tourism cause disruptions in the city?',
+     'Would you visit a place solely for taking photos?',
+     'Can taking photos ruin the experience for others?',
+     'Have you ever posted photos taken in public places?']},
+
+{y:'2025 DSE · 1.3 Smartphones vs PCs',yr:2025,lv:'B',t:'Technology / Education',
+ q:'The examiner will ask you one or more questions based on Part A. You will have up to 1 minute to respond.',
+ gq:['Should students be permitted to use smartphones at school?',
+     'Do you use a smartphone?','Do you think you could live without a smartphone?',
+     'Should schools provide laptops for students?',
+     'Do you prefer working on a smartphone or a PC?',
+     'Do you use a PC to complete your homework?',
+     'Why do you think teenagers tend to overuse smartphones?',
+     'Should very young children be allowed to use smartphones?']},
+
+{y:'2025 DSE · 2.2 Car Driving',yr:2025,lv:'B',t:'Transport / Independence',
+ q:'The examiner will ask you one or more questions based on Part A. You will have up to 1 minute to respond.',
+ gq:['Do you think schools should teach students how to drive?',
+     'Should the government allow individuals under 18 to drive?',
+     'Should the government encourage car ownership and driving in Hong Kong?',
+     'Is Hong Kong a safe place for driving?',
+     'Do you think driving is a sign of adulthood?',
+     'Do you want to learn how to drive?',
+     'Do you think teenagers in Hong Kong should learn to drive?',
+     'How do you think the travel habits of Hong Kong residents will change in the future?']},
+
+{y:'2025 DSE · 2.3 Phobias',yr:2025,lv:'B',t:'Health / Well-being',
+ q:'The examiner will ask you one or more questions based on Part A. You will have up to 1 minute to respond.',
+ gq:['Do you know anyone who is afraid of animals?',
+     'Who do you turn to when you are afraid?',
+     'How would you help a friend overcome the fear of public speaking?',
+     'Did you have any fears when you were a child?',
+     'Why are some people afraid of using elevators?',
+     'Do you think fear diminishes as you get older?',
+     'How do teenagers\' fears impact their self-confidence?',
+     'How do people\'s fears affect their confidence?']}
+];
+
+/* 合併為完整題庫（真題在前，參考題在後） */
+ORAL_GROUP = ORAL_PAST_GROUP.concat(ORAL_GROUP);
+ORAL_INDIV = ORAL_PAST_INDIV.concat(ORAL_INDIV);
+
+/* 年份索引，供篩選器使用 */
+const ORAL_YEARS = [...new Set(
+  ORAL_GROUP.map(q=>q.yr).concat(ORAL_INDIV.map(q=>q.yr))
+    .filter(y=>typeof y==='number')
+)].sort((a,b)=>b-a);
+
+/* 考試說明：2020–2022 年口試取消 */
+const ORAL_NO_EXAM = [2020,2021,2022];
 /* ════════════════════════════════════════════════════════════
    核心引擎：狀態管理 / 導航 / 知識點 / 練習 / 學習時間 / 倒數
    ════════════════════════════════════════════════════════════ */
@@ -1626,16 +2199,17 @@ function qHTML(q,i){
         if(Number(picked)===Number(j))cls+=Number(j)===q.ans?' sel right':' sel wrong';
         else if(Number(j)===q.ans)cls+=' right';
       }
-      return `<div class="${cls}" data-q="${q.id}" data-o="${j}"><span class="k">${'ABCD'[j]}</span><span>${o}</span></div>`;
+      return `<div class="${cls}" data-q="${q.id}" data-o="${j}"><span class="k">${'ABCD'[j]}</span><span>${tex2html(o)}</span></div>`;
     }).join('')}</div>`;
   }else{
     body=`<textarea class="ta" data-q="${q.id}" rows="3" placeholder="在此輸入你的答案…">${esc(DB.ans[q.id]||'')}</textarea>`;
   }
-  const hasAns=(q.ans||q.ex)?1:0;
+  /* ans 可以是 0（選項 A），不能用 truthy 判斷，否則「查看答案」按鈕會消失 */
+  const hasAns=(q.ans!=null||q.ansTxt||q.ex)?1:0;
   return `<div class="qcard" data-id="${q.id}">
     <div class="qh">
       <span class="qno">${i+1}</span>
-      <div class="qt">${q.q}</div>
+      <div class="qt">${tex2html(q.q)}</div>
       ${own}
       <span class="star ${star?'on':''}" data-qs="${q.id}" title="標記">★</span>
       ${c?`<button class="btn sm" data-edit="${q.id}">編輯</button>`:''}
@@ -1649,8 +2223,11 @@ function qHTML(q,i){
       ${q.type==='mc'?`<button class="btn sm" data-clear="${q.id}">清除</button>`:''}
     </div>
     ${hasAns?`<div class="ans" id="ans-${q.id}">
-      ${q.ans?`<div class="tag">參考答案</div><div>${q.ans}</div>`:''}
-      ${q.ex?`<div class="ex"><b>解析：</b>${q.ex}</div>`:''}
+      ${(q.ansTxt||(q.type==='mc'&&q.opts&&q.opts[q.ans]!=null)||q.ans!=null)?
+        `<div class="tag">參考答案</div><div>${tex2html(
+          q.ansTxt || (q.opts?String(q.opts[q.ans]):String(q.ans))
+        )}</div>`:''}
+      ${q.ex?`<div class="ex"><b>解析：</b>${tex2html(q.ex)}</div>`:''}
     </div>`:''}
   </div>`;
 }
@@ -1888,6 +2465,26 @@ function openTool(id){
   openModal(T.ic+' '+T.n,body,()=>{
     ({graph:toolGraph,plot:toolPlot,phys:toolPhys,atom:toolAtom,oral:openOral,
       card:toolCard,stats:toolStats,timer:toolTimer}[id]||toolGraph)($('#toolHost'));
+  });
+}
+
+/* 練習題內的「🖊 圖形標註」按鈕會呼叫此函式（見 p4.js bindQ）。
+   它與工具頁的圖形標註板共用同一個 toolGraph，只是預先帶入題目資訊。 */
+function openGraph(qid){
+  const q=allQuestions().find(x=>x.id===qid);
+  const T=TOOLS.find(t=>t.id==='graph');
+  if(!T)return;
+  openModal((q?'🖊 圖形標註 · 第 '+qid+' 題':'🖊 圖形標註'),
+    `<div id="toolHost" style="min-height:340px"></div>`,()=>{
+    toolGraph($('#toolHost'));
+    if(q){
+      const tip=document.createElement('div');
+      tip.className='hint b';
+      tip.style.marginBottom='9px';
+      tip.textContent='題目：'+String(q.q||'').replace(/<[^>]*>/g,'').slice(0,90);
+      const host=$('#toolHost');
+      host.insertBefore(tip,host.firstChild);
+    }
   });
 }
 
@@ -3431,6 +4028,10 @@ function chooseOralMode(){
    <div style="margin-top:16px">
      <div class="hint">AI 引擎：<b id="engTxt">${DB.set.apiKey?'已連接大模型 API（'+esc(DB.set.apiProvider||'自訂')+'）':'瀏覽器內置模式（免費，AI 只能做客觀統計）'}</b>
        <button class="btn sm" id="engSet" style="margin-left:8px">前往設定</button></div>
+     <div class="hint" style="margin-top:10px">
+       <button class="btn pri sm" id="bankBtn">📚 瀏覽歷屆真題（${ORAL_GROUP.length+ORAL_INDIV.length} 題）</button>
+       <span class="muted" style="margin-left:8px;font-size:12.5px">可按年份、主題、可信度挑選題目</span>
+     </div>
      <div class="hint" style="margin-top:8px">語音識別需要麥克風權限；AI 發音使用瀏覽器語音合成，建議戴上耳機以避免回音。</div>
    </div>`;
   openModal('🎙️ English Oral 訓練室',html,()=>{
@@ -3441,17 +4042,106 @@ function chooseOralMode(){
     });
     const es=$('#engSet');
     if(es)es.onclick=()=>{openSettings(()=>chooseOralMode())};
+    const bb=$('#bankBtn');
+    if(bb)bb.onclick=()=>openOralBank();
   });
+}
+
+/* ══════════ 歷屆真題瀏覽器 ══════════ */
+let BANK_F={yr:'all',lv:'all',mode:'group',kw:''};
+function openOralBank(){
+  const years=ORAL_YEARS;
+  const build=()=>{
+    const arr=(BANK_F.mode==='indiv'?ORAL_INDIV:ORAL_GROUP).filter(q=>{
+      if(BANK_F.yr!=='all'&&String(q.yr)!==String(BANK_F.yr))return false;
+      if(BANK_F.lv!=='all'&&(q.lv||'r')!==BANK_F.lv)return false;
+      if(BANK_F.kw){
+        const k=BANK_F.kw.toLowerCase();
+        const hay=((q.t||'')+' '+(q.q||'')+' '+(q.stimulus||'')+' '+(q.y||'')+' '+(q.gq||[]).join(' ')).toLowerCase();
+        if(hay.indexOf(k)<0)return false;
+      }
+      return true;
+    });
+    const yOpts=years.map(y=>`<option value="${y}"${BANK_F.yr==y?' selected':''}>${y}</option>`).join('');
+    const html=`
+      <div class="hint b">從歷屆 DSE 英文科 Paper 4 真題中挑選。點擊題目即可開始練習。</div>
+      <div class="qtools">
+        <select class="sel" id="bMode">
+          <option value="group"${BANK_F.mode==='group'?' selected':''}>Part A 小組討論（${ORAL_GROUP.length}）</option>
+          <option value="indiv"${BANK_F.mode==='indiv'?' selected':''}>Part B 個人短講（${ORAL_INDIV.length}）</option>
+        </select>
+        <select class="sel" id="bYr">
+          <option value="all"${BANK_F.yr==='all'?' selected':''}>全部年份</option>
+          ${yOpts}
+        </select>
+        <select class="sel" id="bLv">
+          <option value="all"${BANK_F.lv==='all'?' selected':''}>全部可信度</option>
+          <option value="A"${BANK_F.lv==='A'?' selected':''}>A · 考評局公開卷</option>
+          <option value="B"${BANK_F.lv==='B'?' selected':''}>B · 考後彙整</option>
+          <option value="r"${BANK_F.lv==='r'?' selected':''}>參考題（依題型編寫）</option>
+        </select>
+        <input class="inp" id="bKw" placeholder="搜尋主題或關鍵字…" value="${esc(BANK_F.kw)}">
+        <span class="muted" style="font-size:13px">共 ${arr.length} 題</span>
+      </div>
+      <div class="qlist2">
+        ${arr.length?arr.map((q,i)=>`
+          <div class="qitem" data-idx="${i}">
+            <div class="qi-h">
+              <span class="qi-y">${esc(q.y||'—')}</span>
+              ${lvBadge(q.lv)}
+              <span class="qi-t">${esc(q.t||'')}</span>
+            </div>
+            <div class="qi-s">${esc(q.stimulus||q.q||'').slice(0,150)}${(q.stimulus||q.q||'').length>150?'…':''}</div>
+          </div>`).join(''):'<div class="empty">此篩選條件下沒有題目。</div>'}
+      </div>
+      <div class="hint" style="margin-top:12px;font-size:12.5px">
+        <b>關於可信度：</b>
+        <span class="lv a">A · 公開卷</span> 來自考評局公開試卷，可逐字核對，適合精練與評分；
+        <span class="lv b">B · 考後彙整</span> 來自考生回憶與傳媒整理，主題可靠但措辭可能略有出入，適合擴充練習；
+        <span class="lv r">參考題</span> 依歷屆題型編寫，非考評局原卷。<br>
+        <b>2020–2022 年</b>因疫情取消英文科口試，並無正式公開試題。
+      </div>`;
+    openModal('📚 歷屆 DSE Paper 4 真題庫',html,()=>{
+      const re=()=>{openOralBank()};
+      const m=$('#bMode'); if(m)m.onchange=()=>{BANK_F.mode=m.value;re()};
+      const y=$('#bYr');   if(y)y.onchange=()=>{BANK_F.yr=y.value;re()};
+      const l=$('#bLv');   if(l)l.onchange=()=>{BANK_F.lv=l.value;re()};
+      const k=$('#bKw');   if(k)k.oninput=()=>{BANK_F.kw=k.value;clearTimeout(k._t);
+        k._t=setTimeout(re,350)};
+      $$('#mGenB .qitem').forEach(el=>el.onclick=()=>{
+        const arr2=(BANK_F.mode==='indiv'?ORAL_INDIV:ORAL_GROUP).filter(q=>{
+          if(BANK_F.yr!=='all'&&String(q.yr)!==String(BANK_F.yr))return false;
+          if(BANK_F.lv!=='all'&&(q.lv||'r')!==BANK_F.lv)return false;
+          if(BANK_F.kw){
+            const k2=BANK_F.kw.toLowerCase();
+            const hay=((q.t||'')+' '+(q.q||'')+' '+(q.stimulus||'')+' '+(q.y||'')+' '+(q.gq||[]).join(' ')).toLowerCase();
+            if(hay.indexOf(k2)<0)return false;
+          }
+          return true;
+        });
+        const q=arr2[+el.dataset.idx];
+        if(!q)return;
+        closeModal();
+        ORAL.q=q; ORAL.mode=BANK_F.mode; ORAL._preset=true;
+        startOral();
+      });
+    });
+  };
+  build();
 }
 
 function startOral(){
   ORAL.log=[];ORAL.buf='';ORAL.phase='prep';ORAL.t=0;
-  if(ORAL.mode==='indiv'){
-    ORAL.q=ORAL_INDIV[Math.floor(Math.random()*ORAL_INDIV.length)];
-    ORAL.total=60;
+  if(!ORAL._preset){
+    if(ORAL.mode==='indiv'){
+      ORAL.q=ORAL_INDIV[Math.floor(Math.random()*ORAL_INDIV.length)];
+      ORAL.total=60;
+    }else{
+      ORAL.q=ORAL_GROUP[Math.floor(Math.random()*ORAL_GROUP.length)];
+      ORAL.total=8*60;
+    }
   }else{
-    ORAL.q=ORAL_GROUP[Math.floor(Math.random()*ORAL_GROUP.length)];
-    ORAL.total=8*60;
+    ORAL._preset=false;
   }
   ORAL.roles=AI_ROLES.map((r,i)=>({...r,color:ORAL_COLORS[i],on:true}));
   $('#oralMode').textContent=ORAL.mode==='group'?'AI 小組討論':ORAL.mode==='p2p'?'房間碼連線':'個人短講';
@@ -3496,18 +4186,29 @@ function tick(){
   e.className='n'+(ORAL.t<=0?' over':ORAL.t<=30?' warn':'');
 }
 
+/* 可信度徽章 */
+function lvBadge(lv){
+  if(lv==='A')return '<span class="lv a" title="考評局公開卷，可逐字核對原文">A · 公開卷</span>';
+  if(lv==='B')return '<span class="lv b" title="考後回憶／傳媒彙整，主題可靠、措辭可能略有出入">B · 考後彙整</span>';
+  if(lv==='C')return '<span class="lv c" title="僅主題索引，原文未取得">C · 主題索引</span>';
+  return '<span class="lv r" title="參考題，依歷屆題型編寫">參考題</span>';
+}
+
 function renderOralQ(){
   const q=ORAL.q,box=$('#oralPrompt');
   if(ORAL.mode==='indiv'){
     box.innerHTML=`<div class="q">${esc(q.q)}</div>
       <div class="qs"><b>Part B · Individual Response</b><br>
-      準備 10 分鐘，作答 1 分鐘。建議結構：立場 → 原因 → 例子 → 總結。</div>`;
+      準備 10 分鐘，作答 1 分鐘。建議結構：立場 → 原因 → 例子 → 總結。
+      ${q.gq?`<br><br><b>可能的追問方向：</b><br>${q.gq.map(x=>'• '+esc(x)).join('<br>')}`:''}
+      ${q.gq?'<br><br><span class="muted" style="font-size:12.5px">實戰時由考官就 Part A 內容即時提問，以上為該卷引導問題樣本，毋須逐一作答。</span>':''}
+      </div>`;
   }else{
     box.innerHTML=`<div class="q">${esc(q.stimulus)}</div>
       <div style="font-size:14.5px;font-weight:650;margin-bottom:9px">${esc(q.q)}</div>
-      <div class="qs"><b>可考慮的方向：</b><br>${q.points.map(p=>'• '+esc(p)).join('<br>')}</div>`;
+      <div class="qs"><b>可考慮的方向：</b><br>${(q.points||[]).map(p=>'• '+esc(p)).join('<br>')}</div>`;
   }
-  $('#oralSrc').textContent=(q.y||'')+' · '+(q.t||'');
+  $('#oralSrc').innerHTML=(q.y?esc(q.y)+' · ':'')+esc(q.t||'')+' '+lvBadge(q.lv);
 }
 
 function renderOralRoles(){
@@ -3599,10 +4300,15 @@ function bindOralBtns(){
   $('#oralExit').onclick=exitOral;
   $('#oralNewQ').onclick=()=>{
     if(ORAL.log.length&&!confirm('換題會清空目前對話記錄，確定？'))return;
-    if(ORAL.mode==='indiv')ORAL.q=ORAL_INDIV[Math.floor(Math.random()*ORAL_INDIV.length)];
-    else ORAL.q=ORAL_GROUP[Math.floor(Math.random()*ORAL_GROUP.length)];
-    ORAL.log=[];ORAL.buf='';
-    renderOralQ();renderOralLog();
+    if(ORAL.mode==='p2p'){
+      ORAL.q=ORAL_GROUP[Math.floor(Math.random()*ORAL_GROUP.length)];
+      ORAL.log=[];ORAL.buf='';renderOralQ();renderOralLog();return;
+    }
+    /* 開啟題庫瀏覽器，可選年份／主題；直接關閉則隨機抽題 */
+    BANK_F.mode=(ORAL.mode==='indiv'?'indiv':'group');
+    const fromRoom=false;
+    openOralBank();
+    /* 若使用者直接關閉視窗而沒選題，維持原題目 */
   };
   $('#oralSettings').onclick=()=>openSettings();
   $('#oralExport').onclick=exportOral;
@@ -4366,10 +5072,13 @@ function openEditor(qid){
       const opts=ED.opts.map(o=>o.trim()).filter(Boolean);
       if(opts.length<2){alert('多項選擇題至少需要 2 個選項');return}
       obj.opts=opts;
+      /* ans 必須維持「數字索引」，批改時用的是 Number(作答)===q.ans。
+         若被文字答案覆蓋，自動批改會永遠判錯。 */
       obj.ans=Math.min(Number($('#eAns').value),opts.length-1);
     }
     const a=$('#eA').value.trim(),ex=$('#eE').value.trim();
-    if(a)obj.ans=a;
+    /* 文字版參考答案另存 ansTxt，不覆蓋索引 */
+    if(a){ if(type==='mc')obj.ansTxt=a; else obj.ans=a; }
     if(ex)obj.ex=ex;
     const i=DB.custom.findIndex(x=>x.id===ED.id);
     if(i>=0)DB.custom[i]=obj;else DB.custom.unshift(obj);
@@ -4405,7 +5114,7 @@ function openManager(){
        return `<div class="equ" style="align-items:flex-start;padding:11px">
          <span class="dot" style="background:${s.color};margin-top:6px"></span>
          <div style="flex:1;min-width:0">
-           <div style="font-size:13.5px;font-weight:600">${esc(q.q.slice(0,80))}${q.q.length>80?'…':''}</div>
+           <div style="font-size:13.5px;font-weight:600">${tex2html(esc(q.q).slice(0,110))}${q.q.length>110?'…':''}</div>
            <div style="font-size:11.5px;color:var(--mu);margin-top:3px">
              ${esc(s.name)} · ${esc(q.g)} · ${esc(q.p)} · ${q.type==='mc'?'選擇題':q.type==='short'?'短答題':'論述題'}
              ${q.imgs&&q.imgs.length?' · '+q.imgs.length+' 張圖':''}
