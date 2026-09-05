@@ -19,7 +19,8 @@
 }
 body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB",
-    "Microsoft JhengHei","Noto Sans TC",sans-serif;
+    "Microsoft JhengHei","Noto Sans TC","Segoe UI Symbol","Apple Symbols","Arial Unicode MS",
+    "Cambria Math","Segoe UI Emoji","Noto Color Emoji",sans-serif;
   background:var(--bg); color:var(--tx); line-height:1.6;
   -webkit-font-smoothing:antialiased; font-size:15px;
 }
@@ -417,6 +418,14 @@ hr.sp{border:none;border-top:1px solid var(--bd);margin:17px 0}
   .kgrid,.tgrid{grid-template-columns:1fr}
   .barrow .nm{width:78px;font-size:12px}
 }
+
+/* ══ 數學上下標：改用 HTML 標籤，避免缺字型變方框 ══ */
+sub,sup{font-size:.72em;line-height:0;position:relative;font-weight:inherit}
+sub{bottom:-.25em} sup{top:-.45em}
+.ov{text-decoration:overline}
+/* 確保數字與單位使用通用字型 */
+body,.qcard,.ans,.ex{font-variant-numeric:normal}
+
 </style>
 </head>
 <body>
@@ -431,8 +440,8 @@ hr.sp{border:none;border-top:1px solid var(--bd);margin:17px 0}
     <button class="cd" id="cdBtn"><b id="cdN">--</b><small id="cdL">天後開考</small></button>
     <div class="acts">
       <button class="ib" id="btnSet" title="設定">⚙</button>
-      <button class="ib" id="btnExp" title="匯出備份">⬇</button>
-      <button class="ib" id="btnImp" title="匯入備份">⬆</button>
+      <button class="ib" id="btnExp" title="匯出備份">↓</button>
+      <button class="ib" id="btnImp" title="匯入備份">↑</button>
       <input type="file" id="fileImp" accept=".json" hidden>
     </div>
   </div>
@@ -454,7 +463,7 @@ hr.sp{border:none;border-top:1px solid var(--bd);margin:17px 0}
     <h2 id="oralTitle">English Speaking</h2>
     <span id="oralMode" class="badge b core">—</span>
     <button class="btn sm" id="oralSettings">⚙ 設定</button>
-    <button class="btn sm" id="oralExit">✕ 離開</button>
+    <button class="btn sm" id="oralExit">× 離開</button>
   </div>
   <div class="obd">
     <div class="ocol-l">
@@ -491,14 +500,14 @@ hr.sp{border:none;border-top:1px solid var(--bd);margin:17px 0}
 
 <!-- ══ Modal: 設定 ══ -->
 <div class="mask" id="mSet"><div class="modal">
-  <div class="mh"><h3>⚙ 設定</h3><button class="x" data-close>✕</button></div>
+  <div class="mh"><h3>⚙ 設定</h3><button class="x" data-close>×</button></div>
   <div class="mb" id="setBody"></div>
   <div class="mf"><button class="btn" data-close>取消</button><button class="btn pri" id="setSave">儲存</button></div>
 </div></div>
 
 <!-- ══ Modal: 通用 ══ -->
 <div class="mask" id="mGen"><div class="modal w">
-  <div class="mh"><h3 id="mGenT">—</h3><button class="x" data-close>✕</button></div>
+  <div class="mh"><h3 id="mGenT">—</h3><button class="x" data-close>×</button></div>
   <div class="mb" id="mGenB"></div>
   <div class="mf"><button class="btn" data-close>關閉</button></div>
 </div></div>
@@ -782,7 +791,7 @@ const SUBJECTS_ELECT = [
   {n:'電學',items:['電流、電壓、電阻與歐姆定律','電路：串聯與並聯','電阻器與電阻定律','電功率與電能','內電阻與電動勢','基爾霍夫定律']},
   {n:'磁學與電磁感應',items:['磁場與磁力線','電流的磁效應','載流導體在磁場中的受力','弗林明左右手定則','電磁感應與法拉第定律','楞次定律','變壓器與交流電']}],
   S6:[
-  {n:'原子物理與放射學',items:['原子的結構與原子模型演變','放射性衰變：α、β、γ','半衰期與衰變曲線','核裂變與核聚變','輻射的探測與防護','質能關係 E = mc²']},
+  {n:'原子物理與放射學',items:['原子的結構與原子模型演變','放射性衰變：α、β、γ','半衰期與衰變曲線','核裂變與核聚變','輻射的探測與防護','質能關係 E = mc<sup>2</sup>']},
   {n:'選修課題',items:['選修一：天文學和航天科學','選修二：原子世界','選修三：能量和能源的使用','選修四：醫學物理學','（按學校選讀課題調整）']},
   {n:'實驗技巧',items:['量度儀器的使用與讀數：游標卡尺、螺旋測微器、安培計、伏特計','誤差分析：系統誤差與隨機誤差','有效數字與數據處理','作圖法與線性化處理','數據表與關係圖的繪製']},
   {n:'應試策略',items:['MC 卷的快速運算與單位換算','結構題的公式代入與步驟展示','實驗題：目的、步驟、數據、結論、改進','論述題的科學語言與邏輯','時間分配與複查']}]}},
@@ -889,22 +898,22 @@ const BANK = [
 {id:'m1',s:'math',g:'S4',p:'卷一',type:'mc',graph:false,
  q:'若二次方程 $x^{2} + kx + 9 = 0$ 有兩相等實根，且 $k > 0$，則 $k = $',
  opts:['3','6','9','12'],ans:1,
- ex:'有兩相等實根 ⇒ 判別式 Δ = 0。k² − 4(1)(9) = 0 ⇒ k² = 36 ⇒ k = ±6。因 k > 0，故 k = 6。'},
+ ex:'有兩相等實根 ⇒ 判別式 Δ = 0。k<sup>2</sup> − 4(1)(9) = 0 ⇒ k<sup>2</sup> = 36 ⇒ k = ±6。因 k > 0，故 k = 6。'},
 {id:'m2',s:'math',g:'S4',p:'卷一',type:'short',graph:false,
  q:'已知圓 C 的方程為 $x^{2} + y^{2} − 4x + 6y − 12 = 0$。<br>(a) 求圓心及半徑。<br>(b) 判斷點 P(5, 1) 在圓內、圓上還是圓外。',
- ans:'(a) 配方：(x²−4x+4) + (y²+6y+9) = 12+4+9 = 25<br>圓心 = (2, −3)，半徑 = 5<br><br>(b) (5−2)² + (1+3)² = 9 + 16 = 25 = r²<br>故 P 在圓上。',
- ex:'圓方程配方技巧：x² + y² + Dx + Ey + F = 0 ⇒ 圓心 (−D/2, −E/2)，r = √((D/2)²+(E/2)²−F)。點與圓的位置關係用距離平方與 r² 比較。'},
+ ans:'(a) 配方：(x<sup>2</sup>−4x+4) + (y<sup>2</sup>+6y+9) = 12+4+9 = 25<br>圓心 = (2, −3)，半徑 = 5<br><br>(b) (5−2)<sup>2</sup> + (1+3)<sup>2</sup> = 9 + 16 = 25 = r<sup>2</sup><br>故 P 在圓上。',
+ ex:'圓方程配方技巧：x<sup>2</sup> + y<sup>2</sup> + Dx + Ey + F = 0 ⇒ 圓心 (−D/2, −E/2)，r = √((D/2)<sup>2</sup>+(E/2)<sup>2</sup>−F)。點與圓的位置關係用距離平方與 r<sup>2</sup> 比較。'},
 {id:'m3',s:'math',g:'S5',p:'卷一',type:'mc',graph:false,
  q:'設 $f(x) = x^{3} − 3x^{2} − 9x + 5$，則 $f(x)$ 的局部極小值為',
  opts:['−22','−5','0','22'],ans:0,
- ex:"f′(x) = 3x² − 6x − 9 = 3(x² − 2x − 3) = 3(x−3)(x+1)。駐點 x = −1, 3。f″(x) = 6x − 6：f″(−1) = −12 < 0（極大）；f″(3) = 12 > 0（極小）。f(3) = 27 − 27 − 27 + 5 = −22。"},
+ ex:"f′(x) = 3x<sup>2</sup> − 6x − 9 = 3(x<sup>2</sup> − 2x − 3) = 3(x−3)(x+1)。駐點 x = −1, 3。f″(x) = 6x − 6：f″(−1) = −12 < 0（極大）；f″(3) = 12 > 0（極小）。f(3) = 27 − 27 − 27 + 5 = −22。"},
 {id:'m4',s:'math',g:'S5',p:'卷二',type:'mc',graph:false,
  q:'某組數據的平均數為 20，標準差為 4。若每項數據均乘以 3 再減 5，則新數據組的平均數及標準差分別為',
  opts:['55, 12','55, 7','60, 12','60, 7'],ans:0,
- ex:'設變換 y = 3x − 5。平均數 ȳ = 3(20) − 5 = 55；標準差只受倍數影響（平移不影響離差），故 σ_y = 3(4) = 12。'},
+ ex:'設變換 y = 3x − 5。平均數 <span class="ov">y</span> = 3(20) − 5 = 55；標準差只受倍數影響（平移不影響離差），故 σ_y = 3(4) = 12。'},
 {id:'m5',s:'math',g:'S5',p:'卷一',type:'short',graph:true,
  q:'在圖中，A(0, 6)、B(8, 0)、C(0, 0) 為直角三角形 ABC 的頂點。<br>(a) 求直線 AB 的方程。<br>(b) 求 △ABC 的內切圓半徑。<br><br><span class="muted">（可開啟下方「圖形標註」繪圖輔助）</span>',
- ans:'(a) 斜率 = (0−6)/(8−0) = −3/4，方程：3x + 4y − 24 = 0<br><br>(b) 斜邊 AB = √(8²+6²) = 10<br>面積 = ½ × 8 × 6 = 24，半周長 s = (6+8+10)/2 = 12<br>內切圓半徑 r = 面積 / s = 24/12 = 2',
+ ans:'(a) 斜率 = (0−6)/(8−0) = −3/4，方程：3x + 4y − 24 = 0<br><br>(b) 斜邊 AB = √(8<sup>2</sup>+6<sup>2</sup>) = 10<br>面積 = ½ × 8 × 6 = 24，半周長 s = (6+8+10)/2 = 12<br>內切圓半徑 r = 面積 / s = 24/12 = 2',
  ex:'直角三角形內切圓半徑公式 r = (a + b − c)/2（c 為斜邊）= (6+8−10)/2 = 2，可交叉驗算。點到直線距離法亦可。'},
 {id:'m6',s:'math',g:'S6',p:'卷一',type:'essay',graph:false,
  q:'某工廠生產兩種產品 P 和 Q。生產一件 P 需 3 小時機器時間及 2 小時人手；生產一件 Q 需 2 小時機器時間及 4 小時人手。每日機器時間最多 120 小時，人手最多 160 小時。P 每件利潤 $500，Q 每件利潤 $400。<br><br>(a) 寫出所有約束條件並繪出可行域。<br>(b) 求最大利潤及對應的生產數量。',
@@ -913,11 +922,11 @@ const BANK = [
 {id:'m7',s:'math',g:'S6',p:'卷二',type:'mc',graph:false,
  q:'若 $\\log_{2} x + \\log_{2} (x-2) = 3$，則 $x = $',
  opts:['2','3','4','6'],ans:2,
- ex:'log₂[x(x−2)] = 3 ⇒ x(x−2) = 8 ⇒ x² − 2x − 8 = 0 ⇒ (x−4)(x+2) = 0 ⇒ x = 4 或 −2。定義域要求 x > 0 且 x − 2 > 0，即 x > 2，故 x = 4。'},
+ ex:'log<sub>2</sub>[x(x−2)] = 3 ⇒ x(x−2) = 8 ⇒ x<sup>2</sup> − 2x − 8 = 0 ⇒ (x−4)(x+2) = 0 ⇒ x = 4 或 −2。定義域要求 x > 0 且 x − 2 > 0，即 x > 2，故 x = 4。'},
 {id:'m8',s:'math',g:'S6',p:'卷一',type:'short',graph:false,
  q:'某等比數列的首項為 3，公比為 2。求：<br>(a) 第 8 項；<br>(b) 首 8 項之和。',
- ans:'(a) T₈ = ar⁷ = 3 × 2⁷ = 3 × 128 = 384<br><br>(b) S₈ = a(r⁸ − 1)/(r − 1) = 3(256 − 1)/1 = 3 × 255 = 765',
- ex:'等比數列：Tₙ = arⁿ⁻¹；求和 Sₙ = a(rⁿ − 1)/(r − 1)（r > 1）。若 r < 1 用 Sₙ = a(1 − rⁿ)/(1 − r)。'},
+ ans:'(a) T<sub>8</sub> = ar<sup>7</sup> = 3 × 2<sup>7</sup> = 3 × 128 = 384<br><br>(b) S<sub>8</sub> = a(r<sup>8</sup> − 1)/(r − 1) = 3(256 − 1)/1 = 3 × 255 = 765',
+ ex:'等比數列：T<sub>n</sub> = ar<sup>n-1</sup>；求和 S<sub>n</sub> = a(r<sup>n</sup> − 1)/(r − 1)（r > 1）。若 r < 1 用 S<sub>n</sub> = a(1 − r<sup>n</sup>)/(1 − r)。'},
 
 /* ═══ 數學 M2 ═══ */
 {id:'e1',s:'m2',g:'S4',p:'卷一',type:'mc',graph:false,
@@ -926,34 +935,34 @@ const BANK = [
  ex:'當 x → 0，sin kx ≈ kx。故原式 = 3x / 5x = 3/5。或用標準極限：lim (sin 3x / 3x) · (5x / sin 5x) · (3/5) = 1 · 1 · 3/5。'},
 {id:'e2',s:'m2',g:'S4',p:'卷一',type:'short',graph:false,
  q:'利用數學歸納法，證明對所有正整數 n：<br>$$1 + 3 + 5 + \\dots + (2n-1) = n^{2}$$',
- ans:'<b>n = 1：</b>左 = 1，右 = 1² = 1。成立。<br><br><b>設 n = k 成立：</b>1 + 3 + … + (2k−1) = k²<br><br><b>當 n = k + 1：</b><br>左 = [1 + 3 + … + (2k−1)] + (2k+1)<br>= k² + 2k + 1 = (k+1)² = 右<br><br>由數學歸納法，命題對所有正整數 n 成立。',
+ ans:'<b>n = 1：</b>左 = 1，右 = 1<sup>2</sup> = 1。成立。<br><br><b>設 n = k 成立：</b>1 + 3 + … + (2k−1) = k<sup>2</sup><br><br><b>當 n = k + 1：</b><br>左 = [1 + 3 + … + (2k−1)] + (2k+1)<br>= k<sup>2</sup> + 2k + 1 = (k+1)<sup>2</sup> = 右<br><br>由數學歸納法，命題對所有正整數 n 成立。',
  ex:'數學歸納法三步驟：驗證起始值 → 設 n = k 成立 → 證 n = k+1 成立。第三步必須用上歸納假設。'},
 {id:'e3',s:'m2',g:'S5',p:'卷一',type:'short',graph:true,
  q:'設 $f(x) = x^{3} − 6x^{2} + 9x + 1$。<br>(a) 求 f′(x) 及 f″(x)。<br>(b) 求 f(x) 的極大值點與極小值點。<br>(c) 求拐點。<br>(d) 描繪 f(x) 的圖像。',
- ans:'(a) f′(x) = 3x² − 12x + 9 = 3(x−1)(x−3)；f″(x) = 6x − 12<br><br>(b) 駐點 x = 1, 3。<br>f″(1) = −6 < 0 ⇒ 極大值點 (1, 5)<br>f″(3) = 6 > 0 ⇒ 極小值點 (3, 1)<br><br>(c) f″(x) = 0 ⇒ x = 2，f(2) = 8 − 24 + 18 + 1 = 3<br>拐點 (2, 3)<br><br>(d) 三次函數，x → +∞ 時 f → +∞；x → −∞ 時 f → −∞；y 軸截距 (0, 1)',
+ ans:'(a) f′(x) = 3x<sup>2</sup> − 12x + 9 = 3(x−1)(x−3)；f″(x) = 6x − 12<br><br>(b) 駐點 x = 1, 3。<br>f″(1) = −6 < 0 ⇒ 極大值點 (1, 5)<br>f″(3) = 6 > 0 ⇒ 極小值點 (3, 1)<br><br>(c) f″(x) = 0 ⇒ x = 2，f(2) = 8 − 24 + 18 + 1 = 3<br>拐點 (2, 3)<br><br>(d) 三次函數，x → +∞ 時 f → +∞；x → −∞ 時 f → −∞；y 軸截距 (0, 1)',
  ex:'曲線描繪五要素：截距、對稱性、漸近線、極值（用 f′）、凹凸與拐點（用 f″）。可開啟圖形標註板，或使用「M2 函數繪圖器」輸入 f(x) = x^3-6x^2+9x+1 驗證。'},
 {id:'e4',s:'m2',g:'S5',p:'卷一',type:'mc',graph:false,
  q:'$\\displaystyle\\int x e^{x^{2}}\\,dx = $',
  opts:['$e^{x^2} + C$','$\\tfrac{1}{2}e^{x^{2}} + C$','$2e^{x^{2}} + C$','$\\tfrac{1}{2}x^{2}e^{x^{2}} + C$'],ans:1,
- ex:'代換 u = x²，du = 2x dx ⇒ x dx = du/2。∫ e^u · du/2 = ½ e^u + C = ½ e^(x²) + C。微分驗算：d/dx [½ e^(x²)] = ½ · e^(x²) · 2x = x e^(x²)。✓'},
+ ex:'代換 u = x<sup>2</sup>，du = 2x dx ⇒ x dx = du/2。∫ e^u · du/2 = ½ e^u + C = ½ e^(x<sup>2</sup>) + C。微分驗算：d/dx [½ e^(x<sup>2</sup>)] = ½ · e^(x<sup>2</sup>) · 2x = x e^(x<sup>2</sup>)。✓'},
 {id:'e5',s:'m2',g:'S6',p:'卷一',type:'short',graph:true,
  q:'由曲線 $y = x^{2}$、直線 $x = 2$ 及 $x$ 軸圍成的區域，繞 $y$ 軸旋轉一周。<br>求所得立體的體積。',
- ans:'用柱殼法：V = 2π ∫₀² x · (x²) dx = 2π ∫₀² x³ dx<br>= 2π [x⁴/4]₀² = 2π · 4 = <b>8π</b><br><br>（驗算：用圓盤法對 y 積分，y ∈ [0, 4]<br>V = π∫₀⁴ (R² − r²) dy = π∫₀⁴ (4 − y) dy = π[4y − y²/2]₀⁴ = π(16 − 8) = 8π ✓）',
- ex:'繞 y 軸旋轉優先用柱殼法 V = 2π∫ x·f(x) dx；繞 x 軸用圓盤法 V = π∫ [f(x)]² dx。選對方法可以大幅簡化計算。'},
+ ans:'用柱殼法：V = 2π ∫<sub>0</sub><sup>2</sup> x · (x<sup>2</sup>) dx = 2π ∫<sub>0</sub><sup>2</sup> x<sup>3</sup> dx<br>= 2π [x<sup>4</sup>/4]<sub>0</sub><sup>2</sup> = 2π · 4 = <b>8π</b><br><br>（驗算：用圓盤法對 y 積分，y ∈ [0, 4]<br>V = π∫<sub>0</sub><sup>4</sup> (R<sup>2</sup> − r<sup>2</sup>) dy = π∫<sub>0</sub><sup>4</sup> (4 − y) dy = π[4y − y<sup>2</sup>/2]<sub>0</sub><sup>4</sup> = π(16 − 8) = 8π ✓）',
+ ex:'繞 y 軸旋轉優先用柱殼法 V = 2π∫ x·f(x) dx；繞 x 軸用圓盤法 V = π∫ [f(x)]<sup>2</sup> dx。選對方法可以大幅簡化計算。'},
 {id:'e6',s:'m2',g:'S6',p:'卷一',type:'mc',graph:false,
  q:'微分方程 $\\dfrac{dy}{dx} = 2y$，且 $y(0) = 3$，則 $y(1) = $',
- opts:['3e','3e²','6e','e³'],ans:1,
- ex:'分離變量：dy/y = 2 dx ⇒ ln|y| = 2x + C ⇒ y = Ae^(2x)。y(0) = 3 ⇒ A = 3。y(1) = 3e²。'},
+ opts:['3e','3e<sup>2</sup>','6e','e<sup>3</sup>'],ans:1,
+ ex:'分離變量：dy/y = 2 dx ⇒ ln|y| = 2x + C ⇒ y = Ae^(2x)。y(0) = 3 ⇒ A = 3。y(1) = 3e<sup>2</sup>。'},
 {id:'e7',s:'m2',g:'S6',p:'卷一',type:'short',graph:false,
- q:'設 $A = \\begin{pmatrix} 2 & 1 \\\\ 5 & 3 \\end{pmatrix}$。<br>(a) 求 det(A) 及 A⁻¹。<br>(b) 利用 A⁻¹ 解線性方程組：2x + y = 7，5x + 3y = 18。',
- ans:'(a) det(A) = 2(3) − 1(5) = 1<br>A⁻¹ = (1/1)·[[3, −1], [−5, 2]] = [[3, −1], [−5, 2]]<br><br>(b) [[x],[y]] = A⁻¹[[7],[18]] = [[3·7 + (−1)·18], [−5·7 + 2·18]]<br>= [[21 − 18], [−35 + 36]] = [[3],[1]]<br><b>x = 3, y = 1</b>',
- ex:'二階逆矩陣公式：若 A = [[a,b],[c,d]]，det = ad − bc，A⁻¹ = 1/det · [[d, −b], [−c, a]]。det = 0 時 A 為奇異矩陣，不可逆。'},
+ q:'設 $A = \\begin{pmatrix} 2 & 1 \\\\ 5 & 3 \\end{pmatrix}$。<br>(a) 求 det(A) 及 A<sup>-1</sup>。<br>(b) 利用 A<sup>-1</sup> 解線性方程組：2x + y = 7，5x + 3y = 18。',
+ ans:'(a) det(A) = 2(3) − 1(5) = 1<br>A<sup>-1</sup> = (1/1)·[[3, −1], [−5, 2]] = [[3, −1], [−5, 2]]<br><br>(b) [[x],[y]] = A<sup>-1</sup>[[7],[18]] = [[3·7 + (−1)·18], [−5·7 + 2·18]]<br>= [[21 − 18], [−35 + 36]] = [[3],[1]]<br><b>x = 3, y = 1</b>',
+ ex:'二階逆矩陣公式：若 A = [[a,b],[c,d]]，det = ad − bc，A<sup>-1</sup> = 1/det · [[d, −b], [−c, a]]。det = 0 時 A 為奇異矩陣，不可逆。'},
 
 /* ═══ 物理 ═══ */
 {id:'p1',s:'phy',g:'S4',p:'卷一',type:'mc',graph:false,
- q:'一物體從靜止開始，以 2 m s⁻² 的恆定加速度作直線運動，求它在第 4 秒內所走的距離。',
+ q:'一物體從靜止開始，以 2 m s<sup>-2</sup> 的恆定加速度作直線運動，求它在第 4 秒內所走的距離。',
  opts:['4 m','7 m','8 m','16 m'],ans:1,
- ex:'第 4 秒內 = 頭 4 秒位移 − 頭 3 秒位移。s = ½at²。<br>s(4) = ½(2)(16) = 16 m；s(3) = ½(2)(9) = 9 m。差 = 7 m。<br>另法：第 n 秒內距離 = ½a(2n−1) = ½(2)(7) = 7 m。'},
+ ex:'第 4 秒內 = 頭 4 秒位移 − 頭 3 秒位移。s = ½at<sup>2</sup>。<br>s(4) = ½(2)(16) = 16 m；s(3) = ½(2)(9) = 9 m。差 = 7 m。<br>另法：第 n 秒內距離 = ½a(2n−1) = ½(2)(7) = 7 m。'},
 {id:'p2',s:'phy',g:'S4',p:'卷一',type:'short',graph:false,
  q:'一質量為 2 kg 的木塊靜置於水平地面上，木塊與地面間的最大靜摩擦力為 12 N，動摩擦力為 8 N。現以 10 N 的水平力推木塊。<br><br>(a) 木塊會否移動？<br>(b) 若會，求木塊的加速度。',
  ans:'(a) 推力 10 N < 最大靜摩擦力 12 N ⇒ <b>木塊不會移動</b>，靜摩擦力 = 10 N（與推力平衡）。<br><br>(b) 不會移動，故加速度 = 0。',
@@ -961,44 +970,44 @@ const BANK = [
 {id:'p3',s:'phy',g:'S5',p:'卷一',type:'mc',graph:false,
  q:'一光線由水中射向空氣，水的折射率為 1.33。該光線發生全反射的臨界角約為',
  opts:['30.1°','41.2°','48.8°','62.5°'],ans:2,
- ex:'sin θc = n₂/n₁ = 1/1.33 = 0.752 ⇒ θc = 48.8°。全反射條件：(1) 光由光密介質射向光疏介質；(2) 入射角 > 臨界角。'},
+ ex:'sin θc = n<sub>2</sub>/n<sub>1</sub> = 1/1.33 = 0.752 ⇒ θc = 48.8°。全反射條件：(1) 光由光密介質射向光疏介質；(2) 入射角 > 臨界角。'},
 {id:'p4',s:'phy',g:'S5',p:'卷一',type:'short',graph:false,
  q:'一理想變壓器的原線圈有 800 匝，接上 220 V 交流電源；副線圈有 200 匝，接上一電阻為 11 Ω 的負載。<br><br>(a) 求副線圈的輸出電壓。<br>(b) 求負載的功率。',
- ans:'(a) Vs/Vp = Ns/Np ⇒ Vs = 220 × 200/800 = <b>55 V</b><br><br>(b) P = Vs²/R = 55²/11 = 3025/11 = <b>275 W</b><br>（驗算：Is = 55/11 = 5 A，P = 55 × 5 = 275 W ✓）',
+ ans:'(a) Vs/Vp = Ns/Np ⇒ Vs = 220 × 200/800 = <b>55 V</b><br><br>(b) P = Vs<sup>2</sup>/R = 55<sup>2</sup>/11 = 3025/11 = <b>275 W</b><br>（驗算：Is = 55/11 = 5 A，P = 55 × 5 = 275 W ✓）',
  ex:'理想變壓器：Vs/Vp = Ns/Np，且輸出功率 = 輸入功率（Ip Vp = Is Vs）。電流比與匝數比成反比：Is/Ip = Np/Ns。'},
 {id:'p5',s:'phy',g:'S6',p:'卷一',type:'mc',graph:false,
  q:'某放射性同位素的半衰期為 8 天。現有樣本的放射性活度為 480 Bq，24 天後其活度為',
  opts:['40 Bq','60 Bq','80 Bq','120 Bq'],ans:1,
- ex:'24 天 = 3 個半衰期。活度 = 480 × (½)³ = 480/8 = 60 Bq。半衰期公式：A = A₀(½)^(t/T½)。'},
+ ex:'24 天 = 3 個半衰期。活度 = 480 × (½)<sup>3</sup> = 480/8 = 60 Bq。半衰期公式：A = A<sub>0</sub>(½)^(t/T½)。'},
 {id:'p6',s:'phy',g:'S6',p:'卷一',type:'short',graph:true,
  q:'一小球從傾角為 30° 的斜面頂端由靜止滑下，斜面長 5 m，忽略摩擦。<br><br>(a) 求小球到達斜面底部時的速度。<br>(b) 若斜面有摩擦，小球到底部時速度只有 (a) 的 80%，求摩擦力所做的功（小球質量 0.5 kg）。<br><br><span class="muted">（可開啟圖形標註板繪製受力圖）</span>',
- ans:'(a) 高度差 h = 5 sin 30° = 2.5 m<br>能量守恆：mgh = ½mv² ⇒ v = √(2gh) = √(2 × 10 × 2.5) = √50 ≈ <b>7.07 m s⁻¹</b><br><br>(b) v′ = 0.8 × 7.07 = 5.66 m s⁻¹<br>W_f = ΔE = ½mv′² − mgh = ½(0.5)(32) − (0.5)(10)(2.5)<br>= 8 − 12.5 = <b>−4.5 J</b>（摩擦力做負功 4.5 J）',
+ ans:'(a) 高度差 h = 5 sin 30° = 2.5 m<br>能量守恆：mgh = ½mv<sup>2</sup> ⇒ v = √(2gh) = √(2 × 10 × 2.5) = √50 ≈ <b>7.07 m s<sup>-1</sup></b><br><br>(b) v′ = 0.8 × 7.07 = 5.66 m s<sup>-1</sup><br>W_f = ΔE = ½mv′<sup>2</sup> − mgh = ½(0.5)(32) − (0.5)(10)(2.5)<br>= 8 − 12.5 = <b>−4.5 J</b>（摩擦力做負功 4.5 J）',
  ex:'能量法比運動學快。摩擦力做功 = 末動能 − 初始位能（能量虧損）。記得摩擦力做負功，答案要有負號。'},
 
 /* ═══ 化學 ═══ */
 {id:'c1',s:'chem',g:'S4',p:'卷一',type:'mc',graph:false,
  q:'下列哪種物質在固態時的結構屬於「巨型離子結構」？',
  opts:['二氧化碳','氯化鈉','鑽石','碘'],ans:1,
- ex:'氯化鈉 NaCl 由 Na⁺ 與 Cl⁻ 以離子鍵構成三維巨型離子晶格。二氧化碳是簡單分子（分子間引力）；鑽石是巨型共價結構；碘 I₂ 是簡單分子晶體。'},
+ ex:'氯化鈉 NaCl 由 Na<sup>+</sup> 與 Cl<sup>-</sup> 以離子鍵構成三維巨型離子晶格。二氧化碳是簡單分子（分子間引力）；鑽石是巨型共價結構；碘 I<sub>2</sub> 是簡單分子晶體。'},
 {id:'c2',s:'chem',g:'S4',p:'卷一',type:'short',graph:false,
- q:'稱取 2.40 g 的某金屬 M，與過量稀鹽酸反應，生成 2.24 dm³ 氫氣（在常溫常壓下，氣體摩爾體積 = 24 dm³ mol⁻¹）。已知反應為：<br>M(s) + 2HCl(aq) → MCl₂(aq) + H₂(g)<br><br>求金屬 M 的相對原子質量。',
- ans:'n(H₂) = 2.24 / 24 = 0.0933 mol<br>摩爾比 M : H₂ = 1 : 1 ⇒ n(M) = 0.0933 mol<br>摩爾質量 = 2.40 / 0.0933 = 25.7 g mol⁻¹<br><b>相對原子質量 ≈ 25.7</b>（接近鎂 Mg 的 24.3，若取 2.24 dm³ 為 STP 摩爾體積 22.4 dm³，則 n = 0.1 mol，Ar = 24，即鎂）',
- ex:'答題三步驟：① 由氣體體積求摩爾數 ② 由化學方程式摩爾比求目標物摩爾數 ③ 由質量求摩爾質量。題目未指明摩爾體積時，看清是「常溫常壓 24 dm³」還是「STP 22.4 dm³」。'},
+ q:'稱取 2.40 g 的某金屬 M，與過量稀鹽酸反應，生成 2.24 dm<sup>3</sup> 氫氣（在常溫常壓下，氣體摩爾體積 = 24 dm<sup>3</sup> mol<sup>-1</sup>）。已知反應為：<br>M(s) + 2HCl(aq) → MCl<sub>2</sub>(aq) + H<sub>2</sub>(g)<br><br>求金屬 M 的相對原子質量。',
+ ans:'n(H<sub>2</sub>) = 2.24 / 24 = 0.0933 mol<br>摩爾比 M : H<sub>2</sub> = 1 : 1 ⇒ n(M) = 0.0933 mol<br>摩爾質量 = 2.40 / 0.0933 = 25.7 g mol<sup>-1</sup><br><b>相對原子質量 ≈ 25.7</b>（接近鎂 Mg 的 24.3，若取 2.24 dm<sup>3</sup> 為 STP 摩爾體積 22.4 dm<sup>3</sup>，則 n = 0.1 mol，Ar = 24，即鎂）',
+ ex:'答題三步驟：① 由氣體體積求摩爾數 ② 由化學方程式摩爾比求目標物摩爾數 ③ 由質量求摩爾質量。題目未指明摩爾體積時，看清是「常溫常壓 24 dm<sup>3</sup>」還是「STP 22.4 dm<sup>3</sup>」。'},
 {id:'c3',s:'chem',g:'S5',p:'卷一',type:'mc',graph:false,
  q:'下列關於酯化反應的叙述，哪項正確？',
  opts:['反應須在強鹼性環境中進行','反應通常用濃硫酸作催化劑','反應生成物只有酯一種','反應不涉及脫水'],ans:1,
- ex:'羧酸 + 醇 ⇌ 酯 + 水，條件：濃硫酸催化並作脫水劑、加熱回流。濃硫酸既是催化劑，又吸收生成的水使平衡右移（勒沙特列原理）。酯化反應屬縮合反應，會脫去水。'},
+ ex:'羧酸 + 醇 ↔ 酯 + 水，條件：濃硫酸催化並作脫水劑、加熱回流。濃硫酸既是催化劑，又吸收生成的水使平衡右移（勒沙特列原理）。酯化反應屬縮合反應，會脫去水。'},
 {id:'c4',s:'chem',g:'S5',p:'卷一',type:'short',graph:false,
- q:'25.0 cm³ 的 0.100 mol dm⁻³ 氫氧化鈉溶液，需用多少體積的 0.0800 mol dm⁻³ 硫酸完全中和？<br>反應：2NaOH(aq) + H₂SO₄(aq) → Na₂SO₄(aq) + 2H₂O(l)',
- ans:'n(NaOH) = 0.100 × 25.0/1000 = 2.50 × 10⁻³ mol<br>摩爾比 NaOH : H₂SO₄ = 2 : 1<br>n(H₂SO₄) = 2.50 × 10⁻³ / 2 = 1.25 × 10⁻³ mol<br>V = n/c = 1.25 × 10⁻³ / 0.0800 = 0.0156 dm³ = <b>15.6 cm³</b>',
- ex:'容量分析常見陷阱：忘記摩爾比。硫酸是二元酸，1 mol H₂SO₄ 中和 2 mol NaOH。務必先寫出平衡化學方程式再算。'},
+ q:'25.0 cm<sup>3</sup> 的 0.100 mol dm<sup>-3</sup> 氫氧化鈉溶液，需用多少體積的 0.0800 mol dm<sup>-3</sup> 硫酸完全中和？<br>反應：2NaOH(aq) + H<sub>2</sub>SO<sub>4</sub>(aq) → Na<sub>2</sub>SO<sub>4</sub>(aq) + 2H<sub>2</sub>O(l)',
+ ans:'n(NaOH) = 0.100 × 25.0/1000 = 2.50 × 10<sup>-3</sup> mol<br>摩爾比 NaOH : H<sub>2</sub>SO<sub>4</sub> = 2 : 1<br>n(H<sub>2</sub>SO<sub>4</sub>) = 2.50 × 10<sup>-3</sup> / 2 = 1.25 × 10<sup>-3</sup> mol<br>V = n/c = 1.25 × 10<sup>-3</sup> / 0.0800 = 0.0156 dm<sup>3</sup> = <b>15.6 cm<sup>3</sup></b>',
+ ex:'容量分析常見陷阱：忘記摩爾比。硫酸是二元酸，1 mol H<sub>2</sub>SO<sub>4</sub> 中和 2 mol NaOH。務必先寫出平衡化學方程式再算。'},
 {id:'c5',s:'chem',g:'S6',p:'卷一',type:'essay',graph:false,
- q:'哈伯法製氨的反應為：N₂(g) + 3H₂(g) ⇌ 2NH₃(g)　ΔH = −92 kJ mol⁻¹<br><br>(a) 指出提高溫度、增大壓強分別對平衡的影響，並解釋。<br>(b) 解釋為何工業上採用約 450°C、200 atm 及鐵粉催化劑，而非單純追求最高產率。',
+ q:'哈伯法製氨的反應為：N<sub>2</sub>(g) + 3H<sub>2</sub>(g) ↔ 2NH<sub>3</sub>(g)　ΔH = −92 kJ mol<sup>-1</sup><br><br>(a) 指出提高溫度、增大壓強分別對平衡的影響，並解釋。<br>(b) 解釋為何工業上採用約 450°C、200 atm 及鐵粉催化劑，而非單純追求最高產率。',
  ans:'(a) <b>提高溫度：</b>正反應放熱（ΔH < 0），升溫使平衡向吸熱方向（逆反應）移動 ⇒ 氨產率下降。<br><b>增大壓強：</b>左邊 4 mol 氣體 → 右邊 2 mol 氣體，增大壓強使平衡向氣體摩爾數較少的方向（正反應）移動 ⇒ 氨產率上升。<br><br>(b) <b>450°C 是折衷：</b>溫度太低雖然產率高，但反應速率太慢，不切實際。<br><b>200 atm 是折衷：</b>壓強愈高產率愈高，但設備成本與安全風險急劇上升。<br><b>鐵粉催化劑：</b>降低活化能，加快達到平衡的速率；催化劑同等加快正逆反應，<b>不改變平衡位置</b>，但讓生產在較低溫度下仍有可接受速率。',
  ex:'工業化學的答題關鍵是「平衡 vs 速率 vs 成本」三方折衷。必答催化劑不影響平衡位置（這是高頻失分位）。'},
 {id:'c6',s:'chem',g:'S6',p:'卷一',type:'short',graph:false,
- q:'寫出檢驗下列離子的試劑及觀察：<br>(a) 硫酸根離子 SO₄²⁻<br>(b) 氯離子 Cl⁻<br>(c) 銨離子 NH₄⁺<br>(d) 鐵(III) 離子 Fe³⁺',
- ans:'(a) 加稀硝酸酸化，再加硝酸鋇溶液 → <b>白色沉澱</b>（BaSO₄）<br>(b) 加稀硝酸酸化，再加硝酸銀溶液 → <b>白色沉澱</b>（AgCl，遇光變灰紫）<br>(c) 加氫氧化鈉溶液並加熱 → 放出<b>刺激性氣體</b>，使濕潤紅色石蕊試紙<b>變藍</b>（NH₃）<br>(d) 加氫氧化鈉溶液 → <b>紅褐色沉澱</b>（Fe(OH)₃）',
+ q:'寫出檢驗下列離子的試劑及觀察：<br>(a) 硫酸根離子 SO<sub>4</sub><sup>2-</sup><br>(b) 氯離子 Cl<sup>-</sup><br>(c) 銨離子 NH<sub>4</sub><sup>+</sup><br>(d) 鐵(III) 離子 Fe<sup>3+</sup>',
+ ans:'(a) 加稀硝酸酸化，再加硝酸鋇溶液 → <b>白色沉澱</b>（BaSO<sub>4</sub>）<br>(b) 加稀硝酸酸化，再加硝酸銀溶液 → <b>白色沉澱</b>（AgCl，遇光變灰紫）<br>(c) 加氫氧化鈉溶液並加熱 → 放出<b>刺激性氣體</b>，使濕潤紅色石蕊試紙<b>變藍</b>（NH<sub>3</sub>）<br>(d) 加氫氧化鈉溶液 → <b>紅褐色沉澱</b>（Fe(OH)<sub>3</sub>）',
  ex:'離子檢驗是卷一高頻題。記住「先酸化」的原因：排除碳酸根等干擾離子（碳酸鋇、碳酸銀也是白色沉澱，但會溶於稀硝酸）。'},
 
 /* ═══ 生物 ═══ */
@@ -1011,9 +1020,9 @@ const BANK = [
  ans:'(a) 30% 蔗糖溶液的<b>水勢低於</b>細胞液，水分通過<b>滲透作用</b>從細胞流出，細胞發生質壁分離，故組織質量下降。<br><br>(b) 蒸餾水的水勢高於細胞液，水分<b>滲入</b>細胞，細胞變得膨脹，<b>質量上升</b>。但不會無限上升——細胞壁產生壓力勢阻止水分繼續進入。',
  ex:'滲透三要素：① 半透膜 ② 兩側水勢差 ③ 水由高水勢流向低水勢。答題務必用「水勢」而非「濃度」——濃度愈高，水勢愈低。'},
 {id:'b3',s:'bio',g:'S5',p:'卷一',type:'mc',graph:false,
- q:'人類 ABO 血型系統中，A 型（基因型 Iᴬi）與 B 型（基因型 Iᴮi）的父母，子女血型為 O 型的概率為',
+ q:'人類 ABO 血型系統中，A 型（基因型 I<sup>A</sup>i）與 B 型（基因型 I<sup>B</sup>i）的父母，子女血型為 O 型的概率為',
  opts:['0','25%','50%','75%'],ans:1,
- ex:'Iᴬi × Iᴮi → IᴬIᴮ (AB型)、Iᴬi (A型)、Iᴮi (B型)、ii (O型)，各 25%。故 O 型概率 = 25%。'},
+ ex:'I<sup>A</sup>i × I<sup>B</sup>i → I<sup>A</sup>I<sup>B</sup> (AB型)、I<sup>A</sup>i (A型)、I<sup>B</sup>i (B型)、ii (O型)，各 25%。故 O 型概率 = 25%。'},
 {id:'b4',s:'bio',g:'S5',p:'卷一',type:'short',graph:false,
  q:'比較有絲分裂與減數分裂，完成下表：<br><br>比較項目：分裂次數 / 子細胞數目 / 子細胞染色體數目 / 是否發生同源染色體聯會 / 主要功能',
  ans:'<b>分裂次數：</b>有絲 1 次；減數 2 次<br><b>子細胞數目：</b>有絲 2 個；減數 4 個<br><b>染色體數目：</b>有絲 維持 2n（不變）；減數 減半為 n<br><b>同源染色體聯會：</b>有絲 無；減數 有（減數第一次分裂前期，並發生交叉互換）<br><b>主要功能：</b>有絲 生長、修補、無性生殖；減數 形成配子（精子／卵子）、增加遺傳變異',
@@ -1084,7 +1093,7 @@ const BANK = [
  ex:'|Ed| = 0.6 < 1（低彈性 / 需求缺乏彈性）。低彈性時，價格上升的百分比大於需求量下降的百分比，故總收入（P × Q）增加。規律：|Ed| < 1，加價增收；|Ed| > 1，減價增收。'},
 {id:'ec2',s:'econ',g:'S5',p:'卷二',type:'short',graph:false,
  q:'下表顯示某工廠的短期生產數據：<br><br>勞動人數：0 / 1 / 2 / 3 / 4 / 5<br>總產量：0 / 10 / 25 / 42 / 52 / 58<br><br>(a) 計算第 3 名工人的邊際產量。<br>(b) 從哪一名工人開始出現邊際報酬遞減？解釋原因。',
- ans:'(a) MP₃ = TP₃ − TP₂ = 42 − 25 = <b>17 單位</b><br><br>(b) 先列出各 MP：MP₁ = 10，MP₂ = 15，MP₃ = 17，MP₄ = 10，MP₅ = 6<br>MP 由 MP₃ = 17 下降至 MP₄ = 10，故<b>從第 4 名工人開始</b>出現邊際報酬遞減。<br><br>原因：短期內至少有一種生產要素（如資本／廠房面積）固定不變。當可變要素（勞動）不斷增加，每單位勞動所配合的固定要素愈來愈少，生產效率下降，邊際產量遞減。',
+ ans:'(a) MP<sub>3</sub> = TP<sub>3</sub> − TP<sub>2</sub> = 42 − 25 = <b>17 單位</b><br><br>(b) 先列出各 MP：MP<sub>1</sub> = 10，MP<sub>2</sub> = 15，MP<sub>3</sub> = 17，MP<sub>4</sub> = 10，MP<sub>5</sub> = 6<br>MP 由 MP<sub>3</sub> = 17 下降至 MP<sub>4</sub> = 10，故<b>從第 4 名工人開始</b>出現邊際報酬遞減。<br><br>原因：短期內至少有一種生產要素（如資本／廠房面積）固定不變。當可變要素（勞動）不斷增加，每單位勞動所配合的固定要素愈來愈少，生產效率下降，邊際產量遞減。',
  ex:'邊際報酬遞減定律的重要澄清：① 只適用於<b>短期</b>（有固定要素）② 是 MP <b>下降</b>，不代表 TP 下降（只要 MP > 0，TP 仍上升）③ 起點是 MP 開始下降之處，不是 TP 開始下降之處。這是卷二極高頻的失分位。'},
 {id:'ec3',s:'econ',g:'S6',p:'卷二',type:'essay',graph:false,
  q:'假設香港經濟處於衰退，失業率上升至 5%，通脹率為 1%。<br><br>(a) 建議政府可採取的兩項擴張性財政政策措施，並解釋其作用機制。<br>(b) 討論實施擴張性財政政策可能遇到的兩項限制。',
@@ -1093,15 +1102,15 @@ const BANK = [
 
 /* ═══ 化學（補充計算） ═══ */
 {id:'c7',s:'chem',g:'S6',p:'卷一',type:'short',graph:false,
- q:'在某溫度下，把 2.0 mol 的 N₂ 及 6.0 mol 的 H₂ 注入 1 dm³ 的容器中，達致平衡時生成 1.6 mol 的 NH₃。<br>反應：N₂(g) + 3H₂(g) ⇌ 2NH₃(g)<br><br>求平衡常數 Kc。',
- ans:'設平衡時 NH₃ = 1.6 mol。<br>由摩爾比 N₂ : H₂ : NH₃ = 1 : 3 : 2，生成 1.6 mol NH₃ 消耗 N₂ = 0.8 mol、H₂ = 2.4 mol。<br><br><b>平衡時：</b><br>[N₂] = (2.0 − 0.8)/1 = <b>1.2 mol dm⁻³</b><br>[H₂] = (6.0 − 2.4)/1 = <b>3.6 mol dm⁻³</b><br>[NH₃] = 1.6/1 = <b>1.6 mol dm⁻³</b><br><br>Kc = [NH₃]² / ([N₂][H₂]³) = (1.6)² / (1.2 × 3.6³)<br>= 2.56 / (1.2 × 46.656) = 2.56 / 55.99 ≈ <b>0.0457</b>　（單位：dm⁶ mol⁻²）',
+ q:'在某溫度下，把 2.0 mol 的 N<sub>2</sub> 及 6.0 mol 的 H<sub>2</sub> 注入 1 dm<sup>3</sup> 的容器中，達致平衡時生成 1.6 mol 的 NH<sub>3</sub>。<br>反應：N<sub>2</sub>(g) + 3H<sub>2</sub>(g) ↔ 2NH<sub>3</sub>(g)<br><br>求平衡常數 Kc。',
+ ans:'設平衡時 NH<sub>3</sub> = 1.6 mol。<br>由摩爾比 N<sub>2</sub> : H<sub>2</sub> : NH<sub>3</sub> = 1 : 3 : 2，生成 1.6 mol NH<sub>3</sub> 消耗 N<sub>2</sub> = 0.8 mol、H<sub>2</sub> = 2.4 mol。<br><br><b>平衡時：</b><br>[N<sub>2</sub>] = (2.0 − 0.8)/1 = <b>1.2 mol dm<sup>-3</sup></b><br>[H<sub>2</sub>] = (6.0 − 2.4)/1 = <b>3.6 mol dm<sup>-3</sup></b><br>[NH<sub>3</sub>] = 1.6/1 = <b>1.6 mol dm<sup>-3</sup></b><br><br>Kc = [NH<sub>3</sub>]<sup>2</sup> / ([N<sub>2</sub>][H<sub>2</sub>]<sup>3</sup>) = (1.6)<sup>2</sup> / (1.2 × 3.6<sup>3</sup>)<br>= 2.56 / (1.2 × 46.656) = 2.56 / 55.99 ≈ <b>0.0457</b>　（單位：dm<sup>6</sup> mol<sup>-2</sup>）',
  ex:'Kc 計算用「ICE 表」（Initial / Change / Equilibrium）最穩妥。記住：① 係數變成立方／平方 ② Kc 只受溫度影響，濃度與壓強改變不影響 Kc 的數值 ③ 用平衡<b>濃度</b>代入，不是初始濃度。'},
 
 /* ═══ 物理（補充） ═══ */
 {id:'p7',s:'phy',g:'S5',p:'卷一',type:'short',graph:false,
- q:'一條長直導線載有 5 A 電流，垂直穿過紙面向外。<br><br>(a) 在紙面上畫出導線周圍磁場的方向。<br>(b) 若導線旁 2 cm 處有一條長 10 cm 的平行導線，載有 3 A 的同向電流，求兩導線間每單位長度的力，並指出是吸引還是排斥。<br>（μ₀ = 4π × 10⁻⁷ T m A⁻¹）',
- ans:'(a) 電流向外，由<b>右手握拳定則</b>（拇指指向電流方向，四指彎曲方向即磁場方向），磁場為<b>逆時針方向的同心圓</b>。<br><br>(b) F/L = μ₀I₁I₂ / (2πd)<br>= (4π × 10⁻⁷ × 5 × 3) / (2π × 0.02)<br>= (60π × 10⁻⁷) / (0.04π) = 1.5 × 10⁻⁴ N m⁻¹<br>長 10 cm 的導線受力 = 1.5 × 10⁻⁴ × 0.1 = <b>1.5 × 10⁻⁵ N</b><br><br>方向：<b>互相吸引</b>（同向電流相吸，反向電流相斥）',
- ex:'兩條平行載流導線：同向相吸、反向相斥。公式 F/L = μ₀I₁I₂/(2πd)。安培的定義正是基於此公式。常考陷阱：忘記把 cm 換算為 m。'},
+ q:'一條長直導線載有 5 A 電流，垂直穿過紙面向外。<br><br>(a) 在紙面上畫出導線周圍磁場的方向。<br>(b) 若導線旁 2 cm 處有一條長 10 cm 的平行導線，載有 3 A 的同向電流，求兩導線間每單位長度的力，並指出是吸引還是排斥。<br>（μ<sub>0</sub> = 4π × 10<sup>-7</sup> T m A<sup>-1</sup>）',
+ ans:'(a) 電流向外，由<b>右手握拳定則</b>（拇指指向電流方向，四指彎曲方向即磁場方向），磁場為<b>逆時針方向的同心圓</b>。<br><br>(b) F/L = μ<sub>0</sub>I<sub>1</sub>I<sub>2</sub> / (2πd)<br>= (4π × 10<sup>-7</sup> × 5 × 3) / (2π × 0.02)<br>= (60π × 10<sup>-7</sup>) / (0.04π) = 1.5 × 10<sup>-4</sup> N m<sup>-1</sup><br>長 10 cm 的導線受力 = 1.5 × 10<sup>-4</sup> × 0.1 = <b>1.5 × 10<sup>-5</sup> N</b><br><br>方向：<b>互相吸引</b>（同向電流相吸，反向電流相斥）',
+ ex:'兩條平行載流導線：同向相吸、反向相斥。公式 F/L = μ<sub>0</sub>I<sub>1</sub>I<sub>2</sub>/(2πd)。安培的定義正是基於此公式。常考陷阱：忘記把 cm 換算為 m。'},
 
 /* ═══ 生物（補充） ═══ */
 {id:'b7',s:'bio',g:'S4',p:'卷一',type:'short',graph:false,
@@ -1180,8 +1189,8 @@ const BANK = [
  ex:'主鍵 (Primary Key) 的值在表中必須唯一且非空，用來唯一識別每一筆記錄。外鍵用於建立兩表之間的關聯，其值對應另一表的主鍵。'},
 {id:'i2',s:'ict',g:'S5',p:'卷一',type:'short',graph:false,
  q:'寫出以下算法的輸出結果，並說明其時間複雜度。<br><br><pre>for i = 1 to 5:\n    for j = 1 to i:\n        print("*")\n    next j\n    print("\n")\nnext i</pre>',
- ans:'<b>輸出結果：</b><br><pre>*\n**\n***\n****\n*****</pre>（共 1 + 2 + 3 + 4 + 5 = 15 個星號，呈直角三角形）<br><br><b>時間複雜度：O(n²)</b><br><br>解釋：外層迴圈執行 n 次，內層迴圈在 i = k 時執行 k 次。總執行次數 = 1 + 2 + … + n = n(n+1)/2。當 n 增大時，最高次項為 n²/2，故時間複雜度為 O(n²)。',
- ex:'嵌套迴圈的時間複雜度通常為各層次數相乘。此例中內層次數隨外層遞增，總次數為等差級數和 n(n+1)/2，取最高次項得 O(n²)。常見考法：比較線性搜尋 O(n) 與二分搜尋 O(log n)、冒泡排序 O(n²) 的差異。'},
+ ans:'<b>輸出結果：</b><br><pre>*\n**\n***\n****\n*****</pre>（共 1 + 2 + 3 + 4 + 5 = 15 個星號，呈直角三角形）<br><br><b>時間複雜度：O(n<sup>2</sup>)</b><br><br>解釋：外層迴圈執行 n 次，內層迴圈在 i = k 時執行 k 次。總執行次數 = 1 + 2 + … + n = n(n+1)/2。當 n 增大時，最高次項為 n<sup>2</sup>/2，故時間複雜度為 O(n<sup>2</sup>)。',
+ ex:'嵌套迴圈的時間複雜度通常為各層次數相乘。此例中內層次數隨外層遞增，總次數為等差級數和 n(n+1)/2，取最高次項得 O(n<sup>2</sup>)。常見考法：比較線性搜尋 O(n) 與二分搜尋 O(log n)、冒泡排序 O(n<sup>2</sup>) 的差異。'},
 {id:'i3',s:'ict',g:'S6',p:'卷一',type:'short',graph:false,
  q:'某公司發現員工可輕易讀取其他部門的機密檔案。<br><br>(a) 指出兩項可實施的技術措施以解決問題。<br>(b) 指出兩項非技術（管理）措施。<br>(c) 解釋為何單靠技術措施不足以保障資訊安全。',
  ans:'(a) <b>技術措施：</b><br>① <b>存取控制 (Access Control)</b> — 按職能設定權限，採用「最小權限原則」(Principle of Least Privilege)，員工只能存取其工作所需的檔案。<br>② <b>加密 (Encryption)</b> — 對機密檔案加密儲存，即使被讀取亦無法解讀；配合<b>雙重認證</b>加強登入保護。<br>（其他：審計日誌 Audit Log、數據遺失防護 DLP、網絡分隔）<br><br>(b) <b>管理措施：</b><br>① 制訂清晰的<b>資訊安全政策</b>，列明資料分類與處理規範。<br>② 定期<b>員工培訓</b>，提升安全意識（如辨識網絡釣魚、妥善保管密碼）。<br>（其他：簽署保密協議、定期安全審計、離職程序管理）<br><br>(c) 技術措施有其局限：<br>① 技術無法防範<b>內部人員的違規行為</b>——獲授權者濫用權限是常見的漏洞來源。<br>② 系統漏洞與人為設定錯誤難以完全避免。<br>③ 安全措施若過於繁複，員工可能<b>繞過</b>程序（如把密碼寫在紙上、使用未經授權的雲端服務）。<br>④ 缺乏管理制度配合，技術設備可能未獲正確使用或定期更新。<br>因此資訊安全須「技術 + 管理 + 人員」三管齊下。',
@@ -1913,7 +1922,7 @@ function toolGraph(host){
     <button class="btn" id="gUndo">↶ 復原</button>
     <button class="btn" id="gClear">🗑 清空</button>
     <button class="btn" id="gBg">背景：格線</button>
-    <button class="btn pri" id="gSave">⬇ 存成圖片</button>
+    <button class="btn pri" id="gSave">↓ 存成圖片</button>
     <span class="muted" style="font-size:12px;align-self:center">標註可用於幾何證明、函數草圖、受力圖等；座標軸模式適合 M2 曲線標註。</span>
   </div>`;
 
@@ -2160,7 +2169,7 @@ function toolPlot(host){
   <canvas id="pcv" class="cvs" width="900" height="440" style="width:100%;height:auto;background:#fff"></canvas>
   <div class="readout" id="pout"></div>
   <div style="display:flex;gap:8px;margin-top:11px;flex-wrap:wrap">
-    <button class="btn" id="pSave">⬇ 存成圖片</button>
+    <button class="btn" id="pSave">↓ 存成圖片</button>
     <button class="btn" id="pReset">重置視窗</button>
     <span class="muted" style="font-size:12px;align-self:center">
       支援：+ − * / ^ ( )、sin cos tan ln log exp sqrt abs、常數 pi e。可同時加入多條曲線，拖曳平移、滾輪縮放。</span>
@@ -2178,7 +2187,7 @@ function toolPlot(host){
         <span class="dot" style="background:${e.color}"></span>
         <input value="${esc(e.src)}" data-i="${i}" data-f="${e.k}">
         ${e.err?'<span class="err">算式無效</span>':''}
-        <button class="x" data-del="${i}">✕</button>
+        <button class="x" data-del="${i}">×</button>
       </div>`).join('')||'<div class="muted" style="font-size:13px;padding:4px">尚未加入曲線，於上方輸入後按「加入曲線」。</div>';
     el.querySelectorAll('input').forEach(inp=>inp.onchange=()=>{
       const i=+inp.dataset.i;
@@ -2453,11 +2462,11 @@ function mkCanvas(host,w,h){
 function physProj(host){
   host.innerHTML=`
   <div class="ctrlrow">
-    <div class="fld"><label>初速度 v₀ = <span class="v" id="vV">25</span> m s⁻¹</label>
+    <div class="fld"><label>初速度 v<sub>0</sub> = <span class="v" id="vV">25</span> m s<sup>-1</sup></label>
       <input type="range" id="v" min="1" max="60" value="25"></div>
     <div class="fld"><label>發射角 θ = <span class="v" id="aV">45</span>°</label>
       <input type="range" id="a" min="1" max="89" value="45"></div>
-    <div class="fld"><label>重力 g = <span class="v" id="gV">10</span> m s⁻²</label>
+    <div class="fld"><label>重力 g = <span class="v" id="gV">10</span> m s<sup>-2</sup></label>
       <input type="range" id="g" min="1" max="25" value="100"></div>
     <div class="fld" style="flex:0 0 auto"><label>顯示</label>
       <button class="btn sm" id="play">▶ 發射</button>
@@ -2506,7 +2515,7 @@ function physProj(host){
     const rad=a*Math.PI/180;
     ctx.strokeStyle='#dc2626';ctx.lineWidth=2.5;
     ctx.beginPath();ctx.moveTo(OX,OY);ctx.lineTo(OX+v*Math.cos(rad)*SC*1.6,OY-v*Math.sin(rad)*SC*1.6);ctx.stroke();
-    ctx.fillStyle='#dc2626';ctx.font='12px sans-serif';ctx.fillText('v₀',OX+v*Math.cos(rad)*SC*1.6+6,OY-v*Math.sin(rad)*SC*1.6);
+    ctx.fillStyle='#dc2626';ctx.font='12px sans-serif';ctx.fillText('v0',OX+v*Math.cos(rad)*SC*1.6+6,OY-v*Math.sin(rad)*SC*1.6);
     /* 角度弧 */
     ctx.beginPath();ctx.arc(OX,OY,34,-rad,0);ctx.stroke();
     ctx.fillText('θ = '+a+'°',OX+38,OY-8);
@@ -2553,9 +2562,9 @@ function physPend(host){
   <div class="ctrlrow">
     <div class="fld"><label>擺長 L = <span class="v" id="lV">1.0</span> m</label>
       <input type="range" id="l" min="10" max="300" value="100"></div>
-    <div class="fld"><label>重力 g = <span class="v" id="gV">9.81</span> m s⁻²</label>
+    <div class="fld"><label>重力 g = <span class="v" id="gV">9.81</span> m s<sup>-2</sup></label>
       <input type="range" id="g" min="100" max="2500" value="981"></div>
-    <div class="fld"><label>起始角 θ₀ = <span class="v" id="aV">20</span>°</label>
+    <div class="fld"><label>起始角 θ<sub>0</sub> = <span class="v" id="aV">20</span>°</label>
       <input type="range" id="a" min="2" max="60" value="20"></div>
     <div class="fld" style="flex:0 0 auto"><label>操作</label>
       <button class="btn sm pri" id="go">▶ 開始</button></div>
@@ -2610,9 +2619,9 @@ function physCirc(host){
   <div class="ctrlrow">
     <div class="fld"><label>電壓 V = <span class="v" id="vV">12.0</span> V</label>
       <input type="range" id="v" min="10" max="240" value="120"></div>
-    <div class="fld"><label>R₁ = <span class="v" id="r1V">10</span> Ω</label>
+    <div class="fld"><label>R<sub>1</sub> = <span class="v" id="r1V">10</span> Ω</label>
       <input type="range" id="r1" min="1" max="100" value="10"></div>
-    <div class="fld"><label>R₂ = <span class="v" id="r2V">20</span> Ω</label>
+    <div class="fld"><label>R<sub>2</sub> = <span class="v" id="r2V">20</span> Ω</label>
       <input type="range" id="r2" min="1" max="100" value="20"></div>
     <div class="fld" style="flex:0 0 auto"><label>連接方式</label>
       <button class="btn sm on" id="ms">串聯</button>
@@ -2641,15 +2650,15 @@ function physCirc(host){
       ctx.fillText(val+' Ω',x+6,y+52);
     };
     if(ser){
-      box(350,163,'R₁',R1.toFixed(0),'#2563eb');
-      box(530,163,'R₂',R2.toFixed(0),'#dc2626');
+      box(350,163,'R1',R1.toFixed(0),'#2563eb');
+      box(530,163,'R2',R2.toFixed(0),'#dc2626');
       ctx.strokeStyle='#475569';ctx.lineWidth=2.5;
       ctx.beginPath();ctx.moveTo(176,177);ctx.lineTo(350,177);ctx.stroke();
       ctx.beginPath();ctx.moveTo(424,177);ctx.lineTo(530,177);ctx.stroke();
       ctx.beginPath();ctx.moveTo(604,177);ctx.lineTo(740,177);ctx.stroke();
     }else{
-      box(380,95,'R₁',R1.toFixed(0),'#2563eb');
-      box(380,215,'R₂',R2.toFixed(0),'#dc2626');
+      box(380,95,'R1',R1.toFixed(0),'#2563eb');
+      box(380,215,'R2',R2.toFixed(0),'#dc2626');
       ctx.strokeStyle='#475569';ctx.lineWidth=2.5;
       ctx.beginPath();ctx.moveTo(176,177);ctx.lineTo(330,177);ctx.stroke();
       ctx.beginPath();ctx.moveTo(330,177);ctx.lineTo(330,112);ctx.stroke();
@@ -2674,8 +2683,8 @@ function physCirc(host){
     host.querySelector('#out').innerHTML=`
       <div class="ro"><div class="l">等效電阻 R<sub>eq</sub></div><div class="v">${Req.toFixed(2)} Ω</div></div>
       <div class="ro"><div class="l">總電流 I</div><div class="v">${I.toFixed(3)} A</div></div>
-      <div class="ro"><div class="l">${ser?'R₁ 電壓降':'R₁ 支路電流'}</div><div class="v">${ser?(I*R1).toFixed(2)+' V':I1.toFixed(3)+' A'}</div></div>
-      <div class="ro"><div class="l">${ser?'R₂ 電壓降':'R₂ 支路電流'}</div><div class="v">${ser?(I*R2).toFixed(2)+' V':I2.toFixed(3)+' A'}</div></div>
+      <div class="ro"><div class="l">${ser?'R1 電壓降':'R1 支路電流'}</div><div class="v">${ser?(I*R1).toFixed(2)+' V':I1.toFixed(3)+' A'}</div></div>
+      <div class="ro"><div class="l">${ser?'R2 電壓降':'R2 支路電流'}</div><div class="v">${ser?(I*R2).toFixed(2)+' V':I2.toFixed(3)+' A'}</div></div>
       <div class="ro"><div class="l">總功率 P = VI</div><div class="v">${(V*I).toFixed(2)} W</div></div>`;
   }
   host.querySelector('#v').oninput=e=>{V=+e.target.value/10;host.querySelector('#vV').textContent=V.toFixed(1);draw()};
@@ -2689,11 +2698,11 @@ function physCirc(host){
 function physRefr(host){
   host.innerHTML=`
   <div class="ctrlrow">
-    <div class="fld"><label>入射角 θ₁ = <span class="v" id="aV">30</span>°</label>
+    <div class="fld"><label>入射角 θ<sub>1</sub> = <span class="v" id="aV">30</span>°</label>
       <input type="range" id="a" min="0" max="89" value="30"></div>
-    <div class="fld"><label>介質 1 折射率 n₁ = <span class="v" id="n1V">1.33</span></label>
+    <div class="fld"><label>介質 1 折射率 n<sub>1</sub> = <span class="v" id="n1V">1.33</span></label>
       <input type="range" id="n1" min="100" max="250" value="133"></div>
-    <div class="fld"><label>介質 2 折射率 n₂ = <span class="v" id="n2V">1.00</span></label>
+    <div class="fld"><label>介質 2 折射率 n<sub>2</sub> = <span class="v" id="n2V">1.00</span></label>
       <input type="range" id="n2" min="100" max="250" value="100"></div>
   </div>
   <div id="cvHost"></div>
@@ -2710,9 +2719,9 @@ function physRefr(host){
     ctx.strokeStyle='#64748b';ctx.lineWidth=2;
     ctx.beginPath();ctx.moveTo(0,CY);ctx.lineTo(cv.width,CY);ctx.stroke();
     ctx.fillStyle='#1e40af';ctx.font='13px sans-serif';
-    ctx.fillText('介質 1  n₁ = '+n1.toFixed(2),18,26);
+    ctx.fillText('介質 1  n1 = '+n1.toFixed(2),18,26);
     ctx.fillStyle='#92400e';
-    ctx.fillText('介質 2  n₂ = '+n2.toFixed(2),18,cy2());
+    ctx.fillText('介質 2  n2 = '+n2.toFixed(2),18,cy2());
     function cy2(){return cv.height-16}
     const r1=a*Math.PI/180;
     const sn=n1*Math.sin(r1)/n2;
@@ -2744,15 +2753,15 @@ function physRefr(host){
     }
     /* 角度 */
     ctx.fillStyle='#dc2626';ctx.font='13px sans-serif';
-    ctx.fillText('θ₁ = '+a+'°',CX-100,CY-70);
+    ctx.fillText('θ1 = '+a+'°',CX-100,CY-70);
     ctx.fillStyle='#059669';
-    ctx.fillText(tot?'—':'θ₂ = '+(r2*180/Math.PI).toFixed(1)+'°',CX+34,CY+66);
+    ctx.fillText(tot?'—':'θ2 = '+(r2*180/Math.PI).toFixed(1)+'°',CX+34,CY+66);
     const crit=n1>n2?Math.asin(n2/n1)*180/Math.PI:null;
     host.querySelector('#out').innerHTML=`
-      <div class="ro"><div class="l">折射角 θ₂</div><div class="v">${tot?'全反射':(r2*180/Math.PI).toFixed(2)+'°'}</div></div>
-      <div class="ro"><div class="l">臨界角 θc</div><div class="v">${crit?crit.toFixed(2)+'°':'不適用（n₁ ≤ n₂）'}</div></div>
-      <div class="ro"><div class="l">斯涅爾定律</div><div class="v" style="font-size:12px">n₁sinθ₁ = n₂sinθ₂</div></div>
-      <div class="ro"><div class="l">計算值 n₁sinθ₁</div><div class="v">${(n1*Math.sin(r1)).toFixed(3)}</div></div>
+      <div class="ro"><div class="l">折射角 θ<sub>2</sub></div><div class="v">${tot?'全反射':(r2*180/Math.PI).toFixed(2)+'°'}</div></div>
+      <div class="ro"><div class="l">臨界角 θc</div><div class="v">${crit?crit.toFixed(2)+'°':'不適用（n1 ≤ n2）'}</div></div>
+      <div class="ro"><div class="l">斯涅爾定律</div><div class="v" style="font-size:12px">n<sub>1</sub>sinθ<sub>1</sub> = n<sub>2</sub>sinθ<sub>2</sub></div></div>
+      <div class="ro"><div class="l">計算值 n<sub>1</sub>sinθ<sub>1</sub></div><div class="v">${(n1*Math.sin(r1)).toFixed(3)}</div></div>
       <div class="ro"><div class="l">相對折射率</div><div class="v">${(n2/n1).toFixed(3)}</div></div>`;
   }
   host.querySelector('#a').oninput=e=>{a=+e.target.value;host.querySelector('#aV').textContent=a;draw()};
@@ -2764,13 +2773,13 @@ function physRefr(host){
 function physColl(host){
   host.innerHTML=`
   <div class="ctrlrow">
-    <div class="fld"><label>m₁ = <span class="v" id="m1V">2.0</span> kg</label>
+    <div class="fld"><label>m<sub>1</sub> = <span class="v" id="m1V">2.0</span> kg</label>
       <input type="range" id="m1" min="5" max="100" value="20"></div>
-    <div class="fld"><label>u₁ = <span class="v" id="u1V">5.0</span> m s⁻¹</label>
+    <div class="fld"><label>u<sub>1</sub> = <span class="v" id="u1V">5.0</span> m s<sup>-1</sup></label>
       <input type="range" id="u1" min="-100" max="100" value="50"></div>
-    <div class="fld"><label>m₂ = <span class="v" id="m2V">3.0</span> kg</label>
+    <div class="fld"><label>m<sub>2</sub> = <span class="v" id="m2V">3.0</span> kg</label>
       <input type="range" id="m2" min="5" max="100" value="30"></div>
-    <div class="fld"><label>u₂ = <span class="v" id="u2V">0.0</span> m s⁻¹</label>
+    <div class="fld"><label>u<sub>2</sub> = <span class="v" id="u2V">0.0</span> m s<sup>-1</sup></label>
       <input type="range" id="u2" min="-100" max="100" value="0"></div>
     <div class="fld" style="flex:0 0 auto"><label>碰撞類型</label>
       <button class="btn sm on" id="ce">彈性</button>
@@ -2809,10 +2818,10 @@ function physColl(host){
     };
     b(px1,0,m1,'A','#2563eb');b(px2,0,m2,'B','#dc2626');
     host.querySelector('#out').innerHTML=`
-      <div class="ro"><div class="l">碰撞前總動量</div><div class="v">${(m1*u1+m2*u2).toFixed(2)} kg m s⁻¹</div></div>
-      <div class="ro"><div class="l">碰撞後 v₁</div><div class="v" style="color:var(--pr)">${r.v1.toFixed(2)} m s⁻¹</div></div>
-      <div class="ro"><div class="l">碰撞後 v₂</div><div class="v" style="color:var(--er)">${r.v2.toFixed(2)} m s⁻¹</div></div>
-      <div class="ro"><div class="l">碰撞後總動量</div><div class="v">${(m1*r.v1+m2*r.v2).toFixed(2)} kg m s⁻¹</div></div>
+      <div class="ro"><div class="l">碰撞前總動量</div><div class="v">${(m1*u1+m2*u2).toFixed(2)} kg m s<sup>−1</sup></div></div>
+      <div class="ro"><div class="l">碰撞後 v<sub>1</sub></div><div class="v" style="color:var(--pr)">${r.v1.toFixed(2)} m s<sup>−1</sup></div></div>
+      <div class="ro"><div class="l">碰撞後 v<sub>2</sub></div><div class="v" style="color:var(--er)">${r.v2.toFixed(2)} m s<sup>−1</sup></div></div>
+      <div class="ro"><div class="l">碰撞後總動量</div><div class="v">${(m1*r.v1+m2*r.v2).toFixed(2)} kg m s<sup>−1</sup></div></div>
       <div class="ro"><div class="l">碰撞前總動能</div><div class="v">${KE().toFixed(2)} J</div></div>
       <div class="ro"><div class="l">碰撞後總動能</div><div class="v">${(0.5*m1*r.v1*r.v1+0.5*m2*r.v2*r.v2).toFixed(2)} J</div></div>
       <div class="ro"><div class="l">動能損失</div><div class="v">${(KE()-0.5*m1*r.v1*r.v1-0.5*m2*r.v2*r.v2).toFixed(2)} J</div></div>`;
@@ -2840,7 +2849,7 @@ const ELEMENTS=[
 ];
 /* 精確電子排布表（K, L, M, N, O, P 層）。
    中學階段第三層在 Ca 之前只填 8 個（4s 先於 3d 填充），
-   故不能用單純的 2n² 推算，改以實測排布查表。 */
+   故不能用單純的 2n^2 推算，改以實測排布查表。 */
 const ARR={
  1:[1],2:[2],3:[2,1],4:[2,2],5:[2,3],6:[2,4],7:[2,5],8:[2,6],9:[2,7],10:[2,8],
  11:[2,8,1],12:[2,8,2],13:[2,8,3],14:[2,8,4],15:[2,8,5],16:[2,8,6],17:[2,8,7],18:[2,8,8],
@@ -2907,7 +2916,7 @@ function atomView(host){
         ctx.strokeStyle='#cbd5e1';ctx.setLineDash([3,4]);ctx.lineWidth=1;
         ctx.beginPath();ctx.arc(CX,CY,R,0,7);ctx.stroke();ctx.setLineDash([]);
         ctx.fillStyle='#64748b';ctx.font='11px sans-serif';
-        ctx.fillText('n = '+(si+1)+'（'+n+'e⁻）',CX+R-46,CY-4);
+        ctx.fillText('n = '+(si+1)+'('+n+'e-)',CX+R-46,CY-4);
       });
     }else{
       ctx.strokeStyle='#cbd5e1';ctx.lineWidth=1.4;
@@ -3008,12 +3017,12 @@ function ptableView(host){
 }
 
 const MOLECULES={
- '水 H₂O':{c:'#0ea5e9',atoms:[['O',0,0,'#dc2626',1.0],['H',-0.76,0.59,'#e2e8f0',0.55],['H',0.76,0.59,'#e2e8f0',0.55]],bonds:[[0,1],[0,2]],note:'彎曲形，鍵角約 104.5°。極性分子，氫鍵令水的沸點異常地高。'},
- '二氧化碳 CO₂':{c:'#64748b',atoms:[['C',0,0,'#475569',0.9],['O',-1.16,0,'#dc2626',1.0],['O',1.16,0,'#dc2626',1.0]],bonds:[[0,1,2],[0,2,2]],note:'直線形，鍵角 180°。非極性分子（兩個 C=O 極性互相抵銷）。'},
- '甲烷 CH₄':{c:'#16a34a',atoms:[['C',0,0,'#475569',0.9],['H',0.63,0.63,'#e2e8f0',0.5],['H',-0.63,0.63,'#e2e8f0',0.5],['H',-0.63,-0.63,'#e2e8f0',0.5],['H',0.63,-0.63,'#e2e8f0',0.5]],bonds:[[0,1],[0,2],[0,3],[0,4]],note:'正四面體，鍵角 109.5°。非極性分子。'},
- '氨 NH₃':{c:'#7c3aed',atoms:[['N',0,0.22,'#2563eb',0.95],['H',-0.94,-0.22,'#e2e8f0',0.5],['H',0.94,-0.22,'#e2e8f0',0.5],['H',0,-1.02,'#e2e8f0',0.5]],bonds:[[0,1],[0,2],[0,3]],note:'三角錐形，鍵角約 107°。極性分子，可形成氫鍵，水溶液呈鹼性。'},
+ '水 H2O':{c:'#0ea5e9',atoms:[['O',0,0,'#dc2626',1.0],['H',-0.76,0.59,'#e2e8f0',0.55],['H',0.76,0.59,'#e2e8f0',0.55]],bonds:[[0,1],[0,2]],note:'彎曲形，鍵角約 104.5°。極性分子，氫鍵令水的沸點異常地高。'},
+ '二氧化碳 CO2':{c:'#64748b',atoms:[['C',0,0,'#475569',0.9],['O',-1.16,0,'#dc2626',1.0],['O',1.16,0,'#dc2626',1.0]],bonds:[[0,1,2],[0,2,2]],note:'直線形，鍵角 180°。非極性分子（兩個 C=O 極性互相抵銷）。'},
+ '甲烷 CH4':{c:'#16a34a',atoms:[['C',0,0,'#475569',0.9],['H',0.63,0.63,'#e2e8f0',0.5],['H',-0.63,0.63,'#e2e8f0',0.5],['H',-0.63,-0.63,'#e2e8f0',0.5],['H',0.63,-0.63,'#e2e8f0',0.5]],bonds:[[0,1],[0,2],[0,3],[0,4]],note:'正四面體，鍵角 109.5°。非極性分子。'},
+ '氨 NH3':{c:'#7c3aed',atoms:[['N',0,0.22,'#2563eb',0.95],['H',-0.94,-0.22,'#e2e8f0',0.5],['H',0.94,-0.22,'#e2e8f0',0.5],['H',0,-1.02,'#e2e8f0',0.5]],bonds:[[0,1],[0,2],[0,3]],note:'三角錐形，鍵角約 107°。極性分子，可形成氫鍵，水溶液呈鹼性。'},
  '氯化氫 HCl':{c:'#d97706',atoms:[['H',-0.9,0,'#e2e8f0',0.5],['Cl',0.55,0,'#16a34a',1.05]],bonds:[[0,1]],note:'直線形雙原子分子。極性共價鍵，溶於水形成鹽酸。'},
- '氯化鈉 NaCl（離子晶體）':{c:'#0891b2',atoms:[['Na⁺',-1.1,0,'#7c3aed',0.95],['Cl⁻',1.1,0,'#16a34a',1.05]],bonds:[[0,1]],note:'離子鍵。Na 失去 1 個電子成 Na⁺，Cl 得到 1 個電子成 Cl⁻，靜電吸引形成巨型離子晶格。',ionic:true}
+ '氯化鈉 NaCl（離子晶體）':{c:'#0891b2',atoms:[['Na+',-1.1,0,'#7c3aed',0.95],['Cl-',1.1,0,'#16a34a',1.05]],bonds:[[0,1]],note:'離子鍵。Na 失去 1 個電子成 Na<sup>+</sup>，Cl 得到 1 個電子成 Cl<sup>−</sup>，靜電吸引形成巨型離子晶格。',ionic:true}
 };
 function molView(host){
   host.innerHTML=`
@@ -3028,7 +3037,7 @@ function molView(host){
   <div id="cvHost"></div>
   <div class="hint" id="mn"></div>`;
   const cv=mkCanvas(host.querySelector('#cvHost'),900,400),ctx=cv.getContext('2d');
-  let name='水 H₂O',rot=true,a=0,raf=null;
+  let name='水 H2O',rot=true,a=0,raf=null;
   function draw(){
     ctx.clearRect(0,0,cv.width,cv.height);
     ctx.fillStyle='#fbfcfd';ctx.fillRect(0,0,cv.width,cv.height);
@@ -3096,7 +3105,7 @@ function toolCard(host){
           <span class="muted" style="font-size:12px">→</span>
           <span style="flex:1;font-size:13.5px">${esc(x.b)}</span>
           <span class="muted" style="font-size:11.5px">${x.ok||0}✓ / ${x.no||0}✗</span>
-          <button class="x" data-d="${i}">✕</button></div>`).join('')}
+          <button class="x" data-d="${i}">×</button></div>`).join('')}
       </div>`:'<div class="empty">尚無閃卡。</div>';
     host.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{
       DB.cards[s.id].splice(+b.dataset.d,1);save();list();
@@ -3180,7 +3189,7 @@ function toolStats(host){
         <div class="ro"><div class="l">中位數</div><div class="v">${med.toFixed(4)}</div></div>
         <div class="ro"><div class="l">眾數</div><div class="v">${mode===null?'—':mode}</div></div>
         <div class="ro"><div class="l">全距</div><div class="v">${range.toFixed(4)}</div></div>
-        <div class="ro"><div class="l">Q₁ / Q₃</div><div class="v">${q1.toFixed(2)} / ${q3.toFixed(2)}</div></div>
+        <div class="ro"><div class="l">Q<sub>1</sub> / Q<sub>3</sub></div><div class="v">${q1.toFixed(2)} / ${q3.toFixed(2)}</div></div>
         <div class="ro"><div class="l">四分位數間距</div><div class="v">${iqr.toFixed(4)}</div></div>
         <div class="ro"><div class="l">標準差（總體）</div><div class="v" style="color:var(--pr)">${sd.toFixed(4)}</div></div>
         <div class="ro"><div class="l">標準差（樣本）</div><div class="v">${sdSample.toFixed(4)}</div></div>
@@ -3529,7 +3538,7 @@ function renderOralRoles(){
         <span class="av" style="background:${r.color}">${esc(r.name.slice(0,2).toUpperCase())}</span>
         <input value="${esc(r.name)}" data-rn="${i}">
         <button class="spk" data-test="${i}" title="試聽">🔊</button>
-        <button class="spk" data-tog="${i}" title="開關">${r.on?'✓':'✕'}</button>
+        <button class="spk" data-tog="${i}" title="開關">${r.on?'✓':'×'}</button>
       </div>
       <div class="rr">
         <span>音高</span><input type="range" min="50" max="180" value="${Math.round(r.pitch*100)}" data-rp="${i}">
@@ -3564,7 +3573,7 @@ function renderOralRoles(){
     speak('Hello, I am '+r.name+'. Let us begin our discussion.',{voice:r.voice,pitch:r.pitch,rate:r.rate});
   });
   box.querySelectorAll('[data-tog]').forEach(b=>b.onclick=()=>{
-    const i2=+b.dataset.tog;ORAL.roles[i2].on=!ORAL.roles[i2].on;b.textContent=ORAL.roles[i2].on?'✓':'✕';
+    const i2=+b.dataset.tog;ORAL.roles[i2].on=!ORAL.roles[i2].on;b.textContent=ORAL.roles[i2].on?'✓':'×';
   });
   const n=$('#myName');if(n)n.onchange=()=>{DB.set.roleName=n.value;save()};
 }
@@ -3891,7 +3900,7 @@ function showOralReport(rep){
    </div>
    <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
      <button class="btn pri" id="rpClose">完成</button>
-     <button class="btn" id="rpExport">⬇ 匯出這份報告</button>
+     <button class="btn" id="rpExport">↓ 匯出這份報告</button>
      <button class="btn" id="rpLog">查看完整對話記錄</button>
    </div>`;
   openModal('📋 DSE 口試評分報告',h,()=>{
@@ -4235,7 +4244,7 @@ function openEditor(qid){
       <div class="oped">
         <span class="rk ${Number(editing?editing.ans:0)===i?'pick':''}" data-pick="${i}">${'ABCD'[i]||i+1}</span>
         <input class="inp in" value="${esc(o)}" data-o="${i}" placeholder="選項 ${'ABCD'[i]||i+1}">
-        <button class="btn sm" data-do="${i}">✕</button>
+        <button class="btn sm" data-do="${i}">×</button>
       </div>`).join('');
     box.querySelectorAll('[data-o]').forEach(inp=>inp.oninput=()=>{ED.opts[+inp.dataset.o]=inp.value});
     box.querySelectorAll('[data-do]').forEach(b=>b.onclick=()=>{
@@ -4269,7 +4278,7 @@ function openEditor(qid){
     const box=$('#eThumbs');
     box.innerHTML=ED.imgs.map((u,i)=>`
       <div class="thumb"><img src="${u}">
-        <button class="del" data-di="${i}">✕</button>
+        <button class="del" data-di="${i}">×</button>
         <span class="cap">附圖 ${i+1}</span></div>`).join('');
     box.querySelectorAll('[data-di]').forEach(b=>b.onclick=()=>{
       ED.imgs.splice(+b.dataset.di,1);renderThumbs();
@@ -4408,8 +4417,8 @@ function openManager(){
      }).join('')}
    </div>`:'<div class="empty">尚無自訂題目。回到「練習題」分頁按「新增題目」。</div>'}
    <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
-     <button class="btn" id="mgExp">⬇ 匯出自訂題目</button>
-     <button class="btn" id="mgImp">⬆ 匯入題目檔</button>
+     <button class="btn" id="mgExp">↓ 匯出自訂題目</button>
+     <button class="btn" id="mgImp">↑ 匯入題目檔</button>
      <button class="btn dg" id="mgClr">清空全部自訂題目</button>
      <input type="file" id="mgFile" accept=".json" hidden>
    </div>`;
@@ -4505,8 +4514,8 @@ function openSettings(after){
     <div class="t">數據</div>
     <div class="edrow"><span class="lb">備份</span>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button class="btn sm" id="sExp">⬇ 匯出全部資料</button>
-        <button class="btn sm" id="sImp">⬆ 匯入備份</button>
+        <button class="btn sm" id="sExp">↓ 匯出全部資料</button>
+        <button class="btn sm" id="sImp">↑ 匯入備份</button>
         <button class="btn sm dg" id="sRst">重置全部</button>
         <input type="file" id="sFile" accept=".json" hidden>
       </div></div>
